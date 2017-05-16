@@ -5,21 +5,17 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('MapController', ['$scope', 'Router', 'Doc', 'Data', 'URL_CFG', function ($scope, Router, Doc, Data, URL_CFG) {
+        .controller('MainController', ['$scope', 'Router', 'Doc', 'Data', 'URL_CFG', function ($scope, Router, Doc, Data, URL_CFG) {
             var vm = $scope.vm = {
                 menus: Router.list()
             };
-
-            finishCreateMap();
 
             var extent = [12349186.0111133, 3765310.49379061, 12541939.221565, 3874205.11961953];
             var map = new ol.Map({
                 controls: ol.control.defaults().extend([
                     new ol.control.ScaleLine()
                 ]),
-                layers: [
-                    new ol.layer.Image()
-                ],
+                layers: [new ol.layer.Image()],
                 target: 'map',
                 view: new ol.View({
                     center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
@@ -29,6 +25,10 @@
                     projection: 'EPSG:3857'
                 })
             });
+
+
+            finishCreateMap();
+
 
             function initMap(url) {
                 map.getLayers().item(0).setSource(new ol.source.ImageWMS({
@@ -84,8 +84,8 @@
                         // Todo: 创建用户的gdb
                     }
                 });
-                // initMap(URL_CFG.api + 'MapService.svc/Export');
-                // getMapInfo();
+                initMap(URL_CFG.api + 'MapService.svc/Export');
+                getMapInfo();
             }
         }])
 })(angular);

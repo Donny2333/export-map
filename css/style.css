@@ -10,12 +10,11 @@ body {
     position: fixed;
 }
 
-ul, li {
+ul, li, a {
+    margin: 0;
+    padding: 0;
     list-style: none;
-}
-
-a {
-    text-decoration: none
+    text-decoration: none;
 }
 
 @font-face {
@@ -77,20 +76,6 @@ a {
 .head > span {
     margin-left: 40px;
     color: #808080;
-}
-
-/******************* nav **********************/
-
-.nav {
-    display: flex;
-}
-
-.nav > li {
-    margin-right: 20px;
-}
-
-.active {
-    color: red;
 }
 
 /******************* navi **********************/
@@ -326,8 +311,11 @@ a {
     margin-bottom: 10px;
 }
 
+.data-page > .data-search {
+    margin-bottom: 20px;
+}
+
 .data-list {
-    margin-top: 20px;
     padding: 0;
     width: 100%;
 }
@@ -360,11 +348,136 @@ a {
 }
 
 /******************* template-page **********************/
+
 .template-page {
     margin: 0;
-    padding: 10px 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+}
+
+/******************* info-page **********************/
+
+.info-page {
+    margin: 0;
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.info-page h2,
+.info-page p {
+    margin-bottom: 18px;
+}
+
+.info-page h2 {
+    font-size: 16px;
+    color: #4c4c4c;
+}
+
+.info-page p {
+    font-size: 14px;
+    color: #666666;
+}
+
+.info-page .author {
+    color: #73b3e0;
+}
+
+/******************* content-page **********************/
+
+.content-page {
+    margin: 0;
+    padding: 20px 10px 0;
+}
+
+.layer-item.leaf {
+    position: relative;
+}
+
+.layer-ionic {
+    padding: 4px;
+    display: flex;
+    color: #666666;
+}
+
+.layer-ionic:hover {
+    background-color: #e6ecff;
+}
+
+.layer-buttons {
+    position: relative;
+    cursor: default;
+}
+
+.layer-buttons > a {
+    position: relative;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.layer-buttons > a:active {
+    top: 2px;
+}
+
+.popup-menu {
+    position: absolute;
+    visibility: hidden;
+    left: 26px;
+    color: #6b6b6b;
+    display: block;
+    width: 135px;
+    padding: 5px 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.popup-menu.showPopup {
+    visibility: visible;
+}
+
+.popup-menu > .menu-item {
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    padding: 5px 20px;
+}
+
+.popup-menu > .menu-item:hover {
+    background-color: #e6ecff;
+}
+
+.layer-children {
+    padding: 0 0 0 20px;
+}
+
+.layerCheckbox {
+    display: none;
+}
+
+.layerCheckbox + label {
+    background-color: #dedede;
+    padding: 9px;
+    border-radius: 3px;
+    display: inline-block;
+    position: relative;
+    margin: 0 8px 0 0;
+}
+
+.layerCheckbox:checked + label {
+    background-color: #60cb95;
+}
+
+.layerCheckbox:checked + label:after {
+    /*font-family: 'iconfont';*/
+    content: '\2713';
+    /*content: '\f00c';*/
+    font-size: 14px;
+    font-weight: lighter;
+    position: absolute;
+    top: 0;
+    left: 4px;
+    color: #ffffff;
 }

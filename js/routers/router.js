@@ -23,7 +23,7 @@
                         },
                         main: {
                             templateUrl: './tpls/main.html',
-                            controller: 'MapController'
+                            controller: 'MainController'
                         }
                     }
                 })

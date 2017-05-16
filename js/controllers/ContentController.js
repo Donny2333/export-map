@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('ContentController', function () {
-
-        })
+        .controller('ContentController', ['$scope', function ($scope) {
+            console.log($scope.$parent.vm);
+        }])
 })(angular);
