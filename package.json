@@ -1,0 +1,12 @@
+{
+  "name": "export-map",
+  "version": "1.0.0",
+  "author": "Donny",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^2.1.2"
+  }
+}

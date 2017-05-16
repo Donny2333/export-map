@@ -1,0 +1,12 @@
+<ul class="menu">
+    <li class="menu-item" ng-repeat="menu in vm.menus as menus" ui-sref="{{menu.sref}}" ui-sref-active="active"
+        ng-click="go($event, menu)">
+        <img ng-src="{{menu.img}}">
+        <span>{{menu.name}}</span>
+    </li>
+</ul>
+<div class="method">
+    <a class="btn-blue">新建地图</a>
+    <a class="btn-blue">保存</a>
+    <a class="btn-blue">共享</a>
+</div>
