@@ -1,5 +1,5 @@
 <div class="data-page">
-    <div class="row data-type" style="line-height: 34px;vertical-align: middle;margin-bottom: 10px">
+    <div class="row data-type">
         <div class="col-md-7">
             选择载入数据类型：
         </div>
@@ -14,7 +14,6 @@
             </ul>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="input-group">
@@ -38,7 +37,7 @@
     </div>
     <ul class="data-list">
         <li class="data-item" ng-repeat="d in vm.data">
-            <div>
+            <div class="data-info">
                 <div class="data-name">{{d.Name}}</div>
                 <div class="data-src">{{d.SrcName}}</div>
             </div>

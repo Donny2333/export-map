@@ -320,13 +320,19 @@ a {
     overflow: hidden;
 }
 
-.data-page > .data-list {
+.data-page > .data-type {
+    line-height: 34px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+
+.data-list {
     margin-top: 20px;
     padding: 0;
     width: 100%;
 }
 
-.data-page > .data-list > .data-item {
+.data-list > .data-item {
     margin: 10px 0;
     padding: 5px 5px 5px 10px;
     display: flex;
@@ -337,15 +343,28 @@ a {
     align-items: center;
 }
 
-.data-page > .data-list > .data-item .data-src {
-    font-size: 10px;
+.data-list > .data-item > .data-info {
+    flex: auto;
 }
 
-.data-page > .data-list > .data-item > button {
-    padding: 5px;
-    height: 35px;
+.data-list > .data-item.data-img > .data-info {
+    padding-left: 10px;
+}
+
+.data-list > .data-item .data-src {
+    font-size: 10px;
 }
 
 .dropdown-menu > li > a {
     cursor: pointer;
+}
+
+/******************* template-page **********************/
+.template-page {
+    margin: 0;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
 }
