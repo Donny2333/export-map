@@ -48,6 +48,7 @@ a {
 }
 
 /******************* head **********************/
+
 .head {
     height: 68px;
     min-height: 68px;
@@ -79,6 +80,7 @@ a {
 }
 
 /******************* nav **********************/
+
 .nav {
     display: flex;
 }
@@ -92,6 +94,7 @@ a {
 }
 
 /******************* navi **********************/
+
 .navi {
     height: 48px;
     min-height: 48px;
@@ -202,6 +205,7 @@ a {
 }
 
 /******************* main **********************/
+
 .main {
     flex: auto;
     position: relative;
@@ -232,6 +236,7 @@ a {
 }
 
 /******************* map-container **********************/
+
 .map-container > #map {
     flex: auto;
     position: relative;
@@ -253,11 +258,13 @@ a {
 }
 
 /******************* left-menu **********************/
+
 .left-menu > .segment {
-    height: 30px;
+    height: 44px;
     display: flex;
     align-items: center;
-    padding: 20px 10px;
+    margin: 0;
+    padding: 0 10px;
     color: #929ab1;
     border-bottom: 1px solid #cccccc;
 }
@@ -270,6 +277,8 @@ a {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .segment > li {
@@ -300,47 +309,43 @@ a {
     background-color: #3399ff;
 }
 
-.segment-page {
-    flex: auto;
-    display: block;
-    position: relative;
+/******************* data-page **********************/
+
+.data-page {
+    margin: 0;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.data-page > .data-list {
+    margin-top: 20px;
+    padding: 0;
     width: 100%;
-    height: 100%;
 }
 
-.segment-page > .tab-legend,
-.segment-page > .tab-layers,
-.segment-page > .tab-about,
-.segment-page > .tab-template,
-.segment-page > .tab-symbol,
-.segment-page > .tab-data {
-    position: absolute;
-    padding: 32px 25px;
-    height: 100%;
+.data-page > .data-list > .data-item {
+    margin: 10px 0;
+    padding: 5px 5px 5px 10px;
+    display: flex;
     width: 100%;
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.segment-page > .tab-about h2,
-.segment-page > .tab-about p {
-    margin-bottom: 18px;
+.data-page > .data-list > .data-item .data-src {
+    font-size: 10px;
 }
 
-.segment-page > .tab-about h2 {
-    font-size: 16px;
-    color: #4c4c4c;
+.data-page > .data-list > .data-item > button {
+    padding: 5px;
+    height: 35px;
 }
 
-.segment-page > .tab-about p {
-    font-size: 14px;
-    color: #666666;
-}
-
-.segment-page > .tab-about .author {
-    color: #73b3e0;
-}
-
-.segment-page > .tab-layers .layer-list {
+.dropdown-menu > li > a {
+    cursor: pointer;
 }
