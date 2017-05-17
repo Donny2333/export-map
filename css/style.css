@@ -1,5 +1,6 @@
 html,
-body {
+body,
+#app {
     font-family: "Microsoft YaHei", 微软雅黑, Arial;
     padding: 0;
     margin: 0;
@@ -220,6 +221,84 @@ ul, li, a {
     overflow: hidden;
 }
 
+/******************* mask **********************/
+
+.mask {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.mask > .overlay {
+    position: relative;
+    margin: 220px auto;
+    height: 480px;
+    width: 790px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.mask > .overlay > .top {
+    margin: 0;
+    padding: 0;
+    height: 60px;
+    line-height: 60px;
+    vertical-align: middle;
+    padding-left: 20px;
+    border-bottom: 1px solid #dddddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mask > .overlay > .top > .title {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: normal;
+    color: #4d4d4d;
+}
+
+.icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    font-style: normal;
+    font-size: 22px;
+    height: 26px;
+    width: 26px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.icon-close:after {
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    color: #666666;
+    top: 0;
+    left: 0;
+    font-size: 18px;
+    padding-left: 6px;
+    content: '✕';
+}
+
+.icon-close:hover {
+    background-color: #f87574;
+}
+
+.icon-close:hover:after {
+    color: white;
+}
+
 /******************* map-container **********************/
 
 .map-container > #map {
@@ -358,6 +437,17 @@ ul, li, a {
 /******************* template-page **********************/
 
 .template-page {
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+/******************* template-page **********************/
+
+.symbol-page {
     margin: 0;
     padding: 20px;
     display: flex;
