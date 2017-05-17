@@ -18,11 +18,31 @@
             };
 
             $scope.preview = function (symbol) {
-                $rootScope.$broadcast('mask:show', {
-                    showMask: true,
-                    overlay: {
-                        template: 'overlay',
-                        data: {}
+                console.log(symbol);
+                Symbol.getSymbolItemListFromDB({
+                    styleId: symbol.styleId,
+                    pageNo: 0,
+                    pageSize: 16
+                }).then(function (res) {
+                    if (res.status === 200) {
+                        $rootScope.$broadcast('mask:show', {
+                            showMask: true,
+                            title: symbol.name,
+                            overlay: {
+                                template: 'symbolPane',
+                                data: res.data.result
+                            },
+                            pagination: {
+                                totalItems: res.data.count,
+                                maxSize: 5,
+                                pageNo: 1,
+                                pageSize: 16,
+                                maxPage: Math.ceil(res.data.count / vm.pagination.pageSize)
+                            },
+                            pageChanged: function () {
+
+                            }
+                        })
                     }
                 })
             };
@@ -41,9 +61,9 @@
                         console.log(res.data.result[0]);
                         res.data.result.map(function (data) {
                             vm.symbols.push({
+                                styleId: data.Id,
                                 name: data.Name,
-                                detail: data.Detail,
-                                stylePath: data.StylePath
+                                detail: data.Detail
                             });
                         })
                     }

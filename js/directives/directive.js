@@ -60,4 +60,12 @@
             }
         }])
 
+        .directive('mask', function () {
+            return {
+                restrict: 'E',
+                templateUrl: './tpls/mask/mask.html',
+                controller: 'MaskController'
+            }
+        })
+
 })(angular);

@@ -171,6 +171,10 @@
                     var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetStyleList';
                     return Http.post(url, param);
                 },
+                getSymbolItemListFromDB: function (param) {
+                    var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetSymbolItemListFromDB';
+                    return Http.post(url, param);
+                },
                 getPreview: function (param) {
                     var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetSymbolPreview';
                     return Http.post(url, param);
