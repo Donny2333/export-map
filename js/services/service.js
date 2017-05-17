@@ -85,6 +85,24 @@
             }
         }])
 
+        .factory('Auth', ['Http', function (Http) {
+            var _user = {
+                userId: 1,
+                name: '姚志武'
+            };
+            return {
+                login: function () {
+
+                },
+                logout: function () {
+
+                },
+                getUserInfo: function () {
+                    return _user;
+                }
+            }
+        }])
+
         .factory("Doc", ["Http", 'URL_CFG', function (Http, URL_CFG) {
             return {
                 list: function (param) {
@@ -150,11 +168,11 @@
         .factory("Symbol", ["Http", 'URL_CFG', function (Http, URL_CFG) {
             return {
                 getStyleList: function (param) {
-                    var url = 'http://192.168.99.61:9527/MapSytleService.svc/GetStyleList';
+                    var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetStyleList';
                     return Http.post(url, param);
                 },
                 getPreview: function (param) {
-                    var url = 'http://192.168.99.61:9527/MapSytleService.svc/GetSymbolPreview';
+                    var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetSymbolPreview';
                     return Http.post(url, param);
                 }
             }

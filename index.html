@@ -17,11 +17,9 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="build/bundle.js"></script>
-
 </head>
 <body ng-app="export-map">
-<ui-view name="head" class="head"></ui-view>
-<ui-view name="navi" class="navi"></ui-view>
-<ui-view name="main" class="main"></ui-view>
+<ui-view id="app"></ui-view>
+<div ng-include="'./tpls/mask/mask.html'" ng-controller="MaskController"></div>
 </body>
 </html>

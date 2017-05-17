@@ -15,12 +15,12 @@
         <div class="layer-ionic">
             <div class="layer-expand" ng-if="layer.subLayerIds">
                 <input id="{{'layer-ex-' + layer.id}}" class="layerExpand" type="checkbox">
-                <label for="{{'layer-ex-' + layer.id}}"></label>
+                <label for="{{'layer-ex-' + layer.id}}" ng-click="expandLayer(layer)"></label>
             </div>
             <div class="layer-input">
                 <input id="{{'layer-' + layer.id}}" class="layerCheckbox" ng-class="{halfChecked: false}"
                        ng-model="layer.defaultVisibility" ng-change="change()" type="checkbox">
-                <label for="{{'layer-' + layer.id}}"></label>
+                <label for="{{'layer-' + layer.id}}" ng-click="hideLayer(layer)"></label>
             </div>
             <div class="layer-name">
                 <span>{{layer.name}}</span>

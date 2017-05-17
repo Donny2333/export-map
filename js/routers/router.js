@@ -12,20 +12,8 @@
                 .state('app', {
                     abstract: true,
                     url: '/app',
-                    views: {
-                        head: {
-                            templateUrl: './tpls/head.html',
-                            controller: 'AppController'
-                        },
-                        navi: {
-                            templateUrl: './tpls/navi.html',
-                            controller: 'AppController'
-                        },
-                        main: {
-                            templateUrl: './tpls/main.html',
-                            controller: 'MainController'
-                        }
-                    }
+                    templateUrl: './tpls/app.html',
+                    controller: 'AppController'
                 })
                 .state('app.explorer', {
                     abstract: true,
