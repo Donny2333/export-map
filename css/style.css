@@ -346,7 +346,15 @@ ul, li, a {
 .dropdown-menu > li > a {
     cursor: pointer;
 }
+/******************* file-page **********************/
 
+.file-page {
+    margin: 0;
+    padding: 20px;
+    display:block;
+    align-items: center;
+    overflow: hidden;
+}
 /******************* template-page **********************/
 
 .template-page {
