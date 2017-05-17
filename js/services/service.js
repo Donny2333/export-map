@@ -38,7 +38,7 @@
             }, {
                 id: 2,
                 img: "images/video.png",
-                name: "当前地图",
+                name: "地图编辑",
                 sref: 'app.edit',
                 sub: 'info'
             }];

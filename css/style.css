@@ -390,7 +390,7 @@ ul, li, a {
 
 .content-page {
     margin: 0;
-    padding: 20px 10px 0;
+    padding: 20px 18px 0;
 }
 
 .layer-item.leaf {
@@ -406,6 +406,28 @@ ul, li, a {
 .layer-ionic:hover {
     background-color: #e6ecff;
 }
+
+/*.layer-expand {*/
+/*position: relative;*/
+/*!*display: inline-block;*!*/
+/*!*height: 20px;*!*/
+/*!*width: 20px;*!*/
+/*}*/
+
+/*.layer-expand:after {*/
+/*content: '';*/
+/*position: absolute;*/
+/*display: inline-block;*/
+/*top: 5px;*/
+/*left: -18px;*/
+/*height: 0;*/
+/*width: 0;*/
+/*padding: 0;*/
+/*border-left: 5px solid transparent;*/
+/*border-right: 5px solid transparent;*/
+/*border-top: 10px solid #666666;*/
+/*cursor: pointer;*/
+/*}*/
 
 .layer-buttons {
     position: relative;
@@ -480,4 +502,42 @@ ul, li, a {
     top: 0;
     left: 4px;
     color: #ffffff;
+}
+
+.layerExpand {
+    display: none;
+}
+
+.layerExpand + label {
+    position: relative;
+}
+
+.layerExpand + label:after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    top: -6px;
+    left: -18px;
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #666666;
+    cursor: pointer;
+}
+
+.layerExpand:checked + label:after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    top: -6px;
+    left: -18px;
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-top: 5px solid transparent;
+    border-left: 10px solid #666666;
+    border-bottom: 5px solid transparent;
+    cursor: pointer;
 }

@@ -13,6 +13,10 @@
 
     <script id="layer-list.html" type="text/ng-template">
         <div class="layer-ionic">
+            <div class="layer-expand" ng-if="layer.subLayerIds">
+                <input id="{{'layer-ex-' + layer.id}}" class="layerExpand" type="checkbox">
+                <label for="{{'layer-ex-' + layer.id}}"></label>
+            </div>
             <div class="layer-input">
                 <input id="{{'layer-' + layer.id}}" class="layerCheckbox" ng-class="{halfChecked: false}"
                        ng-model="layer.defaultVisibility" ng-change="change()" type="checkbox">
