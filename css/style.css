@@ -430,7 +430,8 @@ ul, li, a {
 .file-page {
     margin: 0;
     padding: 20px;
-    display:block;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     overflow: hidden;
 }
