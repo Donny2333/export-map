@@ -113,8 +113,24 @@
                     if (res.data.status === "ok" && res.data.result) {
                         vm.layers = res.data.result.layers;
                         console.log(res.data.result.layers);
+                        for (var i = 0; i < vm.layers.length; i++) {
+                            addShowAttribute(vm.layers[i]);
+                        }
                     }
                 });
+            }
+
+            function addShowAttribute(layer) {
+                // console.log("打印单个对象");
+                layer.showChild = true;   //是否显示子节点
+                layer.showSelf = true; //是否显示自己
+                layer.ischeck = 1;  //1.选中，2.未选中,3.子节点未全部选中
+                // console.log(layer);
+                if (layer.subLayerIds != null && layer.subLayerIds.length != 0) {
+                    for (var i = 0; i < layer.subLayerIds.length; i++) {
+                        addShowAttribute(layer.subLayerIds[i]);
+                    }
+                }
             }
 
             function finishCreateMap() {

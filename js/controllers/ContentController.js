@@ -6,7 +6,7 @@
 
     angular.module('export-map.controllers')
         .controller('ContentController', ['$scope', function ($scope) {
-            // console.log("哈哈哈" + $scope.$parent.vm.layers);
+            // console.log($scope.$parent.vm.layers);
             $scope.expandLayer = function (layer) {
                 // console.log(layer);
                 if (layer.showChild) {
