@@ -7,9 +7,33 @@
     angular.module('export-map.controllers')
         .controller('SymbolPanelController', ['$scope', 'Symbol', function ($scope, Symbol) {
             var vm = $scope.vm;
+            vm.select = vm.overlay.vm.data[0];
 
             $scope.pageChanged = function () {
                 getSymbolItemListFromDB(vm.overlay.vm.styleId, vm.overlay.vm.pagination.pageNo - 1, vm.overlay.vm.pagination.pageSize)
+            };
+
+            $scope.preview = function () {
+                var param = _.merge(_.pick(vm.select, [
+                    'StylePath',
+                    'SymbolType',
+                    'SymbolName',
+                    'PointColor',
+                    'PointSize',
+                    'PointAngle',
+                    'LineColor',
+                    'LineWidth',
+                    'FillColor'
+                ]), {
+                    height: 50,
+                    width: 50
+                });
+                Symbol.getSymbolPreview(param).then(function (res) {
+                    if (res.status === 200) {
+                        console.log(res.data);
+                        vm.select.Preview = 'data:image/bmp;base64,' + res.data.result;
+                    }
+                })
             };
 
             function getSymbolItemListFromDB(styleId, pageNo, pageSize) {
@@ -19,12 +43,14 @@
                     pageSize: pageSize
                 }).then(function (res) {
                     if (res.status === 200) {
-                        console.log(res.data);
                         vm.overlay.vm.data = res.data.result;
                         vm.overlay.vm.pagination.totalItems = res.data.count;
                         vm.overlay.vm.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.vm.pagination.pageSize);
+                        vm.select = vm.overlay.vm.data[0];
                     }
                 })
             }
+
+
         }])
 })(angular);

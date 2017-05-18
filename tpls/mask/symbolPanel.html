@@ -5,8 +5,9 @@
     <div class="symbol-body">
         <div class="symbol-main">
             <ul class="symbol-list">
-                <li class="symbol-item" ng-repeat="symbol in vm.overlay.vm.data" ng-click="vm.select=symbol">
-                    <img ng-src="{{symbol.Preview}}">
+                <li class="symbol-item" ng-repeat="symbol in vm.overlay.vm.data" ng-click="vm.select=symbol"
+                    ng-class="{active: vm.select.Id===symbol.Id}">
+                    <img height="50" width="50" ng-src="{{symbol.Preview}}">
                     <span class="symbol-name">{{symbol.SymbolName}}</span>
                 </li>
             </ul>
@@ -19,7 +20,7 @@
         </div>
         <div class="symbol-edit">
             <div class="preview">
-                <img src="{{vm.select.Preview}}">
+                <img ng-src="{{vm.select.Preview}}">
                 <span class="symbol-name">{{vm.select.SymbolName}}</span>
             </div>
             <div class="symbol-select-input-list" ng-if="vm.select.SymbolType==='Marker Symbols'">
@@ -60,6 +61,7 @@
                     <input type="text" ng-model="vm.select.LineColor">
                 </div>
             </div>
+            <button class="btn btn-default symbol-commit" ng-click="preview()">确定</button>
         </div>
     </div>
     <i class="icon-close" ng-click="closeMask()"></i>

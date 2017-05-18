@@ -425,6 +425,7 @@ ul, li, a {
 .dropdown-menu > li > a {
     cursor: pointer;
 }
+
 /******************* file-page **********************/
 
 .file-page {
@@ -435,6 +436,7 @@ ul, li, a {
     align-items: center;
     overflow: hidden;
 }
+
 /******************* template-page **********************/
 
 .template-page {
@@ -699,9 +701,11 @@ ul, li, a {
     height: 80px;
     width: 80px;
     margin: 2px;
+    padding-top: 5px;
     cursor: pointer;
 }
 
+.symbol-item.active,
 .symbol-item:hover {
     outline: 1px solid #ddd;
 }
@@ -727,7 +731,7 @@ ul, li, a {
 
 .symbol-select-input-list {
     margin-top: 20px;
-    height: 100px;
+    height: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -742,4 +746,9 @@ ul, li, a {
 .symbol-select-input > input {
     width: 100px;
     margin-top: 10px;
+}
+
+.symbol-commit {
+    position: absolute;
+    bottom: 120px;
 }

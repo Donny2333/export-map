@@ -70,14 +70,11 @@
                 link: function (scope, element, attrs) {
                     scope.$watch('vm.overlay', function (value) {
                         if (value && value.template.length) {
+                            // append child dynamically.
                             var mask = element.children('#mask');
                             mask.html('');
-                            var $$compile = $compile(value.template);
                             scope.vm.overlay.vm = value.vm;
-                            console.log('3: mask directive');
-                            console.log(scope.vm.overlay.vm);
-                            var $dom = $$compile(scope);
-                            $dom.appendTo(mask);
+                            mask.append($compile(value.template)(scope))
                         }
                     })
                 }

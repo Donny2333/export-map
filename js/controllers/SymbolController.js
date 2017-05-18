@@ -18,7 +18,6 @@
             };
 
             $scope.preview = function (symbol) {
-                console.log(symbol);
                 Symbol.getSymbolItemListFromDB({
                     styleId: symbol.styleId,
                     pageNo: 0,
