@@ -777,9 +777,30 @@ ul, li, a {
 .map-panel {
     position: relative;
     margin: 220px auto;
-    height: 480px;
-    width: 600px;
+    height: 600px;
+    width: 800px;
     display: flex;
     flex-direction: column;
     background-color: white;
+}
+
+.map-title {
+    height: 60px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ddd;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+.map-body {
+    position: relative;
+    flex: auto;
+    display: flex;
+}
+
+.map {
+    flex: auto;
+    height: 100%;
+    width: 100%;
+    position: absolute;
 }

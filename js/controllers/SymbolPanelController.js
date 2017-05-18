@@ -31,7 +31,7 @@
                 Symbol.getSymbolPreview(param).then(function (res) {
                     if (res.status === 200) {
                         console.log(res.data);
-                        vm.select.Preview = 'data:image/bmp;base64,' + res.data.result;
+                        vm.select.Preview = res.data.result;
                     }
                 })
             };

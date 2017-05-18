@@ -53,13 +53,15 @@
             };
 
             $scope.preview = function (data) {
+                console.log(data);
                 $rootScope.$broadcast('mask:show', {
                     showMask: true,
+                    template: '<map-panel></map-panel>',
                     overlay: {
-                        template: '<map-panel></map-panel>',
-                        vm: {
-                            data: data
-                        }
+                        title: data.Name,
+                        docId: data.Id,
+                        userId: data.UserId,
+                        name: data.Name
                     }
                 })
             };
