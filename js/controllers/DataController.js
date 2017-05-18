@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('DataController', ['$scope', 'Data', function ($scope, Data) {
+        .controller('DataController', ['$scope', '$rootScope', 'Data', function ($scope, $rootScope, Data) {
             var vm = $scope.vm = {
                 data: [],
                 typeRes: {
@@ -53,7 +53,15 @@
             };
 
             $scope.preview = function (data) {
-                // Todo: 查看数据
+                $rootScope.$broadcast('mask:show', {
+                    showMask: true,
+                    overlay: {
+                        template: '<map-panel></map-panel>',
+                        vm: {
+                            data: data
+                        }
+                    }
+                })
             };
 
             $scope.add = function (data) {
@@ -81,5 +89,6 @@
                     }
                 });
             }
-        }])
+        }
+        ])
 })(angular);

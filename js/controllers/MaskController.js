@@ -8,17 +8,13 @@
         .controller('MaskController', ['$scope', '$rootScope', function ($scope, $rootScope) {
             $scope.vm = {
                 showMask: false,
-                overlay: {
-                    template: 'tpls/mask/overlay.html',
-                    data: null
-                }
+                overlay: {},
+                template: ''
             };
 
             $scope.closeMask = function () {
                 $scope.vm.showMask = false;
             };
-
-            console.log(555);
 
             /**
              * 监听"显示mask"事件
@@ -27,10 +23,8 @@
                 if (value.showMask) {
                     $scope.vm = {
                         showMask: true,
-                        overlay: {
-                            template: value.overlay.template ? $scope.vm.overlay.template : 'tpls/mask/' + value.overlay.template + '.html',
-                            data: value.overlay.data
-                        }
+                        overlay: value.overlay,
+                        template: value.template.length ? value.template : $scope.vm.template,
                     };
                 }
             });

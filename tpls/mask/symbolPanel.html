@@ -1,0 +1,68 @@
+<div class="symbol-panel">
+    <div class="symbol-title">
+        <span class="title">{{vm.overlay.title}}</span>
+    </div>
+    <div class="symbol-body">
+        <div class="symbol-main">
+            <ul class="symbol-list">
+                <li class="symbol-item" ng-repeat="symbol in vm.overlay.data" ng-click="vm.select=symbol"
+                    ng-class="{active: vm.select.Id===symbol.Id}">
+                    <img height="50" width="50" ng-src="{{symbol.Preview}}">
+                    <span class="symbol-name">{{symbol.SymbolName}}</span>
+                </li>
+            </ul>
+            <div class="pagination">
+                <ul uib-pagination class="pagination-sm" total-items="vm.overlay.pagination.totalItems"
+                    items-per-page="vm.overlay.pagination.pageSize" ng-model="vm.overlay.pagination.pageNo"
+                    max-size="vm.overlay.pagination.maxSize" ng-change="pageChanged()" previous-text="&lsaquo;"
+                    next-text="&rsaquo;"></ul>
+            </div>
+        </div>
+        <div class="symbol-edit">
+            <div class="preview">
+                <img height="50" width="50" ng-src="{{vm.select.Preview}}">
+                <span class="symbol-name">{{vm.select.SymbolName}}</span>
+            </div>
+            <div class="symbol-select-input-list" ng-if="vm.select.SymbolType==='Marker Symbols'">
+                <div class="symbol-select-input">
+                    <span>size：</span>
+                    <input type="text" ng-model="vm.select.PointSize">
+                </div>
+                <div class="symbol-select-input">
+                    <span>color：</span>
+                    <input type="text" ng-model="vm.select.PointColor">
+                </div>
+                <div class="symbol-select-input">
+                    <span>angle：</span>
+                    <input type="text" ng-model="vm.select.PointAngle">
+                </div>
+            </div>
+            <div class="symbol-select-input-list" ng-if="vm.select.SymbolType==='Line Symbols'">
+                <div class="symbol-select-input">
+                    <span>width：</span>
+                    <input type="text" ng-model="vm.select.LineWidth">
+                </div>
+                <div class="symbol-select-input">
+                    <span>color：</span>
+                    <input type="text" ng-model="vm.select.LineColor">
+                </div>
+            </div>
+            <div class="symbol-select-input-list" ng-if="vm.select.SymbolType==='Fill Symbols'">
+                <div class="symbol-select-input">
+                    <span>fill：</span>
+                    <input type="text" ng-model="vm.select.FillColor">
+                </div>
+                <div class="symbol-select-input">
+                    <span>width：</span>
+                    <input type="text" ng-model="vm.select.LineWidth">
+                </div>
+                <div class="symbol-select-input">
+                    <span>color：</span>
+                    <input type="text" ng-model="vm.select.LineColor">
+                </div>
+            </div>
+            <button class="btn btn-default symbol-commit" ng-click="preview()">设置</button>
+        </div>
+    </div>
+    <i class="icon-close" ng-click="closeMask()"></i>
+</div>

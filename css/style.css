@@ -426,6 +426,17 @@ ul, li, a {
     cursor: pointer;
 }
 
+/******************* file-page **********************/
+
+.file-page {
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
 /******************* template-page **********************/
 
 .template-page {
@@ -437,7 +448,7 @@ ul, li, a {
     overflow: hidden;
 }
 
-/******************* template-page **********************/
+/******************* symbol-page **********************/
 
 .symbol-page {
     margin: 0;
@@ -649,4 +660,126 @@ ul, li, a {
     border-left: 10px solid #666666;
     border-bottom: 5px solid transparent;
     cursor: pointer;
+}
+
+/******************* symbol-panel **********************/
+
+.symbol-panel {
+    position: relative;
+    margin: 220px auto;
+    height: 480px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.symbol-title {
+    height: 60px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ddd;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+.symbol-body {
+    position: relative;
+    display: flex;
+    flex: auto;
+}
+
+.symbol-main {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    border-right: 1px solid #ddd;
+    align-items: center;
+}
+
+.symbol-list {
+    height: 350px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: 0 auto;
+    padding: 5px 10px;
+}
+
+.symbol-main > .pagination {
+    margin: 0;
+    height: auto;
+    flex: auto;
+}
+
+.symbol-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    margin: 2px;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+.symbol-item.active,
+.symbol-item:hover {
+    outline: 1px solid #ddd;
+}
+
+.symbol-name {
+    font-size: 12px;
+}
+
+.symbol-edit {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.symbol-edit > .preview {
+    height: 80px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.symbol-select-input-list {
+    margin-top: 20px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.symbol-select-input > span {
+    display: inline-block;
+    width: 60px;
+    max-width: 60px;
+}
+
+.symbol-select-input > input {
+    width: 100px;
+    margin-top: 10px;
+}
+
+.symbol-commit {
+    position: absolute;
+    bottom: 120px;
+}
+
+/******************* map-panel **********************/
+
+.map-panel {
+    position: relative;
+    margin: 220px auto;
+    height: 480px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
 }

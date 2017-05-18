@@ -60,4 +60,45 @@
             }
         }])
 
+        .directive('mask', ['$compile', function ($compile) {
+            return {
+                restrict: 'E',
+                transclude: true,
+                // replace: true,
+                controller: 'MaskController',
+                templateUrl: './tpls/mask/mask.html',
+                link: function (scope, element, attrs) {
+                    scope.$watch('vm', function (value) {
+                        if (value && value.template.length) {
+                            // append child dynamically.
+                            var mask = element.children('#mask');
+                            mask.html('');
+                            scope.vm.overlay = value.overlay;
+                            mask.append($compile(value.template)(scope))
+                        }
+                    })
+                }
+            }
+        }])
+
+        .directive('symbolPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/symbolPanel.html',
+                controller: 'SymbolPanelController'
+            }
+        })
+
+        .directive('mapPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/mapPanel.html',
+                controller: 'MapPanelController'
+            }
+        })
+
 })(angular);
