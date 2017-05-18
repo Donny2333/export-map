@@ -11,20 +11,21 @@
             };
 
             var extent = [12349186.0111133, 3765310.49379061, 12541939.221565, 3874205.11961953];
-            var map = new ol.Map({
-                controls: ol.control.defaults().extend([
-                    new ol.control.ScaleLine()
-                ]),
-                layers: [new ol.layer.Image()],
-                target: 'map',
-                view: new ol.View({
-                    center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
-                    // zoom: 15,
-                    extent: extent,
-                    resolution: 96,
-                    projection: 'EPSG:3857'
-                })
-            });
+            var map=null;
+            // var map = new ol.Map({
+            //     controls: ol.control.defaults().extend([
+            //         new ol.control.ScaleLine()
+            //     ]),
+            //     layers: [new ol.layer.Image()],
+            //     target: 'map',
+            //     view: new ol.View({
+            //         center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
+            //         // zoom: 15,
+            //         extent: extent,
+            //         resolution: 96,
+            //         projection: 'EPSG:3857'
+            //     })
+            // });
 
             $scope.go = function ($event, menu) {
                 $event.preventDefault();
@@ -35,17 +36,24 @@
              * 监听"文档打开"事件
              */
             $scope.$on('doc:open', function (event, value) {
-                vm.doc = {
-                    docId: value.docId,
-                    userId: value.userId,
-                    name: value.name,
-                    name2: value.name2,
-                    author: value.author,
-                    detail: value.detail,
-                    detail2: value.detail2,
-                    tagName: value.tagName
-                };
-                initMap(URL_CFG.api + 'MapService.svc/Export');
+                // vm.doc = {
+                //     docId: value.docId,
+                //     userId: value.userId,
+                //     name: value.name,
+                //     name2: value.name2,
+                //     author: value.author,
+                //     detail: value.detail,
+                //     detail2: value.detail2,
+                //     tagName: value.tagName
+                // };
+                vm.doc =value;
+                console.log(vm.doc );
+                // vm.doc.docId=44;///地图文档编号
+                // vm.doc.userId=1;///地图文档用户
+                // vm.doc.name="老河口测试地图";///地图文档名称
+                extent = [parseFloat(vm.doc.xmin) ,parseFloat( vm.doc.ymin), parseFloat(vm.doc.xmax),parseFloat(vm.doc.ymax)];
+                initMap( vm.doc.mapServerPath,extent);
+                //initMap(URL_CFG.api + 'MapService.svc/Export',extent);
                 getMapInfo();
             });
 
@@ -88,14 +96,33 @@
             //     detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
             //     tagName: '城管'
             // });
-            // finishCreateMap();
-
-
-            function initMap(url) {
+            finishCreateMap();
+            function initMap(url,extent) {
+                // console.log("wxl");
+                // console.log(url);
+                // console.log(extent);
+                // console.log( vm.doc.docId);
+                // console.log(vm.doc.userId);
+                // console.log(vm.doc.name);
+                 map = new ol.Map({
+                    controls: ol.control.defaults().extend([
+                        new ol.control.ScaleLine()
+                    ]),
+                    layers: [new ol.layer.Image()],
+                    target: 'map',
+                    view: new ol.View({
+                        center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
+                        // zoom: 15,
+                        extent: extent,
+                        resolution: 96,
+                        //projection: 'EPSG:3857'
+                    })
+                });
                 map.getLayers().item(0).setSource(new ol.source.ImageWMS({
-                    url: url,
+                    url:url,
                     attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
-                    imageExtent: map.getView().calculateExtent(),
+                    //imageExtent: map.getView().calculateExtent(),
+                    imageExtent: extent,
                     params: {
                         docId: vm.doc.docId,
                         userId: vm.doc.userId,
@@ -145,7 +172,7 @@
                         // Todo: 创建用户的gdb
                     }
                 });
-                initMap(URL_CFG.api + 'MapService.svc/Export');
+                initMap(URL_CFG.api + 'MapService.svc/Export',extent);
                 getMapInfo();
             }
         }])

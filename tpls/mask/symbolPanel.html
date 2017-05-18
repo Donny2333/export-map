@@ -30,7 +30,7 @@
                 </div>
                 <div class="symbol-select-input">
                     <span>color：</span>
-                    <input type="text" ng-model="vm.select.PointColor">
+                    <input colorpicker="rgb" type="text" ng-model="vm.select.PointColor" >
                 </div>
                 <div class="symbol-select-input">
                     <span>angle：</span>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="symbol-select-input">
                     <span>color：</span>
-                    <input type="text" ng-model="vm.select.LineColor">
+                    <input colorpicker="rgb" type="text" ng-model="vm.select.LineColor">
                 </div>
             </div>
             <div class="symbol-select-input-list" ng-if="vm.select.SymbolType==='Fill Symbols'">
@@ -58,7 +58,7 @@
                 </div>
                 <div class="symbol-select-input">
                     <span>color：</span>
-                    <input type="text" ng-model="vm.select.LineColor">
+                    <input colorpicker="rgb" type="text" ng-model="vm.select.LineColor">
                 </div>
             </div>
             <button class="btn btn-default symbol-commit" ng-click="preview()">设置</button>
