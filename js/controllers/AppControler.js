@@ -78,16 +78,16 @@
             });
 
 
-            $scope.$broadcast('doc:open', {
-                docId: 44,
-                userId: 1,
-                name: '老河口测试地图',
-                name2: '来自前端的老河口测试地图',
-                author: '姚志武',
-                detail: '老河口测试地图，老河口测试地图',
-                detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
-                tagName: '城管'
-            });
+            // $scope.$broadcast('doc:open', {
+            //     docId: 44,
+            //     userId: 1,
+            //     name: '老河口测试地图',
+            //     name2: '来自前端的老河口测试地图',
+            //     author: '姚志武',
+            //     detail: '老河口测试地图，老河口测试地图',
+            //     detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
+            //     tagName: '城管'
+            // });
             // finishCreateMap();
 
 

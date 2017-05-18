@@ -7,10 +7,10 @@
     angular.module('export-map.controllers')
         .controller('SymbolPanelController', ['$scope', 'Symbol', function ($scope, Symbol) {
             var vm = $scope.vm;
-            vm.select = vm.overlay.vm.data[0];
+            vm.select = vm.overlay.data[0];
 
             $scope.pageChanged = function () {
-                getSymbolItemListFromDB(vm.overlay.vm.styleId, vm.overlay.vm.pagination.pageNo - 1, vm.overlay.vm.pagination.pageSize)
+                getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
             };
 
             $scope.preview = function () {
@@ -43,10 +43,10 @@
                     pageSize: pageSize
                 }).then(function (res) {
                     if (res.status === 200) {
-                        vm.overlay.vm.data = res.data.result;
-                        vm.overlay.vm.pagination.totalItems = res.data.count;
-                        vm.overlay.vm.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.vm.pagination.pageSize);
-                        vm.select = vm.overlay.vm.data[0];
+                        vm.overlay.data = res.data.result;
+                        vm.overlay.pagination.totalItems = res.data.count;
+                        vm.overlay.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.pagination.pageSize);
+                        vm.select = vm.overlay.data[0];
                     }
                 })
             }

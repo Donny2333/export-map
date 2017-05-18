@@ -8,10 +8,8 @@
         .controller('MaskController', ['$scope', '$rootScope', function ($scope, $rootScope) {
             $scope.vm = {
                 showMask: false,
-                overlay: {
-                    template: '',
-                    vm: {}
-                }
+                overlay: {},
+                template: ''
             };
 
             $scope.closeMask = function () {
@@ -25,10 +23,8 @@
                 if (value.showMask) {
                     $scope.vm = {
                         showMask: true,
-                        overlay: {
-                            template: value.overlay.template ? value.overlay.template : $scope.vm.overlay.template,
-                            vm: value.overlay.vm
-                        }
+                        overlay: value.overlay,
+                        template: value.template.length ? value.template : $scope.vm.template,
                     };
                 }
             });

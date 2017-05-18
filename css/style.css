@@ -448,7 +448,7 @@ ul, li, a {
     overflow: hidden;
 }
 
-/******************* template-page **********************/
+/******************* symbol-page **********************/
 
 .symbol-page {
     margin: 0;
@@ -751,4 +751,16 @@ ul, li, a {
 .symbol-commit {
     position: absolute;
     bottom: 120px;
+}
+
+/******************* map-panel **********************/
+
+.map-panel {
+    position: relative;
+    margin: 220px auto;
+    height: 480px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
 }
