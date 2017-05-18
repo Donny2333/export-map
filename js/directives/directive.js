@@ -60,11 +60,37 @@
             }
         }])
 
-        .directive('mask', function () {
+        .directive('mask', ['$compile', function ($compile) {
             return {
                 restrict: 'E',
+                transclude: true,
+                // replace: true,
+                controller: 'MaskController',
                 templateUrl: './tpls/mask/mask.html',
-                controller: 'MaskController'
+                link: function (scope, element, attrs) {
+                    scope.$watch('vm.overlay', function (value) {
+                        if (value && value.template.length) {
+                            var mask = element.children('#mask');
+                            mask.html('');
+                            var $$compile = $compile(value.template);
+                            scope.vm.overlay.vm = value.vm;
+                            console.log('3: mask directive');
+                            console.log(scope.vm.overlay.vm);
+                            var $dom = $$compile(scope);
+                            $dom.appendTo(mask);
+                        }
+                    })
+                }
+            }
+        }])
+
+        .directive('symbolPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/symbolPanel.html',
+                controller: 'SymbolPanelController'
             }
         })
 

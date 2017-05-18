@@ -27,20 +27,20 @@
                     if (res.status === 200) {
                         $rootScope.$broadcast('mask:show', {
                             showMask: true,
-                            title: symbol.name,
                             overlay: {
-                                template: 'symbolPane',
-                                data: res.data.result
-                            },
-                            pagination: {
-                                totalItems: res.data.count,
-                                maxSize: 5,
-                                pageNo: 1,
-                                pageSize: 16,
-                                maxPage: Math.ceil(res.data.count / vm.pagination.pageSize)
-                            },
-                            pageChanged: function () {
-
+                                template: '<symbol-panel class="symbol-pane"></symbol-panel>',
+                                vm: {
+                                    styleId: symbol.styleId,
+                                    title: symbol.name,
+                                    data: res.data.result,
+                                    pagination: {
+                                        totalItems: res.data.count,
+                                        maxSize: 5,
+                                        pageNo: 1,
+                                        pageSize: 16,
+                                        maxPage: Math.ceil(res.data.count / vm.pagination.pageSize)
+                                    }
+                                }
                             }
                         })
                     }

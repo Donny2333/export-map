@@ -632,9 +632,9 @@ ul, li, a {
     cursor: pointer;
 }
 
-/******************* symbol-pane **********************/
+/******************* symbol-panel **********************/
 
-.symbol-pane {
+.symbol-panel {
     position: relative;
     margin: 220px auto;
     height: 480px;
@@ -697,7 +697,7 @@ ul, li, a {
     outline: 1px solid #ddd;
 }
 
-.symbol-item > span {
+.symbol-name {
     font-size: 12px;
 }
 
@@ -706,4 +706,31 @@ ul, li, a {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.symbol-edit > .preview {
+    height: 80px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.symbol-select-input-list {
+    margin-top: 20px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.symbol-select-input > span {
+    display: inline-block;
+    width: 60px;
+    max-width: 60px;
+}
+
+.symbol-select-input > input {
+    width: 100px;
+    margin-top: 10px;
 }

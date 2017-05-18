@@ -7,11 +7,10 @@
     angular.module('export-map.controllers')
         .controller('MaskController', ['$scope', '$rootScope', function ($scope, $rootScope) {
             $scope.vm = {
-                title: '',
                 showMask: false,
                 overlay: {
-                    template: 'tpls/mask/overlay.html',
-                    data: null
+                    template: '',
+                    vm: {}
                 }
             };
 
@@ -19,22 +18,17 @@
                 $scope.vm.showMask = false;
             };
 
-            $scope.pageChanged = $scope.vm.pageChanged;
-
             /**
              * 监听"显示mask"事件
              */
             $rootScope.$on('mask:show', function (event, value) {
                 if (value.showMask) {
                     $scope.vm = {
-                        title: value.title,
                         showMask: true,
                         overlay: {
-                            template: value.overlay.template ? 'tpls/mask/' + value.overlay.template + '.html' : $scope.vm.overlay.template,
-                            data: value.overlay.data
-                        },
-                        pagination: value.pagination,
-                        pageChanged: value.pageChanged
+                            template: value.overlay.template ? value.overlay.template : $scope.vm.overlay.template,
+                            vm: value.overlay.vm
+                        }
                     };
                 }
             });
