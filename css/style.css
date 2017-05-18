@@ -569,29 +569,48 @@ ul, li, a {
     display: none;
 }
 
-.layerCheckbox + label {
-    background-color: #dedede;
-    padding: 9px;
-    border-radius: 3px;
+.lchecked:after {
     display: inline-block;
-    position: relative;
-    margin: 0 8px 0 0;
-}
-
-.layerCheckbox:checked + label {
-    background-color: #60cb95;
-}
-
-.layerCheckbox:checked + label:after {
-    /*font-family: 'iconfont';*/
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    padding-left: 4px;
+    border-radius: 3px;
     content: '\2713';
-    /*content: '\f00c';*/
     font-size: 14px;
     font-weight: lighter;
-    position: absolute;
     top: 0;
     left: 4px;
     color: #ffffff;
+    background-color: #60cb95;
+    margin: 0 8px 0 0;
+
+}
+
+.lhalfChecked:after {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    padding-left: 4px;
+    border-radius: 3px;
+    content: '\2713';
+    font-size: 14px;
+    font-weight: lighter;
+    top: 0;
+    left: 4px;
+    color: #ffffff;
+    background-color: #dedede;
+    margin: 0 8px 0 0;
+}
+
+.lunCheck {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 3px;
+    background-color: #dedede;
+    margin: 0 8px 0 0;
 }
 
 .layerExpand {

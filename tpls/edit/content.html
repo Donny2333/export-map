@@ -19,8 +19,9 @@
             </div>
             <div class="layer-input" >
                 <input id="{{'layer-' + layer.id}}" class="layerCheckbox" ng-class="{halfChecked: false}"
-                       ng-model="layer.defaultVisibility"  type="checkbox">
-                <label for="{{'layer-' + layer.id}}" ng-click="hideLayer(vm.layers,layer)"></label>
+                       ng-model="layer.defaultVisibility"  type="checkbox" >
+                <label for="{{'layer-' + layer.id}}" ng-click="hideLayer(vm.layers,layer)"
+                       ng-class="{lchecked: layer.ischeck===1, lhalfChecked: layer.ischeck===3, lunCheck: layer.ischeck===2}"></label>
             </div>
             <div class="layer-name">
                 <span>{{layer.name}}</span>
