@@ -804,3 +804,147 @@ ul, li, a {
     width: 100%;
     position: absolute;
 }
+
+/******************* overlay-panel **********************/
+
+.create-panel {
+    position: relative;
+    margin: 220px auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 480px;
+    width: 800px;
+}
+
+.tpls-choose {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tpls-choose > .top,
+.create > .top {
+    margin: 0;
+    padding: 0;
+    height: 60px;
+    width: 100%;
+    line-height: 60px;
+    vertical-align: middle;
+    padding-left: 20px;
+    border-bottom: 1px solid #dddddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tpls-choose > .top > .title,
+.create > .top > .title {
+    display: inline-block;
+    margin: 0;
+    font-size: 22px;
+    font-weight: normal;
+    color: #4d4d4d;
+}
+
+.tpls-choose > .content {
+    height: 360px;
+    width: 100%;
+    display: flex;
+    padding: 40px 50px 0;
+    flex-wrap: wrap;
+}
+
+.tpls-choose > .content > .item {
+    margin: 0 30px 20px 0;
+    height: 150px;
+    width: 150px;
+}
+
+.tpls-choose > .content > .item:nth-of-type(4n) {
+    margin-right: 0;
+}
+
+.tpls-choose > .content > .item > img {
+    height: 100px;
+    width: 150px;
+    outline: 1px solid #d9d9d9;
+    transition: transform .2s;
+}
+
+.tpls-choose > .content > .item > img:hover {
+    transform: scale(1.1);
+    outline: 1px solid rgb(29, 144, 227);
+    box-shadow: 4px 6.928px 14px 0 rgba(0, 0, 0, 0.16);
+}
+
+.tpls-choose > .content > .item > h2 {
+    height: 50px;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.tpls-choose > .pagination {
+    display: inline-block;
+    margin: 10px auto;
+    height: 30px;
+}
+
+.tpls-choose > .pagination > ul {
+    margin: 0;
+}
+
+#myDivTable {
+    width: 100%;
+    display: table;
+    border-spacing: 20px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+#myDivTable > div {
+    display: table-row;
+}
+
+#myDivTable > div > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#myDivTable > div > div:first-child {
+    text-align: right;
+    width: 50px;
+}
+
+#myDivTable > div > div > input,
+#myDivTable > div > div > textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    outline: none;
+    padding: 8px;
+    resize: none;
+}
+
+.create {
+    height: auto;
+    padding-bottom: 20px;
+}
+
+.create > .bottom {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    /*background-color: rebeccapurple;*/
+}
+
+.create > .bottom > button {
+    width: 60px;
+    margin-right: 20px;
+}
+
+.create > .bottom > button:first-child {
+    margin-right: 30px;
+}

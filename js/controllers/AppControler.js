@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers', [])
-        .controller('AppController', ['$scope', '$state', 'Router', 'Doc', 'Data', 'URL_CFG', function ($scope, $state, Router, Doc, Data, URL_CFG) {
+        .controller('AppController', ['$scope', '$rootScope', '$state', 'Router', 'Doc', 'Data', 'URL_CFG', function ($scope, $rootScope, $state, Router, Doc, Data, URL_CFG) {
             var vm = $scope.vm = {
                 menus: Router.list()
             };
@@ -29,6 +29,63 @@
             $scope.go = function ($event, menu) {
                 $event.preventDefault();
                 $state.go([menu.sref, menu.sub].join('.'));
+            };
+
+            $scope.createOrClose = function () {
+                if (vm.doc && vm.doc.docId) {
+                    // 关闭文档
+
+                } else {
+                    // 新建文档
+                    Doc.list({
+                        // userId: 1,
+                        pageNo: 0,
+                        pageNum: 8,
+                        tagName: "模板",
+                        typeRes: "Public",
+                        mapType: "Templete"
+                    }).then(function (res) {
+                        if (res.data.status === "ok" && res.data.result) {
+                            var templates = [];
+                            res.data.result.length > 0 && res.data.result.map(function (template) {
+                                templates.push({
+                                    id: template.Id,
+                                    title: template.Name,
+                                    author: template.Author,
+                                    update: template.UpdateTime.split(' ')[0],
+                                    version: "1.0.0",
+                                    img: URL_CFG.img + _.replace(template.PicPath, '{$}', 'big'),
+                                    brief: template.Detail,
+                                    detail: template.Detail2
+                                })
+                            });
+                            $rootScope.$broadcast('mask:show', {
+                                showMask: true,
+                                template: '<create-panel></create-panel>',
+                                overlay: {
+                                    title: '',
+                                    templates: templates,
+                                    pagination: {
+                                        totalItems: res.data.count,
+                                        maxSize: 5,
+                                        pageNo: 1,
+                                        pageSize: 8,
+                                        maxPage: Math.ceil(res.data.count / 12)
+                                    },
+                                    doc: {
+                                        userId: 1,
+                                        autor: '姚志武'
+                                    },
+                                    choose: true,
+                                    create: false
+                                }
+                            })
+                        }
+                        else {
+                            console.log(res.data);
+                        }
+                    });
+                }
             };
 
             /**
@@ -78,16 +135,16 @@
             });
 
 
-            $scope.$broadcast('doc:open', {
-                docId: 44,
-                userId: 1,
-                name: '老河口测试地图',
-                name2: '来自前端的老河口测试地图',
-                author: '姚志武',
-                detail: '老河口测试地图，老河口测试地图',
-                detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
-                tagName: '城管'
-            });
+            // $scope.$broadcast('doc:open', {
+            //     docId: 44,
+            //     userId: 1,
+            //     name: '老河口测试地图',
+            //     name2: '来自前端的老河口测试地图',
+            //     author: '姚志武',
+            //     detail: '老河口测试地图，老河口测试地图',
+            //     detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
+            //     tagName: '城管'
+            // });
             // finishCreateMap();
 
 
@@ -121,12 +178,10 @@
             }
 
             function addShowAttribute(layer) {
-                // console.log("打印单个对象");
-                layer.showChild = true;   //是否显示子节点
-                layer.showSelf = true; //是否显示自己
-                layer.ischeck = 1;  //1.选中，2.未选中,3.子节点未全部选中
-                // console.log(layer);
-                if (layer.subLayerIds != null && layer.subLayerIds.length != 0) {
+                layer.showChild = true;     //是否显示子节点
+                layer.showSelf = true;      //是否显示自己
+                layer.ischeck = 1;          //1.选中, 2.未选中, 3.子节点未全部选中
+                if (layer.subLayerIds !== null && layer.subLayerIds.length !== 0) {
                     for (var i = 0; i < layer.subLayerIds.length; i++) {
                         addShowAttribute(layer.subLayerIds[i]);
                     }

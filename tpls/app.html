@@ -12,7 +12,7 @@
         </li>
     </ul>
     <div class="method">
-        <a class="btn-blue">{{vm.doc.docId ? '关闭文档' : '新建地图'}}</a>
+        <a ng-click="createOrClose()" class="btn-blue">{{vm.doc.docId ? '关闭文档' : '新建地图'}}</a>
         <a ng-if="vm.doc.docId" class="btn-blue">保存</a>
         <a ng-if="vm.doc.docId" class="btn-blue">共享</a>
     </div>
