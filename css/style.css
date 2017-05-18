@@ -640,3 +640,79 @@ ul, li, a {
     border-bottom: 5px solid transparent;
     cursor: pointer;
 }
+
+/******************* symbol-pane **********************/
+
+.symbol-pane {
+    position: relative;
+    margin: 220px auto;
+    height: 480px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.symbol-title {
+    height: 60px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ddd;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+.symbol-body {
+    position: relative;
+    display: flex;
+    flex: auto;
+}
+
+.symbol-main {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    border-right: 1px solid #ddd;
+    align-items: center;
+}
+
+.symbol-list {
+    height: 350px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: 0 auto;
+    padding: 5px 10px;
+}
+
+.symbol-main > .pagination {
+    margin: 0;
+    height: auto;
+    flex: auto;
+}
+
+.symbol-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.symbol-item:hover {
+    outline: 1px solid #ddd;
+}
+
+.symbol-item > span {
+    font-size: 12px;
+}
+
+.symbol-edit {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
