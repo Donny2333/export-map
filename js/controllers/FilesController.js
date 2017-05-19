@@ -6,7 +6,7 @@
 
     angular.module('export-map.controllers')
 
-        .controller('FilesController', ['$scope', 'Doc','URL_CFG', function ($scope, Doc, URL_CFG) {
+        .controller('FilesController', ['$scope','$rootScope', 'Doc','URL_CFG', function ($scope,$rootScope,Doc, URL_CFG) {
             var vm = $scope.vm = {
                 mapDoc: [],
                 // setting: {
@@ -71,17 +71,74 @@
             $scope.pageChanged = function () {
                 getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Public", "");
             };
+            $scope.preview = function (mapdoc) {
+                console.log(22)
+                // Todo: 查看数据
+                // $scope.$emit('doc:open', {
+                //     docId: 44,
+                //     userId: 1,
+                //     name: '老河口测试地图',
+                //     name2: '来自前端的老河口测试地图',
+                //     author: '姚志武',
+                //     detail: '老河口测试地图，老河口测试地图',
+                //     detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
+                //     tagName: '城管'
+                // });
+                $scope.$emit('doc:open', {
+                    docId: mapdoc.id,
+                    userId: mapdoc.userId,
+                    name: mapdoc.title,
+                    name2: mapdoc.name2,
+                    author: mapdoc.author,
+                    detail: mapdoc.brief,
+                    detail2: mapdoc.detail,
+                    tagName: mapdoc.tagName,
+                    xmin: mapdoc.xmin,
+                    ymin:mapdoc.ymin,
+                    xmax:mapdoc.xmax,
+                    ymax:mapdoc.ymax,
+                    srcID:mapdoc.srcID,
+                    srcName:mapdoc.srcName,
+                    minScale:mapdoc.minScale,
+                    maxScale:mapdoc.maxScale,
+                    mapType:mapdoc.mapType,
+                    mapServerPath:mapdoc.mapServerPath,
+                    mxdPath:mapdoc.mxdPath
+                });
+            };
+            $scope.deleteMap = function (mapdoc) {
+                layer.confirm('您确定要删除该地图文档？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    console.log("1212");
+                    Doc.remove({
+                        docId: mapdoc.id,
+                        userId: mapdoc.userId,
+                        name: mapdoc.title,
+                    }).then(function (res) {
+                        console.log("tttt");
+                        if (res.data.status === "ok") {
+                            layer.msg('地图删除成功', {icon: 1});
+                            getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Users", "");
+                        }
+                        else {
+                            layer.msg('地图删除失败', {icon: 1});
+                        }
+                })}, function(){
+                    layer.close()
+                });
+            }
 
-            getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Public", "");
+            getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Users", "");
 
             function getMapList(pageNo, pageSize, tagName, typeRes, mapType) {
                 Doc.list({
-                    // userId: 1,
+                    userId: 1,
                     pageNo: pageNo,
                     pageNum: pageSize,
                     tagName: tagName || "",
                     typeRes: typeRes || "Public",
-                    mapType: mapType || "MapServer"
+                    //mapType: mapType || "MapServer"
                 }).then(function (res) {
                     if (res.data.status === "ok" && res.data.result) {
                         vm.mapDoc = [];
@@ -89,12 +146,27 @@
                             vm.mapDoc.push({
                                 id: mapDoc.Id,
                                 title: mapDoc.Name,
+                                userId: mapDoc.UserId,
+                                name2:mapDoc.Name2,
+                                img: URL_CFG.img + _.replace(mapDoc.PicPath, '{$}', 'big'),
                                 author: mapDoc.Author,
                                 update: mapDoc.UpdateTime.split(' ')[0],
-                                version: "1.0.0",
-                                img: URL_CFG.img + _.replace(mapDoc.PicPath, '{$}', 'big'),
                                 brief: mapDoc.Detail,
-                                detail: mapDoc.Detail2
+                                detail: mapDoc.Detail2,
+                                tagName:mapDoc.TagName,
+                                srcID:mapDoc.SrcID,
+                                srcName:mapDoc.SrcName,
+                                xmin:mapDoc.Xmin,
+                                ymin:mapDoc.Ymin,
+                                xmax:mapDoc.Xmax,
+                                ymax:mapDoc.Ymax,
+                                minScale:mapDoc.MinScale,
+                                maxScale:mapDoc.MaxScale,
+                                mapType:mapDoc.MapType,
+                                mapServerPath:mapDoc.MapServerPath,
+                                mxdPath:mapDoc.MxdPath,
+                                typeRes:mapDoc.TypeRes,
+                                version: "1.0.0",
                             })
                         });
                         console.log(vm.templates);

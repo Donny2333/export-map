@@ -12,8 +12,34 @@
             $scope.pageChanged = function () {
                 getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
             };
+            $scope.change =function(type){
+                console.log(type)
+                if(type==0)
+                {
+                    if( vm.select.PointColor.indexOf("rgb")>=0)
+                    {
 
-            $scope.preview = function () {
+                        vm.select.PointColor = vm.select.PointColor.substr(4,vm.select.PointColor.length-5);
+                    }
+                }
+                if(type==1)
+                {
+                    if( vm.select.LineColor.indexOf("rgb")>=0)
+                    {
+                        vm.select.LineColor = vm.select.LineColor.substr(4,vm.select.LineColor.length-5);
+                    }
+                }
+                if(type==2)
+                {
+                    console.log(vm.select.FillColor);
+                    if( vm.select.FillColor.indexOf("rgb")>=0)
+                    {
+                        console.log("1212123")
+                        vm.select.FillColor = vm.select.FillColor.substr(4,vm.select.FillColor.length-5);
+                    }
+                }
+            }
+            $scope.preview = function (colorObject) {
                 var param = _.merge(_.pick(vm.select, [
                     'StylePath',
                     'SymbolType',

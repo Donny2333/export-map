@@ -6,6 +6,7 @@
 
     angular.module('export-map', [
         'ui.bootstrap',
+        'colorpicker.module',
         'export-map.config',
         'export-map.routers',
         'export-map.directives',
