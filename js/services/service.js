@@ -172,15 +172,23 @@
         .factory("Symbol", ["Http", 'URL_CFG', function (Http, URL_CFG) {
             return {
                 getStyleList: function (param) {
-                    var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetStyleList';
+                    var url = URL_CFG.api +'MapSytleService.svc/GetStyleList';
                     return Http.post(url, param);
                 },
                 getSymbolItemListFromDB: function (param) {
-                    var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetSymbolItemListFromDB';
+                    var url = URL_CFG.api +'MapSytleService.svc/GetSymbolItemListFromDB';
                     return Http.post(url, param);
                 },
                 getSymbolPreview: function (param) {
-                    var url = 'http://192.168.99.61:9526/MapSytleService.svc/GetSymbolPreview';
+                    var url = URL_CFG.api +'MapSytleService.svc/GetSymbolPreview';
+                    return Http.post(url, param);
+                },
+                GetLayerSymbolInfo: function (param) {
+                    var url = URL_CFG.api +'MapService.svc/GetLayerSymbolInfo';
+                    return Http.post(url, param);
+                },
+                RemoveLayerFromMap: function (param) {
+                    var url = URL_CFG.api +'MapService.svc/RemoveLayerFromMap';
                     return Http.post(url, param);
                 }
             }
