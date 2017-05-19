@@ -95,7 +95,15 @@
             };
 
             $scope.publish = function () {
-
+                Doc.publish({
+                    docId: vm.doc.docId,
+                    userId: vm.doc.userId,
+                    name: vm.doc.name,
+                    PublishName: vm.doc.name,
+                    folerName: ''
+                }).then(function (res) {
+                    console.log(res);
+                })
             };
 
 
