@@ -134,12 +134,8 @@
                                 version: "1.0.0"
                             })
                         });
-                        console.log(vm.templates);
                         vm.pagination.totalItems = res.data.count;
                         vm.pagination.maxPage = Math.ceil(res.data.count / vm.pagination.pageSize);
-                    }
-                    else {
-                        console.log(res.data);
                     }
                 });
             }

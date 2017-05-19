@@ -7,7 +7,7 @@
     angular.module('export-map.controllers', [])
         .controller('AppController', ['$scope', '$rootScope', '$state', 'Router', 'Doc', 'Data', 'URL_CFG', function ($scope, $rootScope, $state, Router, Doc, Data, URL_CFG) {
             var vm = $scope.vm = {
-                menus: Router.list()
+                menus: Router.list().slice(0, 2)
             };
 
             var extent = [12349186.0111133, 3765310.49379061, 12541939.221565, 3874205.11961953];
@@ -36,7 +36,10 @@
                 if (vm.doc && vm.doc.docId) {
                     // 关闭文档
                     vm.doc = {};
+                    vm.layers = [];
+                    vm.menus = Router.list().slice(0, 2);
                     map.removeLayer(map.getLayers().item(0));
+                    $state.go('app.explorer.files');
                 } else {
                     // 新建文档
                     Doc.list({
@@ -83,13 +86,17 @@
                                 }
                             })
                         }
-                        else {
-                            console.log(res.data);
-                        }
                     });
                 }
             };
 
+            $scope.save = function () {
+
+            };
+
+            $scope.publish = function () {
+
+            };
 
 
             /**
@@ -106,24 +113,12 @@
                 //     detail2: value.detail2,
                 //     tagName: value.tagName
                 // };
+                vm.menus = Router.list();
                 vm.doc = value;
-                console.log(vm.doc);
-                // vm.doc.docId=44;///地图文档编号
-                // vm.doc.userId=1;///地图文档用户
-                // vm.doc.name="老河口测试地图";///地图文档名称
                 extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
                 initMap(vm.doc.mapServerPath, extent);
-                //initMap(URL_CFG.api + 'MapService.svc/Export',extent);
                 getUserGdb();
                 getMapInfo();
-            });
-
-
-            /**
-             * 监听"文档保存"事件，保存文档
-             */
-            $scope.$on('doc:save', function (event, value) {
-                // Todo: save doc
             });
 
             /**
@@ -141,19 +136,6 @@
             });
 
 
-            // $scope.$broadcast('doc:open', {
-            //     docId: 44,
-            //     userId: 1,
-            //     name: '老河口测试地图',
-            //     name2: '来自前端的老河口测试地图',
-            //     author: '姚志武',
-            //     detail: '老河口测试地图，老河口测试地图',
-            //     detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
-            //     tagName: '城管'
-            // });
-            // finishCreateMap();
-
-
             function initMap(url, extent) {
                 map = new ol.Map({
                     controls: ol.control.defaults().extend([
@@ -166,7 +148,7 @@
                         // zoom: 15,
                         extent: extent,
                         resolution: 96,
-                        //projection: 'EPSG:3857'
+                        projection: 'EPSG:3857'
                     })
                 });
                 map.getLayers().item(0).setSource(new ol.source.ImageWMS({
