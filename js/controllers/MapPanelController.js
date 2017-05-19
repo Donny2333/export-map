@@ -35,7 +35,9 @@
                     params: {
                         docId: vm.overlay.docId,
                         userId: vm.overlay.userId,
-                        name: vm.overlay.name
+                        name: vm.overlay.name,
+                        typeMapDoc: vm.overlay.typeMapDoc,
+                        typeResouce: vm.overlay.typeResouce
                     }
                 }));
             }

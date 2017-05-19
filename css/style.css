@@ -225,7 +225,9 @@ ul, li, a {
 
 .mask {
     position: absolute;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     top: 0;
     left: 0;
     z-index: 100;
@@ -666,7 +668,6 @@ ul, li, a {
 
 .symbol-panel {
     position: relative;
-    margin: 220px auto;
     height: 480px;
     width: 600px;
     display: flex;
@@ -776,9 +777,8 @@ ul, li, a {
 
 .map-panel {
     position: relative;
-    margin: 220px auto;
-    height: 600px;
-    width: 800px;
+    height: 680px;
+    width: 920px;
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -805,11 +805,10 @@ ul, li, a {
     position: absolute;
 }
 
-/******************* overlay-panel **********************/
+/******************* create-panel **********************/
 
 .create-panel {
     position: relative;
-    margin: 220px auto;
     display: flex;
     flex-direction: column;
     background-color: white;

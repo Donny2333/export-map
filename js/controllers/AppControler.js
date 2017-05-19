@@ -103,6 +103,7 @@
                     tagName: value.tagName
                 };
                 initMap(URL_CFG.api + 'MapService.svc/Export');
+                getUserGdb();
                 getMapInfo();
             });
 
@@ -124,6 +125,7 @@
              * 监听"图层改变"事件，如有图层改变，重新获取图层列表信息
              */
             $scope.$on('layer:change', function (event, value) {
+                console.log('layer:change');
                 getMapInfo();
             });
 
@@ -135,16 +137,16 @@
             });
 
 
-            // $scope.$broadcast('doc:open', {
-            //     docId: 44,
-            //     userId: 1,
-            //     name: '老河口测试地图',
-            //     name2: '来自前端的老河口测试地图',
-            //     author: '姚志武',
-            //     detail: '老河口测试地图，老河口测试地图',
-            //     detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
-            //     tagName: '城管'
-            // });
+            $scope.$broadcast('doc:open', {
+                docId: 44,
+                userId: 1,
+                name: '老河口测试地图',
+                name2: '来自前端的老河口测试地图',
+                author: '姚志武',
+                detail: '老河口测试地图，老河口测试地图',
+                detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
+                tagName: '城管'
+            });
             // finishCreateMap();
 
 
@@ -159,6 +161,25 @@
                         name: vm.doc.name
                     }
                 }));
+            }
+
+            function getUserGdb() {
+                Data.getUserGdbInfo({
+                    userId: vm.doc.userId
+                }).then(function (res) {
+                    if (res.status === 200) {
+                        vm.gdbs = [];
+                        res.data.result.map(function (gdb) {
+                            vm.gdbs.push({
+                                name: gdb.Name,
+                                gdbPath: gdb.GdbPath
+                            });
+                        });
+                        console.log(vm.gdbs[0]);
+                    } else {
+                        // Todo: 创建用户的gdb
+                    }
+                });
             }
 
             function getMapInfo() {

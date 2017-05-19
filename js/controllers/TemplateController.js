@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('TemplateController', ['$scope', 'Doc', 'URL_CFG', function ($scope, Doc, URL_CFG) {
+        .controller('TemplateController', ['$scope', '$rootScope', 'Doc', 'URL_CFG', function ($scope, $rootScope, Doc, URL_CFG) {
             var vm = $scope.vm = {
                 templates: [],
                 pagination: {
@@ -19,6 +19,22 @@
 
             $scope.pageChanged = function () {
                 getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Templete");
+            };
+
+            $scope.preview = function (data) {
+                console.log(data);
+                $rootScope.$broadcast('mask:show', {
+                    showMask: true,
+                    template: '<map-panel></map-panel>',
+                    overlay: {
+                        title: data.title,
+                        docId: data.id,
+                        userId: 0,
+                        name: data.title,
+                        typeMapDoc: 'Templete',
+                        typeResouce: 'Public'
+                    }
+                })
             };
 
             getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Templete");
