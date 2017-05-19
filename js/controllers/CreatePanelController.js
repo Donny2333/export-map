@@ -26,9 +26,11 @@
 
             $scope.create = function () {
                 Doc.create(vm.overlay.doc).then(function (res) {
+                    console.log(res.data);
                     var value = res.data.result;
                     vm.overlay.create = false;
                     vm.showMask = false;
+                    $rootScope.$broadcast('doc:change');
                     $rootScope.$broadcast('doc:open', {
                         docId: value.Id,
                         userId: value.UserId,
@@ -39,6 +41,7 @@
                         detail2: value.Detail2,
                         tagName: value.TagName
                     });
+                    layer.msg('地图创建成功', {icon: 1});
                 });
             };
 

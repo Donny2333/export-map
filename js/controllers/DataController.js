@@ -102,14 +102,7 @@
                         addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, data.Id);
                     }
                 } else {
-                    $rootScope.$broadcast('mask:show', {
-                        showMask: true,
-                        template: '<alert-panel></alert-panel>',
-                        overlay: {
-                            title: "警告",
-                            content: "无可用文档文档,无法添加数据"
-                        }
-                    });
+                    layer.alert('无打开文档，数据添加失败');
                 }
             };
 
