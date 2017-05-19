@@ -510,6 +510,10 @@ ul, li, a {
     background-color: #e6ecff;
 }
 
+.layer-symbol {
+    margin-left: 30px;
+}
+
 /*.layer-expand {*/
 /*position: relative;*/
 /*!*display: inline-block;*!*/

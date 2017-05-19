@@ -1,4 +1,4 @@
-<div class="content-page">
+<div class="content-page" xmlns:c="http://www.w3.org/1999/html">
     <ul class="layer-list">
         <li class="layer-item layer-root" ng-repeat="layer in vm.layers" ng-class="{leaf: !layer.subLayerIds}"
             ng-include="'layer-list.html'"></li>
@@ -13,31 +13,26 @@
 
     <script id="layer-list.html" type="text/ng-template">
         <div>
-        <div class="layer-ionic" ng-show="layer.showSelf" >
-            <div class="layer-expand" ng-if="layer.subLayerIds">
-                <input id="{{'layer-ex-' + layer.id}}" class="layerExpand" type="checkbox">
-                <label for="{{'layer-ex-' + layer.id}}" ng-click="expandLayer(layer)"></label>
-            </div>
-            <div class="layer-input" >
-                <input id="{{'layer-' + layer.id}}" class="layerCheckbox" ng-class="{halfChecked: false}"
-                       ng-model="layer.defaultVisibility"  type="checkbox" >
-                <label for="{{'layer-' + layer.id}}" ng-click="hideLayer(vm.layers,layer)"
-                       ng-class="{lchecked: layer.ischeck===1, lhalfChecked: layer.ischeck===3, lunCheck: layer.ischeck===2}"></label>
-            </div>
-            <div class="layer-name" >
-                <span>{{layer.name}}</span>
-                <div class="layer-buttons" ng-if="!layer.subLayerIds" ng-include="'layer-buttons.html'"></div>
+            <div class="layer-ionic" ng-show="layer.showSelf">
+                <div class="layer-expand" ng-if="layer.subLayerIds">
+                    <input id="{{'layer-ex-' + layer.id}}" class="layerExpand" type="checkbox">
+                    <label for="{{'layer-ex-' + layer.id}}" ng-click="expandLayer(layer)"></label>
+                </div>
+                <div class="layer-input">
+                    <input id="{{'layer-' + layer.id}}" class="layerCheckbox" ng-class="{halfChecked: false}"
+                           ng-model="layer.defaultVisibility" type="checkbox">
+                    <label for="{{'layer-' + layer.id}}" ng-click="hideLayer(vm.layers,layer)"
+                           ng-class="{lchecked: layer.ischeck===1, lhalfChecked: layer.ischeck===3, lunCheck: layer.ischeck===2}"></label>
+                </div>
+                <div class="layer-name">
+                    <span>{{layer.name}}</span>
+                    <div class="layer-buttons" ng-if="!layer.subLayerIds" ng-include="'layer-buttons.html'"></div>
+                </div>
             </div>
         </div>
-        </div>
-        <div ng-show="layer.showPreview"  class="layer-preview-btn" ng-if="!layer.subLayerIds" ng-include="'layer-preview-btn.html'">
-        </div>
-        <div class="layer-children"  ng-if="layer.subLayerIds" ng-include="'layer-tree.html'"></div>
-
-    </script>
-
-    <script id="layer-preview-btn.html" type="text/ng-template">
-    <img  width="50px" height="50px" ng-src={{imgUrl}} >
+        <img class="layer-symbol" ng-show="layer.showPreview" ng-if="!layer.subLayerIds" width="50px" height="50px"
+             ng-src={{imgUrl}}>
+        <div class="layer-children" ng-if="layer.subLayerIds" ng-include="'layer-tree.html'"></div>
     </script>
 
 
@@ -53,13 +48,13 @@
                 <li class="menu-item">上移</li>
                 <li class="menu-item">下移</li>
                 <li class="menu-item">重命名</li>
-                <li class="menu-item">隐藏图层</li>
-                <li class="menu-item">删除图层</li>
+                <li class="menu-item" ng-show="layer.ischeck===1" ng-click="hideLayer(vm.layers,layer)"> 隐藏图层</li>
+                <li class="menu-item" ng-show="layer.ischeck===2" ng-click="hideLayer(vm.layers,layer)"> 显示图层</li>
+                <li class="menu-item" ng-click="deleteLayer(layer)">删除图层</li>
                 <li class="menu-item">查看信息</li>
             </ul>
         </a>
     </script>
-
 
 
 </div>
