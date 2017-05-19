@@ -11,7 +11,7 @@
             };
 
             var extent = [12349186.0111133, 3765310.49379061, 12541939.221565, 3874205.11961953];
-            var map=null;
+            var map = null;
             // var map = new ol.Map({
             //     controls: ol.control.defaults().extend([
             //         new ol.control.ScaleLine()
@@ -104,23 +104,18 @@
                 //     detail2: value.detail2,
                 //     tagName: value.tagName
                 // };
-                vm.doc =value;
-                console.log(vm.doc );
+                vm.doc = value;
+                console.log(vm.doc);
                 // vm.doc.docId=44;///地图文档编号
                 // vm.doc.userId=1;///地图文档用户
                 // vm.doc.name="老河口测试地图";///地图文档名称
-                extent = [parseFloat(vm.doc.xmin) ,parseFloat( vm.doc.ymin), parseFloat(vm.doc.xmax),parseFloat(vm.doc.ymax)];
-                initMap( vm.doc.mapServerPath,extent);
+                extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
+                initMap(vm.doc.mapServerPath, extent);
                 //initMap(URL_CFG.api + 'MapService.svc/Export',extent);
+                getUserGdb();
                 getMapInfo();
             });
 
-            /**
-             * 监听"文档关闭"事件
-             */
-            $scope.$on('doc:close', function (event, value) {
-                // Todo: save close
-            });
 
             /**
              * 监听"文档保存"事件，保存文档
@@ -133,7 +128,6 @@
              * 监听"图层改变"事件，如有图层改变，重新获取图层列表信息
              */
             $scope.$on('layer:change', function (event, value) {
-                console.log('layer:change');
                 getMapInfo();
             });
 
@@ -158,13 +152,7 @@
             // finishCreateMap();
 
 
-            function initMap(url,extent) {
-                // console.log("wxl");
-                // console.log(url);
-                // console.log(extent);
-                // console.log( vm.doc.docId);
-                // console.log(vm.doc.userId);
-                // console.log(vm.doc.name);
+            function initMap(url, extent) {
                 map = new ol.Map({
                     controls: ol.control.defaults().extend([
                         new ol.control.ScaleLine()
