@@ -24,7 +24,7 @@
                     $scope.vm = {
                         showMask: true,
                         overlay: value.overlay,
-                        template: value.template.length ? value.template : $scope.vm.template,
+                        template: value.template.length ? value.template : $scope.vm.template
                     };
                 }
             });

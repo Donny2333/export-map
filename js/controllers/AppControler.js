@@ -121,10 +121,9 @@
                     })
                 });
                 map.getLayers().item(0).setSource(new ol.source.ImageWMS({
-                    url:url,
+                    url: url,
                     attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
-                    //imageExtent: map.getView().calculateExtent(),
-                    imageExtent: extent,
+                    imageExtent: map.getView().calculateExtent(),
                     params: {
                         docId: vm.doc.docId,
                         userId: vm.doc.userId,
@@ -132,6 +131,7 @@
                     }
                 }));
             }
+
             function getMapInfo() {
                 Doc.getMapInfo({
                     docId: vm.doc.docId,

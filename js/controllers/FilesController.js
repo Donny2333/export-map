@@ -66,7 +66,8 @@
                 //     { id: 32, pId: 3, name: "叶子节点3 - 2", t: "唉，随便点我吧" },
                 //     { id: 33, pId: 3, name: "叶子节点3 - 3", t: "唉，随便点我吧" }
                 // ]
-            }
+            };
+
             $scope.pageChanged = function () {
                 getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Public", "");
             };

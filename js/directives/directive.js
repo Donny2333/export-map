@@ -101,4 +101,14 @@
             }
         })
 
+        .directive('createPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/createPanel.html',
+                controller: 'CreatePanelController'
+            }
+        })
+
 })(angular);
