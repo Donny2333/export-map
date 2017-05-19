@@ -13,8 +13,8 @@
     </ul>
     <div class="method">
         <a ng-click="createOrClose()" class="btn-blue">{{vm.doc.docId ? '关闭文档' : '新建地图'}}</a>
-        <a ng-if="vm.doc.docId" class="btn-blue">保存</a>
-        <a ng-if="vm.doc.docId" class="btn-blue">共享</a>
+        <a ng-click="save()" ng-if="vm.doc.docId" class="btn-blue">保存</a>
+        <a ng-click="publish()" ng-if="vm.doc.docId" class="btn-blue">发布</a>
     </div>
 </div>
 <div class="main">

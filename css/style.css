@@ -557,6 +557,7 @@ ul, li, a {
     padding: 5px 0;
     z-index: 10;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    background: white;
 }
 
 .popup-menu.showPopup {
@@ -673,6 +674,10 @@ ul, li, a {
     display: flex;
     flex-direction: column;
     background-color: white;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
 
 .symbol-title {
@@ -782,6 +787,10 @@ ul, li, a {
     display: flex;
     flex-direction: column;
     background-color: white;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
 
 .map-title {
@@ -814,6 +823,10 @@ ul, li, a {
     background-color: white;
     height: 480px;
     width: 800px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
 
 .tpls-choose {
@@ -821,6 +834,10 @@ ul, li, a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
 
 .tpls-choose > .top,
@@ -946,21 +963,4 @@ ul, li, a {
 
 .create > .bottom > button:first-child {
     margin-right: 30px;
-}
-
-/******************* alert-panel **********************/
-
-.alert-panel,
-.confirm-panel {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    height: 120px;
-    width: 200px;
-}
-
-.alert-title {
-    /*height: 80px;*/
-    border-bottom: 1px solid #dddddd;
 }

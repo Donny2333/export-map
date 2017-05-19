@@ -125,6 +125,10 @@
                     var url = URL_CFG.api + 'MapService.svc/DeleteMapDoc';
                     return Http.post(url, param);
                 },
+                save: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/SaveMapDoc';
+                    return Http.post(url, param);
+                },
                 close: function (param) {
                     var url = '';
                     return Http.post(url, param);
