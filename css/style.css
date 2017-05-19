@@ -947,3 +947,20 @@ ul, li, a {
 .create > .bottom > button:first-child {
     margin-right: 30px;
 }
+
+/******************* alert-panel **********************/
+
+.alert-panel,
+.confirm-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 120px;
+    width: 200px;
+}
+
+.alert-title {
+    /*height: 80px;*/
+    border-bottom: 1px solid #dddddd;
+}

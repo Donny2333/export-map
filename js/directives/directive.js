@@ -111,4 +111,24 @@
             }
         })
 
+        .directive('alertPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/alertPanel.html',
+                controller: 'AlertPanelController'
+            }
+        })
+
+        .directive('confirmPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/confirmPanel.html',
+                controller: 'ConfirmPanelController'
+            }
+        })
+
 })(angular);

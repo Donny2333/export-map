@@ -4,7 +4,7 @@
 (function (angular) {
     'use strict';
 
-    angular.module('export-map.controllers', [])
+    angular.module('export-map.controllers')
         .controller('AppController', ['$scope', '$rootScope', '$state', 'Router', 'Doc', 'Data', 'URL_CFG', function ($scope, $rootScope, $state, Router, Doc, Data, URL_CFG) {
             var vm = $scope.vm = {
                 menus: Router.list()
@@ -34,7 +34,8 @@
             $scope.createOrClose = function () {
                 if (vm.doc && vm.doc.docId) {
                     // 关闭文档
-
+                    vm.doc = {};
+                    map.removeLayer(map.getLayers().item(0));
                 } else {
                     // 新建文档
                     Doc.list({

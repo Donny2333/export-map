@@ -102,8 +102,14 @@
                         addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, data.Id);
                     }
                 } else {
-                    // Todo: 显示"无打开文档"弹出窗口
-                    console.log('no doc');
+                    $rootScope.$broadcast('mask:show', {
+                        showMask: true,
+                        template: '<alert-panel></alert-panel>',
+                        overlay: {
+                            title: "警告",
+                            content: "无可用文档文档,无法添加数据"
+                        }
+                    });
                 }
             };
 
