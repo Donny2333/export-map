@@ -86,6 +86,11 @@
                     name: $scope.$parent.vm.doc.name,
                     layerIndex: layer.id
                 }).then(function (res) {
+                    if(res.data.status==="ok"){
+                        //刷新内容
+                        console.log(res.data.status)
+                        $scope.$emit('layer:change', {})
+                    }
 
                 })
             }
