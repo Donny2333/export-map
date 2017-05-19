@@ -13,7 +13,25 @@
                 getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
             };
 
-            $scope.preview = function () {
+            $scope.change = function (type) {
+                if (type === 0) {
+                    if (vm.select.PointColor.indexOf("rgb") >= 0) {
+                        vm.select.PointColor = vm.select.PointColor.substr(4, vm.select.PointColor.length - 5);
+                    }
+                }
+                if (type === 1) {
+                    if (vm.select.LineColor.indexOf("rgb") >= 0) {
+                        vm.select.LineColor = vm.select.LineColor.substr(4, vm.select.LineColor.length - 5);
+                    }
+                }
+                if (type === 2) {
+                    if (vm.select.FillColor.indexOf("rgb") >= 0) {
+                        vm.select.FillColor = vm.select.FillColor.substr(4, vm.select.FillColor.length - 5);
+                    }
+                }
+            };
+
+            $scope.preview = function (colorObject) {
                 var param = _.merge(_.pick(vm.select, [
                     'StylePath',
                     'SymbolType',
@@ -31,7 +49,7 @@
                 Symbol.getSymbolPreview(param).then(function (res) {
                     if (res.status === 200) {
                         console.log(res.data);
-                        vm.select.Preview = 'data:image/bmp;base64,' + res.data.result;
+                        vm.select.Preview = res.data.result;
                     }
                 })
             };
@@ -50,7 +68,5 @@
                     }
                 })
             }
-
-
         }])
 })(angular);
