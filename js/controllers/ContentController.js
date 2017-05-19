@@ -5,8 +5,10 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('ContentController', ['$scope', function ($scope) {
+        .controller('ContentController', ['$scope', '$rootScope', 'Symbol', function ($scope, $rootScope, Symbol) {
             // console.log($scope.$parent.vm.layers);
+
+
             $scope.expandLayer = function (layer) {
                 // console.log(layer);
                 if (layer.showChild) {
@@ -20,7 +22,7 @@
                 }
                 layer.showChild = !layer.showChild;
             };
-
+            $scope.imgUrl="";
             //check状态
             $scope.hideLayer = function (layers, layer) {
                 // console.log(layer);
@@ -33,6 +35,50 @@
                 findChindById(layers, layer.pid);
 
             };
+
+            console.log($scope.$parent.vm.doc);
+
+            $scope.showPreview = function (layer) {
+                console.log("显示"+layer)
+                layer.showPreview = !layer.showPreview;
+                Symbol.GetLayerSymbolInfo({
+                    docId: $scope.$parent.vm.doc.docId,
+                    userId: $scope.$parent.vm.doc.userId,
+                    name: $scope.$parent.vm.doc.name,
+                    layerIndex: layer.id
+                }).then(function (res) {
+                    console.log(res.data.result.renderSymbolInfo.SymbolPreview);
+                    $scope.imgUrl=res.data.result.renderSymbolInfo.SymbolPreview;
+                })
+            }
+
+
+            $scope.changePreview=function () {
+                Symbol.getSymbolItemListFromDB({
+                    styleId: 1,
+                    pageNo: 0,
+                    pageSize: 16
+                }).then(function (res) {
+                    if (res.status === 200) {
+                        $rootScope.$broadcast('mask:show', {
+                            showMask: true,
+                            template: '<symbol-panel></symbol-panel>',
+                            overlay: {
+                                styleId: 1,
+                                title: "test",
+                                data: res.data.result,
+                                pagination: {
+                                    totalItems: res.data.count,
+                                    maxSize: 5,
+                                    pageNo: 1,
+                                    pageSize: 16,
+                                    maxPage: Math.ceil(res.data.count / 10)
+                                }
+                            }
+                        })
+                    }
+                })
+            }
 
             //父节点随子节点状态改变而变化
             function findChindById(layers, pid) {

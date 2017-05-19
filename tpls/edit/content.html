@@ -12,6 +12,7 @@
     </script>
 
     <script id="layer-list.html" type="text/ng-template">
+        <div>
         <div class="layer-ionic" ng-show="layer.showSelf" >
             <div class="layer-expand" ng-if="layer.subLayerIds">
                 <input id="{{'layer-ex-' + layer.id}}" class="layerExpand" type="checkbox">
@@ -23,18 +24,29 @@
                 <label for="{{'layer-' + layer.id}}" ng-click="hideLayer(vm.layers,layer)"
                        ng-class="{lchecked: layer.ischeck===1, lhalfChecked: layer.ischeck===3, lunCheck: layer.ischeck===2}"></label>
             </div>
-            <div class="layer-name">
+            <div class="layer-name" >
                 <span>{{layer.name}}</span>
                 <div class="layer-buttons" ng-if="!layer.subLayerIds" ng-include="'layer-buttons.html'"></div>
             </div>
         </div>
+        </div>
+        <div ng-show="layer.showPreview"  class="layer-preview-btn" ng-if="!layer.subLayerIds" ng-include="'layer-preview-btn.html'">
+        </div>
         <div class="layer-children"  ng-if="layer.subLayerIds" ng-include="'layer-tree.html'"></div>
+
     </script>
+
+    <script id="layer-preview-btn.html" type="text/ng-template">
+    <img  width="50px" height="50px" ng-src={{imgUrl}} >
+    </script>
+
 
     <script id="layer-buttons.html" type="text/ng-template">
         <a class="preview-btn" ng-click="showPreview(layer)"><img src="../../images/legend.png"></a>
-        <a class="table-btn"><img src="../../images/table.png"></a>
-        <a class="style-btn"><img src="../../images/style.png"></a>
+        <a class="table-btn"><img src="../../images/table.png">
+
+        </a>
+        <a class="style-btn" ng-click="changePreview()"><img src="../../images/style.png"></a>
         <a class="" ng-click="list.showPopupMenu = !list.showPopupMenu">
             <img src="../../images/more.png">
             <ul class="popup-menu" ng-class="{showPopup: list.showPopupMenu}">
@@ -47,4 +59,7 @@
             </ul>
         </a>
     </script>
+
+
+
 </div>

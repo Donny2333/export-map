@@ -125,6 +125,7 @@
                 layer.showChild = true;   //是否显示子节点
                 layer.showSelf = true; //是否显示自己
                 layer.ischeck = 1;  //1.选中，2.未选中,3.子节点未全部选中
+                layer.showPreview=false;
                 // console.log(layer);
                 if (layer.subLayerIds != null && layer.subLayerIds.length != 0) {
                     for (var i = 0; i < layer.subLayerIds.length; i++) {
