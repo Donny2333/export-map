@@ -130,10 +130,39 @@
             });
 
             /**
-             * 监听"文档更新"事件，如有图层更新，则重新获取图层列表信息
+             * 监听"图层更新"事件，如有图层更新，则重新获取图层列表信息
              */
             $scope.$on('layer:change', function (event, value) {
+                console.log(value)
                 getMapInfo();
+                map.getLayers().item(0).setSource(new ol.source.ImageWMS({
+                    url: URL_CFG.api + 'MapService.svc/Export',
+                    attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
+                    imageExtent: map.getView().calculateExtent(),
+                    params: {
+                        docId: vm.doc.docId,
+                        userId: vm.doc.userId,
+                        name: vm.doc.name
+                    }
+                }));
+            });
+
+            /**
+             * 监听"地图更新"事件
+             */
+            $scope.$on('map:change', function (event, value) {
+                console.log(value);
+                map.getLayers().item(0).setSource(new ol.source.ImageWMS({
+                    url: URL_CFG.api + 'MapService.svc/Export',
+                    attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
+                    imageExtent: map.getView().calculateExtent(),
+                    params: {
+                        docId: vm.doc.docId,
+                        userId: vm.doc.userId,
+                        name: vm.doc.name,
+                        LAYERS: value.layers
+                    }
+                }));
             });
 
             /**
