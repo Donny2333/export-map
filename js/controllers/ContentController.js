@@ -33,6 +33,14 @@
                     cancelCheck(layer);
                 }
                 findChindById(layers, layer.pid);
+                show_layers = [];
+                chooseChecked($scope.$parent.vm.layers);
+                console.log("显示" + show_layers)
+
+                $scope.$emit('map:change', {
+                    layers: show_layers
+                })
+
             };
 
             console.log($scope.$parent.vm.doc);
@@ -90,14 +98,31 @@
                     name: $scope.$parent.vm.doc.name,
                     layerIndex: layer.id
                 }).then(function (res) {
-                    if(res.data.status==="ok"){
+                    if (res.data.status === "ok") {
                         //刷新内容
-                        console.log(res.data.status)
-                        $scope.$emit('layer:change', {})
+                        show_layers = [];
+                        chooseChecked($scope.$parent.vm.layers);
+                        console.log(show_layers);
+                        $scope.$emit('layer:change', {
+                            layers: show_layers
+                        })
                     }
 
                 })
             };
+            var show_layers = [];
+
+            function chooseChecked(layers) {
+                var i;
+                for (i = 0; i < layers.length; i++) {
+                    if (layers[i].ischeck === 1 && layers[i].subLayerIds === null) {
+                        show_layers.push(layers[i].id);
+                    }
+                    if (layers[i].subLayerIds !== null && layers[i].subLayerIds.length !== 0) {
+                        chooseChecked(layers[i].subLayerIds)
+                    }
+                }
+            }
 
 
             //父节点随子节点状态改变而变化
