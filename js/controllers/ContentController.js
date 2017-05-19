@@ -20,7 +20,9 @@
                 }
                 layer.showChild = !layer.showChild;
             };
+
             $scope.imgUrl = "";
+
             //check状态
             $scope.hideLayer = function (layers, layer) {
                 // console.log(layer);
@@ -31,13 +33,13 @@
                     cancelCheck(layer);
                 }
                 findChindById(layers, layer.pid);
-
             };
 
             console.log($scope.$parent.vm.doc);
 
             $scope.showPreview = function (layer) {
-                console.log("显示" + layer)
+                console.log("显示" + layer);
+
                 layer.showPreview = !layer.showPreview;
                 Symbol.GetLayerSymbolInfo({
                     docId: $scope.$parent.vm.doc.docId,
@@ -45,11 +47,13 @@
                     name: $scope.$parent.vm.doc.name,
                     layerIndex: layer.id
                 }).then(function (res) {
+                    // if() {
+                    //
+                    // }
                     console.log(res.data.result);
-                    // $scope.imgUrl = res.data.result.renderSymbolInfo.SymbolPreview;
+                    $scope.imgUrl = res.data.result.renderSymbolInfo.SymbolPreview;
                 })
-            }
-
+            };
 
             $scope.changePreview = function () {
                 Symbol.getSymbolItemListFromDB({
@@ -76,10 +80,10 @@
                         })
                     }
                 })
-            }
+            };
 
-            $scope.deleteLayer=function (layer) {
-                console.log("删除")
+            $scope.deleteLayer = function (layer) {
+                console.log("删除");
                 Symbol.RemoveLayerFromMap({
                     docId: $scope.$parent.vm.doc.docId,
                     userId: $scope.$parent.vm.doc.userId,
@@ -93,8 +97,7 @@
                     }
 
                 })
-            }
-
+            };
 
 
             //父节点随子节点状态改变而变化

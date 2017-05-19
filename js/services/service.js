@@ -148,6 +148,10 @@
                 removeLayerFromMap: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/RemoveLayerFromMap';
                     return Http.post(url, param);
+                },
+                publish: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/PublishDoc';
+                    return Http.post(url, param);
                 }
             }
         }])
@@ -172,32 +176,32 @@
         .factory("Symbol", ["Http", 'URL_CFG', function (Http, URL_CFG) {
             return {
                 getStyleList: function (param) {
-                    var url = URL_CFG.api +'MapSytleService.svc/GetStyleList';
+                    var url = URL_CFG.api + 'MapSytleService.svc/GetStyleList';
                     return Http.post(url, param);
                 },
                 getSymbolItemListFromDB: function (param) {
-                    var url = URL_CFG.api +'MapSytleService.svc/GetSymbolItemListFromDB';
+                    var url = URL_CFG.api + 'MapSytleService.svc/GetSymbolItemListFromDB';
                     return Http.post(url, param);
                 },
                 getSymbolPreview: function (param) {
-                    var url = URL_CFG.api +'MapSytleService.svc/GetSymbolPreview';
+                    var url = URL_CFG.api + 'MapSytleService.svc/GetSymbolPreview';
                     return Http.post(url, param);
                 },
                 GetLayerSymbolInfo: function (param) {
-                    var url = URL_CFG.api +'MapService.svc/GetLayerSymbolInfo';
+                    var url = URL_CFG.api + 'MapService.svc/GetLayerSymbolInfo';
                     return Http.post(url, param);
                 },
                 RemoveLayerFromMap: function (param) {
-                    var url = URL_CFG.api +'MapService.svc/RemoveLayerFromMap';
+                    var url = URL_CFG.api + 'MapService.svc/RemoveLayerFromMap';
                     return Http.post(url, param);
                 }
             }
         }])
 
-        .factory("AletDiag",["$http","$q", "$cookieStore", "$location","$modal",
-            function ($http, $q, $cookieStore, $location,$modal) {
+        .factory("AletDiag", ["$http", "$q", "$cookieStore", "$location", "$modal",
+            function ($http, $q, $cookieStore, $location, $modal) {
                 return {
-                    openConfirmWindow: function(modalTitle,modalContent,modalInstance) {
+                    openConfirmWindow: function (modalTitle, modalContent, modalInstance) {
                         console.log("122");
                         var deferred = $q.defer();
                         /*
@@ -206,23 +210,23 @@
                          */
                         var confirmModal = $modal.open({
                             backdrop: 'static',
-                            templateUrl : 'template/modal/confirmModelTemplate.html',  // 指向确认框模板
-                            controller : 'ConfirmCtrl',// 初始化模态控制器
+                            templateUrl: 'template/modal/confirmModelTemplate.html',  // 指向确认框模板
+                            controller: 'ConfirmCtrl',// 初始化模态控制器
                             windowClass: "confirmModal",// 自定义modal上级div的class
-                            size : 'sm', //大小配置
-                            resolve : {
-                                data : function(){
-                                    return {modalTitle: modalTitle,modalContent: modalContent};//surgeonSug: $scope.surgeonSug,
+                            size: 'sm', //大小配置
+                            resolve: {
+                                data: function () {
+                                    return {modalTitle: modalTitle, modalContent: modalContent};//surgeonSug: $scope.surgeonSug,
                                 }
                             }
                         });
                         // 处理modal关闭后返回的数据
-                        confirmModal.result.then(function() {
-                            if(!!modalInstance) {
+                        confirmModal.result.then(function () {
+                            if (!!modalInstance) {
                                 modalInstance.dismiss('cancel');
                             }
                             deferred.resolve();
-                        },function(){
+                        }, function () {
                         });
                         return deferred.promise;
                     }
