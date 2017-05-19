@@ -30,8 +30,14 @@
                 </div>
             </div>
         </div>
-        <img class="layer-symbol" ng-show="layer.showPreview" ng-if="!layer.subLayerIds" width="50px" height="50px"
-             ng-src={{imgUrl}}>
+        <ul class="layer-symbol-list">
+            <li class="layer-symbol-item" ng-if="!layer.subLayerIds&&layer.showPreview"
+                ng-repeat="preview in layer.previews">
+                <img class="layer-symbol" width="20" height="20"
+                     ng-src={{preview.symbolPreview}}>
+                <span>{{preview.value}}</span>
+            </li>
+        </>
         <div class="layer-children" ng-if="layer.subLayerIds" ng-include="'layer-tree.html'"></div>
     </script>
 
@@ -41,7 +47,7 @@
         <a class="table-btn"><img src="../../images/table.png">
 
         </a>
-        <a class="style-btn" ng-click="changePreview()"><img src="../../images/style.png"></a>
+        <a class="style-btn" ng-click="changePreview(layer)"><img src="../../images/style.png"></a>
         <a class="" ng-click="list.showPopupMenu = !list.showPopupMenu">
             <img src="../../images/more.png">
             <ul class="popup-menu" ng-class="{showPopup: list.showPopupMenu}">

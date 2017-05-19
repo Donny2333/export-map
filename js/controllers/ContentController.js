@@ -21,8 +21,6 @@
                 layer.showChild = !layer.showChild;
             };
 
-            $scope.imgUrl = "";
-
             //check状态
             $scope.hideLayer = function (layers, layer) {
                 // console.log(layer);
@@ -38,48 +36,57 @@
             console.log($scope.$parent.vm.doc);
 
             $scope.showPreview = function (layer) {
-                console.log("显示" + layer);
-
                 layer.showPreview = !layer.showPreview;
-                Symbol.GetLayerSymbolInfo({
-                    docId: $scope.$parent.vm.doc.docId,
-                    userId: $scope.$parent.vm.doc.userId,
-                    name: $scope.$parent.vm.doc.name,
-                    layerIndex: layer.id
-                }).then(function (res) {
-                    // if() {
-                    //
-                    // }
-                    console.log(res.data.result);
-                    $scope.imgUrl = res.data.result.renderSymbolInfo.SymbolPreview;
-                })
+                if (!layer.previews) {
+                    getLayerSymbols(layer);
+                }
+
             };
 
-            $scope.changePreview = function () {
-                Symbol.getSymbolItemListFromDB({
-                    styleId: 1,
-                    pageNo: 0,
-                    pageSize: 16
-                }).then(function (res) {
-                    if (res.status === 200) {
+            $scope.changePreview = function (layer) {
+                if (!layer.previews) {
+                    getLayerSymbols(layer);
+                }
+                switch (layer.symbolType) {
+                    case 'Unique values':
                         $rootScope.$broadcast('mask:show', {
                             showMask: true,
-                            template: '<symbol-panel></symbol-panel>',
-                            overlay: {
-                                styleId: 1,
-                                title: "test",
-                                data: res.data.result,
-                                pagination: {
-                                    totalItems: res.data.count,
-                                    maxSize: 5,
-                                    pageNo: 1,
-                                    pageSize: 16,
-                                    maxPage: Math.ceil(res.data.count / 10)
-                                }
+                            template: '<unique-panel></unique-panel>',
+                            overlay: {}
+                        });
+                        break;
+
+                    case 'Single symbol':
+                        Symbol.getSymbolItemListFromDB({
+                            styleId: 1,
+                            pageNo: 0,
+                            pageSize: 16
+                        }).then(function (res) {
+                            if (res.status === 200) {
+                                $rootScope.$broadcast('mask:show', {
+                                    showMask: true,
+                                    template: '<symbol-panel></symbol-panel>',
+                                    overlay: {
+                                        styleId: 1,
+                                        title: "test",
+                                        data: res.data.result,
+                                        select: {},
+                                        pagination: {
+                                            totalItems: res.data.count,
+                                            maxSize: 5,
+                                            pageNo: 1,
+                                            pageSize: 16,
+                                            maxPage: Math.ceil(res.data.count / 10)
+                                        }
+                                    }
+                                })
                             }
-                        })
-                    }
-                })
+                        });
+                        break;
+
+                    default:
+                        break;
+                }
             };
 
             $scope.deleteLayer = function (layer) {
@@ -94,6 +101,54 @@
                 })
             };
 
+
+            function getLayerSymbols(layer) {
+                Symbol.GetLayerSymbolInfo({
+                    docId: $scope.$parent.vm.doc.docId,
+                    userId: $scope.$parent.vm.doc.userId,
+                    name: $scope.$parent.vm.doc.name,
+                    layerIndex: layer.id
+                }).then(function (res) {
+                    if (res.status === 200 && res.data.status === 'ok') {
+                        console.log(res.data);
+                        layer.previews = [];
+                        layer.symbolType = res.data.result.Type;
+                        switch (res.data.result.Type) {
+                            case 'Unique values':
+                                if (res.data.result.RenderSymbol.length) {
+                                    res.data.result.RenderSymbol.map(function (symbol) {
+                                        layer.previews.push({
+                                            label: symbol.Label,
+                                            symbolPreview: symbol.SymbolPreview,
+                                            symbolInfo: symbol.SymbolInfo,
+                                            value: symbol.Value
+                                        })
+                                    });
+                                } else {
+                                    layer.previews.push(res.data.result.renderSymbol);
+                                }
+
+                                break;
+
+                            case 'Single symbol':
+                                var symbol = res.data.result.RenderSymbolInfo;
+                                layer.previews.push({
+                                    label: symbol.Label,
+                                    symbolPreview: symbol.SymbolPreview,
+                                    symbolInfo: symbol.SymbolInfo,
+                                    value: symbol.Value
+                                });
+                                console.log(symbol);
+                                break;
+
+                            default:
+                                break;
+                        }
+                        console.log(layer.previews);
+                    }
+
+                })
+            }
 
             //父节点随子节点状态改变而变化
             function findChindById(layers, pid) {

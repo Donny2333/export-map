@@ -111,4 +111,14 @@
             }
         })
 
+        .directive('uniquePanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/uniquePanel.html',
+                controller: 'UniquePanelController'
+            }
+        })
+
 })(angular);
