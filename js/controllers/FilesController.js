@@ -6,7 +6,7 @@
 
     angular.module('export-map.controllers')
 
-        .controller('FilesController', ['$scope', 'Doc','URL_CFG', function ($scope, Doc, URL_CFG) {
+        .controller('FilesController', ['$scope','$rootScope', 'Doc','URL_CFG', function ($scope,$rootScope,Doc, URL_CFG) {
             var vm = $scope.vm = {
                 mapDoc: [],
                 // setting: {
@@ -97,6 +97,8 @@
                     ymin:mapdoc.ymin,
                     xmax:mapdoc.xmax,
                     ymax:mapdoc.ymax,
+                    srcID:mapdoc.srcID,
+                    srcName:mapdoc.srcName,
                     minScale:mapdoc.minScale,
                     maxScale:mapdoc.maxScale,
                     mapType:mapdoc.mapType,
@@ -104,17 +106,39 @@
                     mxdPath:mapdoc.mxdPath
                 });
             };
+            $scope.deleteMap = function (mapdoc) {
+                layer.confirm('您确定要删除该地图文档？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    console.log("1212");
+                    Doc.remove({
+                        docId: mapdoc.id,
+                        userId: mapdoc.userId,
+                        name: mapdoc.title,
+                    }).then(function (res) {
+                        console.log("tttt");
+                        if (res.data.status === "ok") {
+                            layer.msg('地图删除成功', {icon: 1});
+                            getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Users", "");
+                        }
+                        else {
+                            layer.msg('地图删除失败', {icon: 1});
+                        }
+                })}, function(){
+                    layer.close()
+                });
+            }
 
-            getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Public", "");
+            getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Users", "");
 
             function getMapList(pageNo, pageSize, tagName, typeRes, mapType) {
                 Doc.list({
-                    // userId: 1,
+                    userId: 1,
                     pageNo: pageNo,
                     pageNum: pageSize,
                     tagName: tagName || "",
                     typeRes: typeRes || "Public",
-                    mapType: mapType || "MapServer"
+                    //mapType: mapType || "MapServer"
                 }).then(function (res) {
                     if (res.data.status === "ok" && res.data.result) {
                         vm.mapDoc = [];
