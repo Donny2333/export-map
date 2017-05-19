@@ -5,7 +5,7 @@
     "use strict";
 
     var prodURL = 'https://**.***.com/',
-        devURL = 'http://192.168.99.105:9527/',
+        devURL = 'http://192.168.99.61:9526/',
         Urls = {
             Prod_Cfg: {
                 api: prodURL,

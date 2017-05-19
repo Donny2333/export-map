@@ -115,8 +115,8 @@
                 // };
                 vm.menus = Router.list();
                 vm.doc = value;
-                extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
-                initMap(vm.doc.mapServerPath, extent);
+                // extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
+                initMap(URL_CFG.api + 'MapService.svc/Export', extent);
                 getUserGdb();
                 getMapInfo();
             });
