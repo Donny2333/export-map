@@ -263,7 +263,9 @@
                             for (var i = 0; i < vm.layers.length; i++) {
                                 addShowAttribute(vm.layers[i]);
                             }
+                            judgeCheckBox(vm.layers);
                             layer.closeAll('loading');
+                            console.log(res.data.result.layers);
                         }
                     });
                 }
@@ -278,6 +280,26 @@
                         }
                     }
                 }
+
+                function judgeCheckBox(layers) {
+                    for (var i = 0; i < layers.length; i++) {
+                       if(layers[i].defaultVisibility===false){
+                           layers[i].ischeck=2;
+                       } else if(layers[i].defaultVisibility===true&&layers[i].subLayerIds==null){
+                           layers[i].ischeck=1;
+                       }else if(layers[i].defaultVisibility===true&&layers[i].subLayerIds!=null){
+                           layers[i].ischeck=1;
+                           for(var j=0;j<layers[i].subLayerIds.length;j++){
+                                if(layers[i].subLayerIds[j].defaultVisibility==false){
+                                    layers[i].ischeck=3;
+                                    break;
+                                }
+                           }
+                           judgeCheckBox(layers[i].subLayerIds)
+                       }
+                    }
+                }
+
 
                 function finishCreateMap() {
                     vm.mask = false;
