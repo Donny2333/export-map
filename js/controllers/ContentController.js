@@ -70,10 +70,12 @@
                 //         break;
                 //
                 //     case 'Single symbol':
+                console.log(layer);
                 Symbol.getSymbolItemListFromDB({
                     styleId: 1,
                     pageNo: 0,
-                    pageSize: 16
+                    pageSize: 16,
+                    geometryType: layer.geometryType
                 }).then(function (res) {
                     if (res.status === 200) {
                         var select;

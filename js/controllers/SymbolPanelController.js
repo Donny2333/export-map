@@ -17,21 +17,11 @@
                 getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
             };
 
-            $scope.change = function (type) {
-                if (type === 0) {
-                    if (vm.overlay.select.PointColor.indexOf("rgb") >= 0) {
-                        vm.overlay.select.PointColor = vm.overlay.select.PointColor.substr(4, vm.overlay.select.PointColor.length - 5);
-                    }
-                }
-                if (type === 1) {
-                    if (vm.overlay.select.LineColor.indexOf("rgb") >= 0) {
-                        vm.overlay.select.LineColor = vm.overlay.select.LineColor.substr(4, vm.overlay.select.LineColor.length - 5);
-                    }
-                }
-                if (type === 2) {
-                    if (vm.overlay.select.FillColor.indexOf("rgb") >= 0) {
-                        vm.overlay.select.FillColor = vm.overlay.select.FillColor.substr(4, vm.overlay.select.FillColor.length - 5);
-                    }
+            $scope.change = function (value, name) {
+                if (value.indexOf('rgb') >= 0) {
+                    value = value.substr(4, value.length - 5);
+                    vm.overlay.select[name] = value;
+                    console.log(value);
                 }
             };
 
@@ -124,9 +114,9 @@
                                 Label: select.SymbolInfo.RenderSymbolInfo.Label,
                                 SymbolInfo: {
                                     Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
-                                    Width: select.symbolInfo.Width,
+                                    Width: select.LineWidth,
                                     ClassName: "Line Symbols",
-                                    Color: select.symbolInfo.Color,
+                                    Color: select.LineColor,
                                     Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
                                     StylePath: select.StylePath,
                                     SymbolName: select.SymbolName
@@ -144,10 +134,10 @@
                                 Label: select.SymbolInfo.RenderSymbolInfo.Label,
                                 SymbolInfo: {
                                     Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
-                                    OutlineWidth: select.symbolInfo.OutlineWidth,
+                                    OutlineWidth: select.LineWidth,
                                     ClassName: "Fill Symbols",
-                                    OutlineColor: select.symbolInfo.OutlineColor,
-                                    FillColor: select.symbolInfo.FillColor,
+                                    OutlineColor: select.LineColor,
+                                    FillColor: select.FillColor,
                                     Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
                                     StylePath: select.StylePath,
                                     SymbolName: select.SymbolName
@@ -190,7 +180,8 @@
                 Symbol.getSymbolItemListFromDB({
                     styleId: styleId,
                     pageNo: pageNo,
-                    pageSize: pageSize
+                    pageSize: pageSize,
+                    geometryType: vm.overlay.layer && vm.overlay.layer.geometryType
                 }).then(function (res) {
                     if (res.status === 200) {
                         vm.overlay.data = res.data.result;
