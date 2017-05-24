@@ -327,6 +327,7 @@ ul, li, a {
 
 .left-menu > .segment {
     height: 44px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     margin: 0;
