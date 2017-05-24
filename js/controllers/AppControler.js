@@ -273,7 +273,7 @@
                 function addShowAttribute(layer) {
                     layer.showChild = true;     //是否显示子节点
                     layer.showSelf = true;      //是否显示自己
-                    layer.ischeck = 1;          //1.选中, 2.未选中, 3.子节点未全部选中
+                    layer.ischeck = 2;          //1.选中, 2.未选中, 3.子节点未全部选中
                     if (layer.subLayerIds !== null && layer.subLayerIds.length !== 0) {
                         for (var i = 0; i < layer.subLayerIds.length; i++) {
                             addShowAttribute(layer.subLayerIds[i]);
@@ -283,22 +283,32 @@
 
                 function judgeCheckBox(layers) {
                     for (var i = 0; i < layers.length; i++) {
-                       if(layers[i].defaultVisibility===false){
-                           layers[i].ischeck=2;
-                       } else if(layers[i].defaultVisibility===true&&layers[i].subLayerIds==null){
+                      if(layers[i].defaultVisibility===true&&layers[i].subLayerIds==null){
                            layers[i].ischeck=1;
                        }else if(layers[i].defaultVisibility===true&&layers[i].subLayerIds!=null){
-                           layers[i].ischeck=1;
-                           for(var j=0;j<layers[i].subLayerIds.length;j++){
-                                if(layers[i].subLayerIds[j].defaultVisibility==false){
-                                    layers[i].ischeck=3;
-                                    break;
-                                }
-                           }
+                          check=1;
+                           layers[i].ischeck=check;
+                          ischeck(layers[i].subLayerIds)
+                          layers[i].ischeck=check;
                            judgeCheckBox(layers[i].subLayerIds)
                        }
                     }
                 }
+                var check=1;
+                function ischeck(layers) {
+                        for(var i=0;i<layers.length;i++){
+                              if(layers[i].defaultVisibility===false){
+                                  check=3;
+                                  return;
+                              }
+                              if(layers[i].subLayerIds!=null){
+                                  ischeck(layers[i].subLayerIds);
+                              }
+                        }
+                }
+
+
+
 
 
                 function finishCreateMap() {
