@@ -21,13 +21,15 @@
                 if (value.indexOf('rgb') >= 0) {
                     value = value.substr(4, value.length - 5);
                     vm.overlay.select[name] = value;
-                    console.log(value);
                 }
             };
 
             $scope.selectSymbol = function (symbol) {
+                vm.overlay.select = {};
                 var symbolInfo = vm.overlay.select.SymbolInfo || {};
-                vm.overlay.select = symbol;
+                for (var key in symbol) {
+                    vm.overlay.select[key] = symbol[key];
+                }
                 vm.overlay.select.SymbolInfo = symbolInfo;
             };
 
@@ -187,7 +189,10 @@
                         vm.overlay.data = res.data.result;
                         vm.overlay.pagination.totalItems = res.data.count;
                         vm.overlay.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.pagination.pageSize);
-                        vm.overlay.select = vm.overlay.data[0];
+                        vm.overlay.select = {};
+                        for (var key in vm.overlay.data[0]) {
+                            vm.overlay.select[key] = vm.overlay.data[0][key];
+                        }
                         vm.overlay.select.SymbolInfo = symbolInfo;
                     }
                 })

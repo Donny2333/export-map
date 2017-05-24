@@ -11,11 +11,6 @@
                 icon: 'icon-about',
                 name: '图库',
                 sref: 'app.explorer.files'
-            }, {
-                id: 1,
-                icon: 'icon-layers',
-                name: '发布',
-                sref: 'app.explorer.publish'
             }];
 
             $scope.go = function (segment) {

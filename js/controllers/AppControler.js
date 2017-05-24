@@ -151,8 +151,6 @@
                  */
                 $scope.$on('layer:change', function (event, value) {
                     getMapInfo();
-                    map.removeLayer(map.getLayers().item(0));
-                    map.addLayer(new ol.layer.Image());
                     map.getLayers().item(0).setSource(new ol.source.ImageWMS({
                         url: URL_CFG.api + 'MapService.svc/Export',
                         attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
@@ -170,18 +168,29 @@
                  * 监听"地图更新"事件
                  */
                 $scope.$on('map:change', function (event, value) {
-                    console.log(value);
-                    map.getLayers().item(0).setSource(new ol.source.ImageWMS({
-                        url: URL_CFG.api + 'MapService.svc/Export',
-                        attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
-                        imageExtent: map.getView().calculateExtent(),
-                        params: {
-                            docId: vm.doc.docId,
-                            userId: vm.doc.userId,
-                            name: vm.doc.name,
-                            LAYERS: value.layers
-                        }
-                    }));
+                    var loading = layer.load(1, {
+                        shade: [0.1, '#000']
+                    });
+                    Doc.setLayerVisible({
+                        docId: vm.doc.docId,
+                        userId: vm.doc.userId,
+                        name: vm.doc.name,
+                        layerIndex: value.layers,
+                        isVisible: true
+                    }).then(function (res) {
+                        layer.closeAll('loading');
+                        map.getLayers().item(0).setSource(new ol.source.ImageWMS({
+                            url: URL_CFG.api + 'MapService.svc/Export',
+                            attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
+                            imageExtent: map.getView().calculateExtent(),
+                            params: {
+                                docId: vm.doc.docId,
+                                userId: vm.doc.userId,
+                                name: vm.doc.name,
+                                random: uuid.create()
+                            }
+                        }));
+                    })
                 });
 
                 /**
@@ -232,7 +241,7 @@
                                     gdbPath: gdb.GdbPath
                                 });
                             });
-                            console.log(vm.gdbs[0]);
+                            // console.log(vm.gdbs[0]);
                         } else {
                             // Todo: 创建用户的gdb
                         }

@@ -158,6 +158,9 @@
                         vm.error = true;
                         vm.errorMsg = '名称不能为空！';
                     } else {
+                        var loading = layer.load(1, {
+                            shade: [0.1, '#000']
+                        });
                         return Data.importDataFromPublic({
                             userId: vm.newLayer.userId,
                             orgPath: vm.newLayer.orgPath,
@@ -165,6 +168,7 @@
                             userPath: vm.newLayer.userPath,
                             desNames: vm.newLayer.desNames
                         }).then(function (res) {
+                            layer.closeAll('loading');
                             if (res.data.status === 'error') {
                                 vm.error = true;
                                 vm.errorMsg = res.data.msg;

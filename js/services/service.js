@@ -152,6 +152,10 @@
                 publish: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/PublishDoc';
                     return Http.post(url, param);
+                },
+                setLayerVisible: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/SetLayerVisible';
+                    return Http.post(url, param);
                 }
             }
         }])

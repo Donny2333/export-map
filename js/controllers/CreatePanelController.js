@@ -25,6 +25,9 @@
             };
 
             $scope.create = function () {
+                var loading = layer.load(1, {
+                    shade: [0.1, '#000']
+                });
                 Doc.create(vm.overlay.doc).then(function (res) {
                     console.log(res.data);
                     var value = res.data.result;
@@ -41,6 +44,7 @@
                         detail2: value.Detail2,
                         tagName: value.TagName
                     });
+                    layer.closeAll('loading');
                     layer.msg('地图创建成功', {icon: 1});
                 });
             };

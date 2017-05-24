@@ -123,7 +123,7 @@
                             template: '<symbol-panel></symbol-panel>',
                             overlay: {
                                 styleId: 1,
-                                title: "test",
+                                title: layer.name,
                                 data: res.data.result,
                                 layer: layer,
                                 pagination: {
@@ -178,7 +178,6 @@
                     }
                 }
             }
-
 
             function getLayerSymbols(layer) {
                 var deferred = $q.defer();
