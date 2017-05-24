@@ -14,6 +14,7 @@
 
             $scope.closeMask = function () {
                 $scope.vm.showMask = false;
+                $scope.vm.overlay = {};
             };
 
             /**

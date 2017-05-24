@@ -5,9 +5,13 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('SymbolPanelController', ['$scope', 'Symbol', function ($scope, Symbol) {
+        .controller('SymbolPanelController', ['$scope', '$rootScope', 'Symbol', function ($scope, $rootScope, Symbol) {
             var vm = $scope.vm;
-            vm.select = vm.overlay.data[0];
+
+            // 从地图编辑页面进入
+            if (!vm.overlay.layer) {
+                vm.overlay.select = vm.overlay.data[0];
+            }
 
             $scope.pageChanged = function () {
                 getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
@@ -15,46 +19,174 @@
 
             $scope.change = function (type) {
                 if (type === 0) {
-                    if (vm.select.PointColor.indexOf("rgb") >= 0) {
-                        vm.select.PointColor = vm.select.PointColor.substr(4, vm.select.PointColor.length - 5);
+                    if (vm.overlay.select.PointColor.indexOf("rgb") >= 0) {
+                        vm.overlay.select.PointColor = vm.overlay.select.PointColor.substr(4, vm.overlay.select.PointColor.length - 5);
                     }
                 }
                 if (type === 1) {
-                    if (vm.select.LineColor.indexOf("rgb") >= 0) {
-                        vm.select.LineColor = vm.select.LineColor.substr(4, vm.select.LineColor.length - 5);
+                    if (vm.overlay.select.LineColor.indexOf("rgb") >= 0) {
+                        vm.overlay.select.LineColor = vm.overlay.select.LineColor.substr(4, vm.overlay.select.LineColor.length - 5);
                     }
                 }
                 if (type === 2) {
-                    if (vm.select.FillColor.indexOf("rgb") >= 0) {
-                        vm.select.FillColor = vm.select.FillColor.substr(4, vm.select.FillColor.length - 5);
+                    if (vm.overlay.select.FillColor.indexOf("rgb") >= 0) {
+                        vm.overlay.select.FillColor = vm.overlay.select.FillColor.substr(4, vm.overlay.select.FillColor.length - 5);
                     }
                 }
             };
 
-            $scope.preview = function (colorObject) {
-                var param = _.merge(_.pick(vm.select, [
-                    'StylePath',
-                    'SymbolType',
-                    'SymbolName',
-                    'PointColor',
-                    'PointSize',
-                    'PointAngle',
-                    'LineColor',
-                    'LineWidth',
-                    'FillColor'
-                ]), {
-                    height: 50,
-                    width: 50
+            $scope.selectSymbol = function (symbol) {
+                var symbolInfo = vm.overlay.select.SymbolInfo || {};
+                vm.overlay.select = symbol;
+                vm.overlay.select.SymbolInfo = symbolInfo;
+            };
+
+            $scope.preview = function () {
+                var param;
+                if (vm.overlay.select.Id) {
+                    param = _.merge(_.pick(vm.overlay.select, [
+                        'StylePath',
+                        'SymbolType',
+                        'SymbolName',
+                        'PointColor',
+                        'PointSize',
+                        'PointAngle',
+                        'LineColor',
+                        'LineWidth',
+                        'FillColor'
+                    ]), {
+                        height: 50,
+                        width: 50
+                    });
+                    Symbol.getSymbolPreview(param).then(function (res) {
+                        if (res.status === 200) {
+                            console.log(res.data);
+                            vm.overlay.select.Preview = res.data.result;
+                        }
+                    })
+                } else {
+                    // 从地图编辑页面进入
+                    param = _.merge(_.pick(vm.overlay.select, [
+                        'StylePath',
+                        'SymbolName',
+                        'PointColor',
+                        'PointSize',
+                        'PointAngle',
+                        'LineColor',
+                        'LineWidth',
+                        'FillColor'
+                    ]), {
+                        height: 50,
+                        width: 50,
+                        docId: vm.overlay.doc.docId,
+                        name: vm.overlay.doc.name,
+                        userId: vm.overlay.doc.userId,
+                        layerIndex: vm.overlay.layer.id
+                    });
+
+                    Symbol.getLayerSymbolInfo(param).then(function (res) {
+                        vm.overlay.select.Preview = res.data.result.RenderSymbolInfo.SymbolPreview;
+                    });
+                }
+            };
+
+            $scope.setSymbol = function (select) {
+                console.log(select);
+                var symbol;
+                var loading = layer.load(1, {
+                    shade: [0.1, '#000']
                 });
-                Symbol.getSymbolPreview(param).then(function (res) {
-                    if (res.status === 200) {
-                        console.log(res.data);
-                        vm.select.Preview = res.data.result;
+                switch (select.SymbolInfo.RenderSymbolInfo.SymbolInfo.ClassName) {
+                    case 'Marker Symbols' :
+                        symbol = {
+                            RenderSymbolInfo: {
+                                Label: select.SymbolInfo.RenderSymbolInfo.Label,
+                                SymbolInfo: {
+                                    Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
+                                    Angle: select.PointAngle,
+                                    ClassName: "Marker Symbols",
+                                    Color: select.PointColor,
+                                    Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
+                                    Size: select.PointSize,
+                                    StylePath: select.StylePath,
+                                    SymbolName: select.SymbolName
+                                },
+                                Value: select.SymbolInfo.RenderSymbolInfo.Value
+                            },
+                            Symboltype: "Marker Symbols",
+                            Type: "Single symbol"
+                        };
+                        break;
+
+                    case 'Line Symbols' :
+                        symbol = {
+                            RenderSymbolInfo: {
+                                Label: select.SymbolInfo.RenderSymbolInfo.Label,
+                                SymbolInfo: {
+                                    Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
+                                    Width: select.symbolInfo.Width,
+                                    ClassName: "Line Symbols",
+                                    Color: select.symbolInfo.Color,
+                                    Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
+                                    StylePath: select.StylePath,
+                                    SymbolName: select.SymbolName
+                                },
+                                Value: select.SymbolInfo.RenderSymbolInfo.Value
+                            },
+                            Symboltype: "Line Symbols",
+                            Type: "Single symbol"
+                        };
+                        break;
+
+                    case 'Fill Symbols' :
+                        symbol = {
+                            RenderSymbolInfo: {
+                                Label: select.SymbolInfo.RenderSymbolInfo.Label,
+                                SymbolInfo: {
+                                    Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
+                                    OutlineWidth: select.symbolInfo.OutlineWidth,
+                                    ClassName: "Fill Symbols",
+                                    OutlineColor: select.symbolInfo.OutlineColor,
+                                    FillColor: select.symbolInfo.FillColor,
+                                    Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
+                                    StylePath: select.StylePath,
+                                    SymbolName: select.SymbolName
+                                },
+                                Value: select.SymbolInfo.RenderSymbolInfo.Value
+                            },
+                            Symboltype: "Fill Symbols",
+                            Type: "Single symbol"
+                        };
+                        break;
+
+                    default:
+                        break;
+                }
+
+                var param = {
+                    docId: vm.overlay.doc.docId,
+                    name: vm.overlay.doc.name,
+                    userId: vm.overlay.doc.userId,
+                    layerIndex: vm.overlay.layer.id,
+                    symbolInfo: symbol
+                };
+
+                Symbol.setLayerSymbolInfo(param).then(function (res) {
+                    if (res.data.result) {
+                        $rootScope.$broadcast('layer:change');
+                        $scope.vm.showMask = false;
+                        $scope.vm.overlay = {};
+                        layer.closeAll('loading');
+                        layer.msg('符号设置成功', {icon: 1});
+                    } else {
+                        layer.closeAll('loading');
+                        layer.msg('符号设置失败', {icon: 1});
                     }
                 })
             };
 
             function getSymbolItemListFromDB(styleId, pageNo, pageSize) {
+                var symbolInfo = vm.overlay.select.SymbolInfo || {};
                 Symbol.getSymbolItemListFromDB({
                     styleId: styleId,
                     pageNo: pageNo,
@@ -64,7 +196,8 @@
                         vm.overlay.data = res.data.result;
                         vm.overlay.pagination.totalItems = res.data.count;
                         vm.overlay.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.pagination.pageSize);
-                        vm.select = vm.overlay.data[0];
+                        vm.overlay.select = vm.overlay.data[0];
+                        vm.overlay.select.SymbolInfo = symbolInfo;
                     }
                 })
             }

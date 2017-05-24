@@ -187,8 +187,12 @@
                     var url = URL_CFG.api + 'MapSytleService.svc/GetSymbolPreview';
                     return Http.post(url, param);
                 },
-                GetLayerSymbolInfo: function (param) {
+                getLayerSymbolInfo: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/GetLayerSymbolInfo';
+                    return Http.post(url, param);
+                },
+                setLayerSymbolInfo: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/SetLayerSymbolInfo';
                     return Http.post(url, param);
                 },
                 RemoveLayerFromMap: function (param) {

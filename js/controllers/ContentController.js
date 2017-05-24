@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('ContentController', ['$scope', '$rootScope', 'Symbol', function ($scope, $rootScope, Symbol) {
+        .controller('ContentController', ['$scope', '$rootScope', '$q', 'Symbol', function ($scope, $rootScope, $q, Symbol) {
             $scope.expandLayer = function (layer) {
                 var i;
                 // console.log(layer);
@@ -33,15 +33,13 @@
                 findChindById(layers, layer.pid);
                 show_layers = [];
                 chooseChecked($scope.$parent.vm.layers);
-                console.log("显示" + show_layers)
+                // console.log("显示" + show_layers);
 
                 $scope.$emit('map:change', {
                     layers: show_layers
                 })
 
             };
-
-            console.log($scope.$parent.vm.doc);
 
             $scope.showPreview = function (layer) {
                 layer.showPreview = !layer.showPreview;
@@ -52,53 +50,101 @@
             };
 
             $scope.changePreview = function (layer) {
-                if (!layer.previews) {
-                    getLayerSymbols(layer);
-                }
-                switch (layer.symbolType) {
-                    case 'Unique values':
-                        $rootScope.$broadcast('mask:show', {
-                            showMask: true,
-                            template: '<unique-panel></unique-panel>',
-                            overlay: {}
-                        });
-                        break;
-
-                    case 'Single symbol':
-                        Symbol.getSymbolItemListFromDB({
-                            styleId: 1,
-                            pageNo: 0,
-                            pageSize: 16
-                        }).then(function (res) {
-                            if (res.status === 200) {
-                                $rootScope.$broadcast('mask:show', {
-                                    showMask: true,
-                                    template: '<symbol-panel></symbol-panel>',
-                                    overlay: {
-                                        styleId: 1,
-                                        title: "test",
-                                        data: res.data.result,
-                                        select: {},
-                                        pagination: {
-                                            totalItems: res.data.count,
-                                            maxSize: 5,
-                                            pageNo: 1,
-                                            pageSize: 16,
-                                            maxPage: Math.ceil(res.data.count / 10)
-                                        }
-                                    }
-                                })
-                            }
-                        });
-                        break;
-
-                    default:
-                        break;
+                if (layer.previews && layer.previews.length) {
+                    setSymbol(layer);
+                } else {
+                    getLayerSymbols(layer).then(function () {
+                        setSymbol(layer);
+                    });
                 }
             };
 
+            function setSymbol(layer) {
+                // switch (layer.symbolType) {
+                //     case 'Unique values':
+                //         $rootScope.$broadcast('mask:show', {
+                //             showMask: true,
+                //             template: '<unique-panel></unique-panel>',
+                //             overlay: {}
+                //         });
+                //         break;
+                //
+                //     case 'Single symbol':
+                Symbol.getSymbolItemListFromDB({
+                    styleId: 1,
+                    pageNo: 0,
+                    pageSize: 16
+                }).then(function (res) {
+                    if (res.status === 200) {
+                        var select;
+
+                        switch (layer.previews[0].symbolInfo.ClassName) {
+                            case 'Marker Symbols' :
+                                select = {
+                                    Preview: layer.previews[0].symbolPreview,
+                                    PointSize: layer.previews[0].symbolInfo.Size,
+                                    PointColor: layer.previews[0].symbolInfo.Color,
+                                    PointAngle: layer.previews[0].symbolInfo.Angle,
+                                    SymbolType: layer.previews[0].symbolInfo.ClassName,
+                                    SymbolInfo: layer.symbols
+                                };
+                                break;
+
+                            case 'Line Symbols' :
+                                select = {
+                                    Preview: layer.previews[0].symbolPreview,
+                                    LineWidth: layer.previews[0].symbolInfo.Width,
+                                    LineColor: layer.previews[0].symbolInfo.Color,
+                                    SymbolType: layer.previews[0].symbolInfo.ClassName,
+                                    SymbolInfo: layer.symbols
+                                };
+                                break;
+
+                            case 'Fill Symbols' :
+                                select = {
+                                    Preview: layer.previews[0].symbolPreview,
+                                    LineWidth: layer.previews[0].symbolInfo.OutlineWidth,
+                                    LineColor: layer.previews[0].symbolInfo.OutlineColor,
+                                    FillColor: layer.previews[0].symbolInfo.FillColor,
+                                    SymbolType: layer.previews[0].symbolInfo.ClassName,
+                                    SymbolInfo: layer.symbols
+                                };
+                                break;
+
+                            default:
+                                break;
+                        }
+                        console.log(select);
+
+                        $rootScope.$broadcast('mask:show', {
+                            showMask: true,
+                            template: '<symbol-panel></symbol-panel>',
+                            overlay: {
+                                styleId: 1,
+                                title: "test",
+                                data: res.data.result,
+                                layer: layer,
+                                pagination: {
+                                    totalItems: res.data.count,
+                                    maxSize: 5,
+                                    pageNo: 1,
+                                    pageSize: 16,
+                                    maxPage: Math.ceil(res.data.count / 10)
+                                },
+                                select: select,
+                                doc: $scope.$parent.vm.doc
+                            }
+                        })
+                    }
+                });
+                //         break;
+                //
+                //     default:
+                //         break;
+                // }
+            }
+
             $scope.deleteLayer = function (layer) {
-                console.log("删除");
                 Symbol.RemoveLayerFromMap({
                     docId: $scope.$parent.vm.doc.docId,
                     userId: $scope.$parent.vm.doc.userId,
@@ -109,7 +155,6 @@
                         //刷新内容
                         show_layers = [];
                         chooseChecked($scope.$parent.vm.layers);
-                        console.log(show_layers);
                         $scope.$emit('layer:change', {
                             layers: show_layers
                         })
@@ -117,6 +162,7 @@
 
                 })
             };
+
             var show_layers = [];
 
             function chooseChecked(layers) {
@@ -133,14 +179,15 @@
 
 
             function getLayerSymbols(layer) {
-                Symbol.GetLayerSymbolInfo({
+                var deferred = $q.defer();
+
+                Symbol.getLayerSymbolInfo({
                     docId: $scope.$parent.vm.doc.docId,
                     userId: $scope.$parent.vm.doc.userId,
                     name: $scope.$parent.vm.doc.name,
                     layerIndex: layer.id
                 }).then(function (res) {
                     if (res.status === 200 && res.data.status === 'ok') {
-                        console.log(res.data);
                         layer.previews = [];
                         layer.symbolType = res.data.result.Type;
                         switch (res.data.result.Type) {
@@ -168,16 +215,19 @@
                                     symbolInfo: symbol.SymbolInfo,
                                     value: symbol.Value
                                 });
-                                console.log(symbol);
                                 break;
 
                             default:
                                 break;
                         }
+                        layer.symbols = res.data.result;
                         console.log(layer.previews);
+                        deferred.resolve(layer.previews);
                     }
-
-                })
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
             }
 
             //父节点随子节点状态改变而变化

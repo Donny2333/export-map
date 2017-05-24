@@ -121,4 +121,14 @@
             }
         })
 
+        .directive('publishPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/publishPanel.html',
+                controller: 'PublishPanelController'
+            }
+        })
+
 })(angular);
