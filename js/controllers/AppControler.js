@@ -283,32 +283,31 @@
 
                 function judgeCheckBox(layers) {
                     for (var i = 0; i < layers.length; i++) {
-                      if(layers[i].defaultVisibility===true&&layers[i].subLayerIds==null){
-                           layers[i].ischeck=1;
-                       }else if(layers[i].defaultVisibility===true&&layers[i].subLayerIds!=null){
-                          check=1;
-                           layers[i].ischeck=check;
-                          ischeck(layers[i].subLayerIds)
-                          layers[i].ischeck=check;
-                           judgeCheckBox(layers[i].subLayerIds)
-                       }
+                        if (layers[i].defaultVisibility === true && layers[i].subLayerIds === null) {
+                            layers[i].ischeck = 1;
+                        } else if (layers[i].defaultVisibility === true && layers[i].subLayerIds !== null) {
+                            check = 1;
+                            layers[i].ischeck = check;
+                            ischeck(layers[i].subLayerIds);
+                            layers[i].ischeck = check;
+                            judgeCheckBox(layers[i].subLayerIds)
+                        }
                     }
                 }
-                var check=1;
+
+                var check = 1;
+
                 function ischeck(layers) {
-                        for(var i=0;i<layers.length;i++){
-                              if(layers[i].defaultVisibility===false){
-                                  check=3;
-                                  return;
-                              }
-                              if(layers[i].subLayerIds!=null){
-                                  ischeck(layers[i].subLayerIds);
-                              }
+                    for (var i = 0; i < layers.length; i++) {
+                        if (layers[i].defaultVisibility === false) {
+                            check = 3;
+                            return;
                         }
+                        if (layers[i].subLayerIds !== null) {
+                            ischeck(layers[i].subLayerIds);
+                        }
+                    }
                 }
-
-
-
 
 
                 function finishCreateMap() {

@@ -129,15 +129,26 @@
             }
 
             function addLayer(docId, userId, name, dataId) {
+                var loading = layer.load(1, {
+                    shade: [0.1, '#000']
+                });
                 Doc.addLayerToMap({
                     docId: docId,
                     userId: userId,
                     name: name,
                     dataId: dataId
                 }).then(function (res) {
-                    if (res.status === 200) {
+                    if (res.status === 200 && res.data.status === 'ok') {
+                        layer.closeAll('loading');
                         console.log(res.data);
                         $scope.$emit('layer:change', res.data);
+                        layer.msg('数据添加成功', {icon: 1});
+                    } else {
+                        layer.closeAll('loading');
+                        layer.open({
+                            title: '数据添加失败',
+                            content: res.data.msg
+                        });
                     }
                 })
             }
