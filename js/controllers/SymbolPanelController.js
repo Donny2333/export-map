@@ -5,12 +5,13 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('SymbolPanelController', ['$scope', '$rootScope', 'Symbol', function ($scope, $rootScope, Symbol) {
+        .controller('SymbolPanelController', ['$scope', '$rootScope', '$http', 'Symbol', function ($scope, $rootScope, $http, Symbol) {
             var vm = $scope.vm;
 
-            // 从地图编辑页面进入
+            // 从符号库页面进入
             if (!vm.overlay.layer) {
-                vm.overlay.select = vm.overlay.data[0];
+                vm.overlay.select = {};
+                angular.copy(vm.overlay.data[0], vm.overlay.select);
             }
 
             $scope.pageChanged = function () {
@@ -26,40 +27,38 @@
 
             $scope.selectSymbol = function (symbol) {
                 vm.overlay.select = {};
-                var symbolInfo = vm.overlay.select.SymbolInfo || {};
-                for (var key in symbol) {
-                    vm.overlay.select[key] = symbol[key];
-                }
-                vm.overlay.select.SymbolInfo = symbolInfo;
+                angular.copy(symbol, vm.overlay.select);
             };
 
             $scope.preview = function () {
                 var param;
                 if (vm.overlay.select.Id) {
                     param = _.merge(_.pick(vm.overlay.select, [
-                        'StylePath',
+                        'StyleId',
                         'SymbolType',
                         'SymbolName',
-                        'PointColor',
-                        'PointSize',
-                        'PointAngle',
-                        'LineColor',
-                        'LineWidth',
+                        'Color',
+                        'Size',
+                        'Angle',
+                        'Width',
+                        'OutlineColor',
+                        'OutlineWidth',
                         'FillColor'
                     ]), {
-                        height: 50,
-                        width: 50
+                        picHeight: 50,
+                        picWidth: 50,
+                        styleid: vm.overlay.styleId
                     });
                     Symbol.getSymbolPreview(param).then(function (res) {
                         if (res.status === 200) {
                             console.log(res.data);
-                            vm.overlay.select.Preview = res.data.result;
+                            vm.overlay.select.SymbolPreview = res.data.result;
                         }
                     })
                 } else {
                     // 从地图编辑页面进入
                     param = _.merge(_.pick(vm.overlay.select, [
-                        'StylePath',
+                        'StyleId',
                         'SymbolName',
                         'PointColor',
                         'PointSize',
@@ -68,8 +67,9 @@
                         'LineWidth',
                         'FillColor'
                     ]), {
-                        height: 50,
-                        width: 50,
+                        picHeight: 50,
+                        picWidth: 50,
+                        styleid: vm.overlay.styleId,
                         docId: vm.overlay.doc.docId,
                         name: vm.overlay.doc.name,
                         userId: vm.overlay.doc.userId,
@@ -77,7 +77,7 @@
                     });
 
                     Symbol.getLayerSymbolInfo(param).then(function (res) {
-                        vm.overlay.select.Preview = res.data.result.RenderSymbolInfo.SymbolPreview;
+                        vm.overlay.select.SymbolPreview = res.data.result.RenderSymbolInfo.SymbolPreview;
                     });
                 }
             };
@@ -190,9 +190,7 @@
                         vm.overlay.pagination.totalItems = res.data.count;
                         vm.overlay.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.pagination.pageSize);
                         vm.overlay.select = {};
-                        for (var key in vm.overlay.data[0]) {
-                            vm.overlay.select[key] = vm.overlay.data[0][key];
-                        }
+                        angular.copy(vm.overlay.data[0], vm.overlay.select);
                         vm.overlay.select.SymbolInfo = symbolInfo;
                     }
                 })

@@ -1,1 +1,17 @@
-<div class="unique-panel">unique</div>
+<div class="unique-panel">
+    <div class="unique-title">
+        <span class="title">{{vm.overlay.title}}</span>
+    </div>
+    <div class="unique-body">
+        <div class="table-body">
+            <my-table data="vm.overlay.data" columns="vm.overlay.columns" table="vm.overlay.table"></my-table>
+        </div>
+    </div>
+    <div class="unique-bottom">
+        <div class="btn-group">
+            <button class="btn btn-default" ng-click="commit()">确定</button>
+            <button class="btn btn-default" ng-click="closeMask()">取消</button>
+        </div>
+    </div>
+    <i class="icon-close" ng-click="closeMask()"></i>
+</div>

@@ -1,4 +1,4 @@
-<div class="content-page" xmlns:c="http://www.w3.org/1999/html">
+<div class="content-page">
     <ul class="layer-list">
         <li class="layer-item layer-root" ng-repeat="layer in vm.layers" ng-class="{leaf: !layer.subLayerIds}"
             ng-include="'layer-list.html'"></li>
@@ -58,6 +58,7 @@
         <!--<li class="menu-item">查看信息</li>-->
         <!--</ul>-->
         <!--</a>-->
+        <a class="" ng-click="deleteLayer(layer)"><img src="../../images/more.png"></a>
     </script>
 
 

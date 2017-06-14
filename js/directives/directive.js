@@ -60,6 +60,66 @@
             }
         }])
 
+        .directive('myTable', ['$window', function ($window) {
+            return {
+                restrict: 'E',
+                templateUrl: './tpls/mask/my-table.html',
+                replace: true,
+                transclude: true,
+                scope: {
+                    data: '=',
+                    columns: '=',
+                    table: '=',
+                    ngCheckAll: '=',
+                    ngDelete: '=',
+                    ngDeleteAll: '='
+                },
+                link: function (scope, element, attrs) {
+                    scope.vm = {
+                        checked: 0
+                    };
+                    scope.table = element.children("table");
+
+                    scope.table.bootstrapTable({
+                        // data: scope.data,
+                        toolbar: '#toolbar',                //工具按钮用哪个容器
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: false,                    //是否启用排序
+                        search: true,                       //是否显示搜索框
+                        sortOrder: "asc",                   //排序方式
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 6,                        //每页的记录行数（*）
+                        clickToSelect: true,                //是否启用点击选中行
+                        buttonsClass: 'btn btn-default',
+                        columns: scope.columns,
+                        onCheck: function () {
+                            scope.$apply(function () {
+                                scope.vm.checked++;
+                            });
+                        },
+                        onUncheck: function () {
+                            scope.$apply(function () {
+                                scope.vm.checked--;
+                            });
+                        },
+                        onRefresh: function () {
+                            scope.vm.checked = 0;
+                        }
+                    });
+
+                    scope.$watch('data', function (value) {
+                        console.log(value);
+                        scope.table.bootstrapTable('load', value);
+                    });
+                },
+                controller: function () {
+
+                }
+            }
+        }])
+
         .directive('mask', ['$compile', function ($compile) {
             return {
                 restrict: 'E',

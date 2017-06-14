@@ -33,8 +33,7 @@
                 findChindById(layers, layer.pid);
                 show_layers = [];
                 chooseChecked($scope.$parent.vm.layers);
-                // console.log("显示" + show_layers);
-                console.log(show_layers)
+                // console.log(show_layers);
                 $scope.$emit('map:change', {
                     layers: show_layers
                 })
@@ -46,7 +45,6 @@
                 if (!layer.previews) {
                     getLayerSymbols(layer);
                 }
-
             };
 
             $scope.changePreview = function (layer) {
@@ -161,7 +159,6 @@
                             layers: show_layers
                         })
                     }
-
                 })
             };
 
@@ -170,7 +167,7 @@
             function chooseChecked(layers) {
                 var i;
                 for (i = 0; i < layers.length; i++) {
-                    if (layers[i].ischeck === 1 ||layers[i].ischeck === 3) {
+                    if (layers[i].ischeck === 1 || layers[i].ischeck === 3) {
                         show_layers.push(layers[i].id);
                     }
                     if (layers[i].subLayerIds !== null && layers[i].subLayerIds.length !== 0) {
