@@ -11,7 +11,6 @@
                     menus: Router.list().slice(0, 2)
                 };
 
-                var extent = [12349186.0111133, 3765310.49379061, 12541939.221565, 3874205.11961953];
                 var map = null;
                 // var map = new ol.Map({
                 //     controls: ol.control.defaults().extend([
@@ -124,7 +123,7 @@
                     // };
                     vm.menus = Router.list();
                     vm.doc = value;
-                    // extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
+                    var extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
 
                     if (map) {
                         map.addLayer(new ol.layer.Image());
@@ -203,24 +202,32 @@
 
                 function initMap(url, extent) {
                     map = new ol.Map({
+                        target: 'map',
+                        layers: [new ol.layer.Image()],
                         controls: ol.control.defaults().extend([
                             new ol.control.ScaleLine()
                         ]),
-                        layers: [new ol.layer.Image()],
-                        target: 'map',
                         view: new ol.View({
-                            center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
-                            // zoom: 15,
                             extent: extent,
-                            resolution: 96,
-                            projection: 'EPSG:3857',
-                            random: uuid.create()
+                            random: uuid.create(),
+                            center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
+                            projection: new ol.proj.Projection({
+                                code: 'EPSG:' + vm.doc.srcID,
+                                units: 'm'
+                            })
                         })
                     });
+
+                    // set map's resolution
+                    var size = map.getSize();
+                    var resolution = (extent[2] - extent[0]) / size[0];
+                    map.getView().setResolution(resolution);
+
                     map.getLayers().item(0).setSource(new ol.source.ImageWMS({
                         url: url,
+                        // ratio: 1,
+                        imageExtent: extent,
                         attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
-                        imageExtent: map.getView().calculateExtent(),
                         params: {
                             docId: vm.doc.docId,
                             userId: vm.doc.userId,
