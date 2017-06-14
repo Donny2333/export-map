@@ -297,7 +297,7 @@
                             layers[i].ischeck = check;
                             ischeck(layers[i].subLayerIds);
                             layers[i].ischeck = check;
-                            judgeCheckBox(layers[i].subLayerIds)
+                            judgeCheckBox(layers[i].subLayerIds);
                         }
                     }
                 }
