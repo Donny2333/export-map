@@ -156,6 +156,14 @@
                 setLayerVisible: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/SetLayerVisible';
                     return Http.post(url, param);
+                },
+                getLayerField: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/GetLayerField';
+                    return Http.post(url, param);
+                },
+                getLayerUniqueFieldVal: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/GetLayerUniqueFieldVal';
+                    return Http.post(url, param);
                 }
             }
         }])

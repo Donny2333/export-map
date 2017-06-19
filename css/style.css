@@ -375,21 +375,28 @@ a {
 
 /******************* map-container **********************/
 
-.map-container > #map {
+.map-container > .map-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-content > #map {
     -webkit-box-flex: 1;
     -ms-flex: auto;
     flex: auto;
     position: relative;
     width: 100%;
     height: 100%;
-    /*height: 600px;*/
     display: block;
 }
 
-.map-container > .layer-table {
+.map-content > .layer-table {
     position: relative;
     height: 320px;
-    max-height: 320px;
+    min-height: 320px;
     width: 100%;
     margin-top: -1px;
     padding: 10px;
@@ -910,7 +917,7 @@ a {
 
 .symbol-main > .pagination {
     margin: 0;
-    height: auto;
+    height: 70px;
     -webkit-box-flex: 1;
     -ms-flex: auto;
     flex: auto;
@@ -1020,7 +1027,7 @@ a {
 
 .unique-panel {
     position: relative;
-    height: 560px;
+    height: 588px;
     width: 800px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1043,6 +1050,15 @@ a {
     border-bottom: 1px solid #ddd;
     line-height: 60px;
     vertical-align: middle;
+}
+
+.unique-panel > .nav {
+    margin-top: 8px;
+    padding-left: 10px;
+}
+
+.unique-panel > .nav a {
+    cursor: pointer;
 }
 
 .unique-body {

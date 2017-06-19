@@ -27,6 +27,11 @@
                 //     })
                 // });
 
+                // 刷新浏览器回到图库页面
+                if (!vm.doc || !vm.doc.docId) {
+                    $state.go("app.explorer.files");
+                }
+
                 $scope.go = function ($event, menu) {
                     $event.preventDefault();
                     $state.go([menu.sref, menu.sub].join('.'));
@@ -105,7 +110,6 @@
                         }
                     })
                 };
-
 
                 /**
                  * 监听"文档打开"事件
@@ -199,7 +203,6 @@
                     // Todo: change symbol
                 });
 
-
                 function initMap(url, extent) {
                     map = new ol.Map({
                         target: 'map',
@@ -266,13 +269,11 @@
                     }).then(function (res) {
                         if (res.data.status === "ok" && res.data.result) {
                             vm.layers = res.data.result.layers;
-                            console.log(res.data.result.layers);
                             for (var i = 0; i < vm.layers.length; i++) {
                                 addShowAttribute(vm.layers[i]);
                             }
                             judgeCheckBox(vm.layers);
                             layer.closeAll('loading');
-                            console.log(res.data.result.layers);
                         }
                     });
                 }
@@ -315,7 +316,6 @@
                         }
                     }
                 }
-
 
                 function finishCreateMap() {
                     vm.mask = false;

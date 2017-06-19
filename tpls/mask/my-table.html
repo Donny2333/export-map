@@ -4,12 +4,10 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                    Value Field <span class="caret"></span>
+                    {{field || 'Value Field'}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Name</a></li>
-                    <li><a href="#">Value</a></li>
-                    <li><a href="#">Volume</a></li>
+                    <li ng-repeat="menu in vm.menus track by $index"><a ng-click="select(menu)">{{menu}}</a></li>
                 </ul>
             </div>
         </div>

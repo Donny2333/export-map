@@ -37,18 +37,17 @@
                 $scope.$emit('map:change', {
                     layers: show_layers
                 })
-
             };
 
             $scope.showPreview = function (layer) {
                 layer.showPreview = !layer.showPreview;
-                if (!layer.previews) {
+                if (!layer.symbols) {
                     getLayerSymbols(layer);
                 }
             };
 
             $scope.changePreview = function (layer) {
-                if (layer.previews && layer.previews.length) {
+                if (layer.symbols && layer.symbols.length) {
                     setSymbol(layer);
                 } else {
                     getLayerSymbols(layer).then(function () {
@@ -58,67 +57,17 @@
             };
 
             function setSymbol(layer) {
-                // switch (layer.symbolType) {
-                //     case 'Unique values':
-                //         $rootScope.$broadcast('mask:show', {
-                //             showMask: true,
-                //             template: '<unique-panel></unique-panel>',
-                //             overlay: {}
-                //         });
-                //         break;
-                //
-                //     case 'Single symbol':
                 console.log(layer);
                 Symbol.getSymbolItemListFromDB({
                     styleId: 1,
                     pageNo: 0,
-                    pageSize: 16,
+                    pageSize: 20,
                     geometryType: layer.geometryType
                 }).then(function (res) {
                     if (res.status === 200) {
-                        var select;
-
-                        switch (layer.previews[0].symbolInfo.ClassName) {
-                            case 'Marker Symbols' :
-                                select = {
-                                    Preview: layer.previews[0].symbolPreview,
-                                    PointSize: layer.previews[0].symbolInfo.Size,
-                                    PointColor: layer.previews[0].symbolInfo.Color,
-                                    PointAngle: layer.previews[0].symbolInfo.Angle,
-                                    SymbolType: layer.previews[0].symbolInfo.ClassName,
-                                    SymbolInfo: layer.symbols
-                                };
-                                break;
-
-                            case 'Line Symbols' :
-                                select = {
-                                    Preview: layer.previews[0].symbolPreview,
-                                    LineWidth: layer.previews[0].symbolInfo.Width,
-                                    LineColor: layer.previews[0].symbolInfo.Color,
-                                    SymbolType: layer.previews[0].symbolInfo.ClassName,
-                                    SymbolInfo: layer.symbols
-                                };
-                                break;
-
-                            case 'Fill Symbols' :
-                                select = {
-                                    Preview: layer.previews[0].symbolPreview,
-                                    LineWidth: layer.previews[0].symbolInfo.OutlineWidth,
-                                    LineColor: layer.previews[0].symbolInfo.OutlineColor,
-                                    FillColor: layer.previews[0].symbolInfo.FillColor,
-                                    SymbolType: layer.previews[0].symbolInfo.ClassName,
-                                    SymbolInfo: layer.symbols
-                                };
-                                break;
-
-                            default:
-                                break;
-                        }
-                        console.log(select);
-
                         $rootScope.$broadcast('mask:show', {
                             showMask: true,
-                            template: '<symbol-panel></symbol-panel>',
+                            template: '<unique-panel></unique-panel>',
                             overlay: {
                                 styleId: 1,
                                 title: layer.name,
@@ -128,20 +77,17 @@
                                     totalItems: res.data.count,
                                     maxSize: 5,
                                     pageNo: 1,
-                                    pageSize: 16,
+                                    pageSize: 20,
                                     maxPage: Math.ceil(res.data.count / 10)
                                 },
-                                select: select,
-                                doc: $scope.$parent.vm.doc
+                                select: layer.symbols[0].SymbolInfo,
+                                symbol: layer.symbols,
+                                doc: $scope.$parent.vm.doc,
+                                tab: layer.symbolType === 'Single symbol' ? 0 : 1
                             }
                         })
                     }
                 });
-                //         break;
-                //
-                //     default:
-                //         break;
-                // }
             }
 
             $scope.deleteLayer = function (layer) {
@@ -183,44 +129,28 @@
                     docId: $scope.$parent.vm.doc.docId,
                     userId: $scope.$parent.vm.doc.userId,
                     name: $scope.$parent.vm.doc.name,
-                    layerIndex: layer.id
+                    layerIndex: layer.id,
+                    picHeight: 20,
+                    picWidth: 20
                 }).then(function (res) {
                     if (res.status === 200 && res.data.status === 'ok') {
-                        layer.previews = [];
+                        layer.symbols = [];
                         layer.symbolType = res.data.result.Type;
-                        switch (res.data.result.Type) {
-                            case 'Unique values':
-                                if (res.data.result.RenderSymbol.length) {
-                                    res.data.result.RenderSymbol.map(function (symbol) {
-                                        layer.previews.push({
-                                            label: symbol.Label,
-                                            symbolPreview: symbol.SymbolPreview,
-                                            symbolInfo: symbol.SymbolInfo,
-                                            value: symbol.Value
-                                        })
-                                    });
-                                } else {
-                                    layer.previews.push(res.data.result.renderSymbol);
-                                }
-
+                        switch (layer.symbolType) {
+                            // 单一符号渲染
+                            case 'Single symbol':
+                                layer.symbols.push(res.data.result.RenderSymbolInfo);
                                 break;
 
-                            case 'Single symbol':
-                                var symbol = res.data.result.RenderSymbolInfo;
-                                layer.previews.push({
-                                    label: symbol.Label,
-                                    symbolPreview: symbol.SymbolPreview,
-                                    symbolInfo: symbol.SymbolInfo,
-                                    value: symbol.Value
-                                });
+                            // 唯一值符号渲染
+                            case 'Unique values':
+                                layer.symbols = [res.data.result.DefaultRenderSymbol].concat(res.data.result.RenderSymbols);
                                 break;
 
                             default:
                                 break;
                         }
-                        layer.symbols = res.data.result;
-                        console.log(layer.previews);
-                        deferred.resolve(layer.previews);
+                        deferred.resolve(layer.symbols);
                     }
                 }, function (err) {
                     deferred.reject(err);

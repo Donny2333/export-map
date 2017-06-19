@@ -60,7 +60,7 @@
             }
         }])
 
-        .directive('myTable', ['$window', function ($window) {
+        .directive('myTable', ['$window', '$parse', function ($window, $parse) {
             return {
                 restrict: 'E',
                 templateUrl: './tpls/mask/my-table.html',
@@ -69,15 +69,19 @@
                 scope: {
                     data: '=',
                     columns: '=',
+                    menus: '=',
+                    field: '=',
                     table: '=',
                     ngCheckAll: '=',
                     ngDelete: '=',
                     ngDeleteAll: '='
                 },
                 link: function (scope, element, attrs) {
-                    scope.vm = {
-                        checked: 0
+                    var vm = scope.vm = {
+                        checked: 0,
+                        menus: []
                     };
+
                     scope.table = element.children("table");
 
                     scope.table.bootstrapTable({
@@ -110,11 +114,31 @@
                     });
 
                     scope.$watch('data', function (value) {
-                        console.log(value);
-                        scope.table.bootstrapTable('load', value);
+                        if (value) {
+                            scope.table && scope.table.bootstrapTable && scope.table.bootstrapTable('load', value);
+                        }
+                    });
+
+                    scope.$watch('menus', function (value) {
+                        if (value) {
+                            vm.menus = value;
+                        }
+                    });
+
+                    scope.select = function (menu) {
+                        if (menu !== scope.field) {
+                            scope.field = menu;
+                        }
+                    };
+
+                    scope.$on("$destroy", function () {
+                        if (scope.table) {
+                            scope.table.bootstrapTable('removeAll');
+                            scope.table.bootstrapTable('destroy');
+                        }
                     });
                 },
-                controller: function () {
+                controller: function ($scope) {
 
                 }
             }

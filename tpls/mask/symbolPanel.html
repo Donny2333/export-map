@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="symbol-edit">
-            <div class="preview" ng-style="{'margin-bottom':vm.overlay.select.SymbolName?0:'-20px'}">
+            <div class="preview">
                 <img height="50" width="50" ng-src="{{vm.overlay.select.SymbolPreview}}">
                 <span class="symbol-name">{{vm.overlay.select.SymbolName}}</span>
             </div>
@@ -67,9 +67,6 @@
             </div>
             <div class="symbol-buttom-group symbol-commit">
                 <button class="btn btn-default" style="margin-right: 10px" ng-click="preview()">预览</button>
-                <button ng-if="vm.overlay.layer" class="btn btn-default" ng-click="setSymbol(vm.overlay.select)">
-                    设置
-                </button>
             </div>
         </div>
     </div>

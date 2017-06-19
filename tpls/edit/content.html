@@ -32,10 +32,9 @@
         </div>
         <ul class="layer-symbol-list">
             <li class="layer-symbol-item" ng-if="!layer.subLayerIds&&layer.showPreview"
-                ng-repeat="preview in layer.previews">
-                <img class="layer-symbol" width="20" height="20"
-                     ng-src={{preview.symbolPreview}}>
-                <span>{{preview.value}}</span>
+                ng-repeat="symbol in layer.symbols">
+                <img class="layer-symbol" width="20" height="20" ng-src={{symbol.SymbolInfo.SymbolPreview}}>
+                <span>{{symbol.value}}</span>
             </li>
         </ul>
         <div class="layer-children" ng-if="layer.subLayerIds" ng-include="'layer-tree.html'"></div>
@@ -45,18 +44,6 @@
         <a class="preview-btn" ng-click="showPreview(layer)"><img src="/images/legend.png"></a>
         <!--<a class="table-btn"><img src="/images/table.png"></a>-->
         <a class="style-btn" ng-click="changePreview(layer)"><img src="/images/style.png"></a>
-        <!--<a class="" ng-click="list.showPopupMenu = !list.showPopupMenu">-->
-        <!--<img src="/images/more.png">-->
-        <!--<ul class="popup-menu" ng-class="{showPopup: list.showPopupMenu}">-->
-        <!--<li class="menu-item">上移</li>-->
-        <!--<li class="menu-item">下移</li>-->
-        <!--<li class="menu-item">重命名</li>-->
-        <!--<li class="menu-item" ng-show="layer.ischeck===1" ng-click="hideLayer(vm.layers,layer)"> 隐藏图层</li>-->
-        <!--<li class="menu-item" ng-show="layer.ischeck===2" ng-click="hideLayer(vm.layers,layer)"> 显示图层</li>-->
-        <!--<li class="menu-item" ng-click="deleteLayer(layer)">删除图层</li>-->
-        <!--<li class="menu-item">查看信息</li>-->
-        <!--</ul>-->
-        <!--</a>-->
         <a class="" ng-click="deleteLayer(layer)"><img src="/images/delete.png"></a>
     </script>
 </div>
