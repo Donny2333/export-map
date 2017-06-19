@@ -137,9 +137,6 @@
                             scope.table.bootstrapTable('destroy');
                         }
                     });
-                },
-                controller: function ($scope) {
-
                 }
             }
         }])

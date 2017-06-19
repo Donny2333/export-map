@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('UniquePanelController', ['$scope', '$q', 'Doc', 'Symbol', function ($scope, $q, Doc, Symbol) {
+        .controller('UniquePanelController', ['$scope', '$rootScope', '$q', 'Doc', 'Symbol', function ($scope, $rootScope, $q, Doc, Symbol) {
             var vm = $scope.vm;
 
             vm.overlay.table = {};
@@ -104,29 +104,25 @@
             };
 
             $scope.setSymbol = function (select) {
-                console.log(select);
                 var symbol;
                 var loading = layer.load(1, {
                     shade: [0.1, '#000']
                 });
-                switch (select.SymbolInfo.RenderSymbolInfo.SymbolInfo.ClassName) {
+                switch (select.SymbolType) {
                     case 'Marker Symbols' :
                         symbol = {
                             RenderSymbolInfo: {
-                                Label: select.SymbolInfo.RenderSymbolInfo.Label,
+                                Label: vm.overlay.symbol[0].Label,
+                                Value: vm.overlay.symbol[0].Value,
                                 SymbolInfo: {
-                                    Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
-                                    Angle: select.PointAngle,
-                                    ClassName: "Marker Symbols",
-                                    Color: select.PointColor,
-                                    Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
-                                    Size: select.PointSize,
-                                    StylePath: select.StylePath,
+                                    SymbolType: "Marker Symbols",
+                                    Angle: select.Angle,
+                                    Color: select.Color,
+                                    Size: select.Size,
+                                    StyleId: select.StyleId,
                                     SymbolName: select.SymbolName
-                                },
-                                Value: select.SymbolInfo.RenderSymbolInfo.Value
+                                }
                             },
-                            Symboltype: "Marker Symbols",
                             Type: "Single symbol"
                         };
                         break;
@@ -134,19 +130,16 @@
                     case 'Line Symbols' :
                         symbol = {
                             RenderSymbolInfo: {
-                                Label: select.SymbolInfo.RenderSymbolInfo.Label,
+                                Label: vm.overlay.symbol[0].Label,
+                                Value: vm.overlay.symbol[0].Value,
                                 SymbolInfo: {
-                                    Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
-                                    Width: select.LineWidth,
-                                    ClassName: "Line Symbols",
-                                    Color: select.LineColor,
-                                    Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
-                                    StylePath: select.StylePath,
+                                    SymbolType: "Line Symbols",
+                                    Width: select.Width,
+                                    Color: select.Color,
+                                    StyleId: select.StyleId,
                                     SymbolName: select.SymbolName
-                                },
-                                Value: select.SymbolInfo.RenderSymbolInfo.Value
+                                }
                             },
-                            Symboltype: "Line Symbols",
                             Type: "Single symbol"
                         };
                         break;
@@ -154,20 +147,17 @@
                     case 'Fill Symbols' :
                         symbol = {
                             RenderSymbolInfo: {
-                                Label: select.SymbolInfo.RenderSymbolInfo.Label,
+                                Label: vm.overlay.symbol[0].Label,
+                                Value: vm.overlay.symbol[0].Value,
                                 SymbolInfo: {
-                                    Label: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Label,
-                                    OutlineWidth: select.LineWidth,
-                                    ClassName: "Fill Symbols",
-                                    OutlineColor: select.LineColor,
+                                    SymbolType: "Fill Symbols",
+                                    OutlineWidth: select.OutlineWidth,
+                                    OutlineColor: select.OutlineColor,
                                     FillColor: select.FillColor,
-                                    Fieldvalues: select.SymbolInfo.RenderSymbolInfo.SymbolInfo.Fieldvalues,
-                                    StylePath: select.StylePath,
+                                    StyleId: select.StyleId,
                                     SymbolName: select.SymbolName
-                                },
-                                Value: select.SymbolInfo.RenderSymbolInfo.Value
+                                }
                             },
-                            Symboltype: "Fill Symbols",
                             Type: "Single symbol"
                         };
                         break;
@@ -176,15 +166,13 @@
                         break;
                 }
 
-                var param = {
+                Symbol.setLayerSymbolInfo({
                     docId: vm.overlay.doc.docId,
                     name: vm.overlay.doc.name,
                     userId: vm.overlay.doc.userId,
                     layerIndex: vm.overlay.layer.id,
-                    symbolInfo: symbol
-                };
-
-                Symbol.setLayerSymbolInfo(param).then(function (res) {
+                    RenderInfo: symbol
+                }).then(function (res) {
                     if (res.data.result) {
                         $rootScope.$broadcast('layer:change');
                         $scope.vm.showMask = false;
