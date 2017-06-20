@@ -81,7 +81,6 @@
                                     pageSize: 20,
                                     maxPage: Math.ceil(res.data.count / 10)
                                 },
-                                select: layer.symbols[0].SymbolInfo,
                                 symbol: layer.symbols,
                                 doc: $scope.$parent.vm.doc,
                                 tab: layer.symbolType === 'Single symbol' ? 0 : 1

@@ -8,13 +8,10 @@
         .controller('UniquePanelController', ['$scope', '$rootScope', '$q', 'Doc', 'Symbol', function ($scope, $rootScope, $q, Doc, Symbol) {
             var vm = $scope.vm;
 
+            vm.overlay.select = null;
             vm.overlay.table = {};
             vm.overlay.field = null;
-            vm.overlay.menus = [
-                'Name',
-                'Value',
-                'Volume'
-            ];
+            vm.overlay.menus = [];
             vm.overlay.uniqueList = [];
             vm.overlay.columns = [{
                 checkbox: true,
@@ -28,7 +25,7 @@
                 width: '100px',
                 clickToSelect: false,
                 formatter: function (value) {
-                    return '<img ng-src="' + value + '" height="20" width="20">';
+                    return '<img src="' + value + '"style="display:inline-block;height: 20px;width: 20px">';
                 },
                 events: {
                     'click img': function (e, value, row, index) {
@@ -48,19 +45,25 @@
                 valign: 'middle'
             }];
 
-            getLayerSymbols(vm.overlay.layer).then(function (symbols) {
-                vm.overlay.select = symbols[0].SymbolInfo;
-            });
-
-            Doc.getLayerField({
-                docId: vm.overlay.doc.docId,
-                userId: vm.overlay.doc.userId,
-                name: vm.overlay.doc.name,
-                layerIndex: vm.overlay.layer.id
-            }).then(function (res) {
-                vm.overlay.menus = res.data.result;
-            }, function (err) {
-                console.log(err);
+            $scope.$watch('vm.overlay.tab', function (value) {
+                if (value === 0 && !vm.overlay.select) {
+                    // 展示单一符号渲染面板
+                    getLayerSymbols(vm.overlay.layer).then(function (symbols) {
+                        vm.overlay.select = symbols[0].SymbolInfo;
+                    });
+                } else if (value === 1 && !vm.overlay.menus.length) {
+                    // 展示唯一值符号渲染面板
+                    Doc.getLayerField({
+                        docId: vm.overlay.doc.docId,
+                        userId: vm.overlay.doc.userId,
+                        name: vm.overlay.doc.name,
+                        layerIndex: vm.overlay.layer.id
+                    }).then(function (res) {
+                        vm.overlay.menus = res.data.result;
+                    }, function (err) {
+                        console.log(err);
+                    });
+                }
             });
 
             $scope.selectSymbol = function (symbol) {
@@ -178,7 +181,6 @@
                         $rootScope.$broadcast('layer:change');
                         $scope.vm.showMask = false;
                         $scope.vm.overlay = {};
-                        layer.closeAll('loading');
                         layer.msg('符号设置成功', {icon: 1});
                     } else {
                         layer.closeAll('loading');
@@ -193,14 +195,23 @@
                     userId: vm.overlay.doc.userId,
                     name: vm.overlay.doc.name,
                     layerIndex: vm.overlay.layer.id,
-                    fldName: vm.overlay.field
+                    fldName: vm.overlay.field,
+                    picHeight: 20,
+                    picWidth: 20
                 }).then(function (res) {
                     var uniqueList = [];
-                    res.data.result.map(function (field, index) {
+                    var defaultSymbol = res.data.result.DefaultRenderSymbol;
+                    var symbols = res.data.result.RenderSymbols;
+                    uniqueList.push({
+                        Symbol: defaultSymbol.SymbolInfo.SymbolPreview,
+                        Value: defaultSymbol.Value,
+                        Label: defaultSymbol.Label
+                    });
+                    symbols.map(function (symbol) {
                         uniqueList.push({
-                            Symbol: '',
-                            Value: field,
-                            Label: field
+                            Symbol: symbol.SymbolInfo.SymbolPreview,
+                            Value: symbol.Value,
+                            Label: symbol.Label
                         })
                     });
                     vm.overlay.uniqueList = uniqueList;
@@ -227,6 +238,7 @@
 
             function getLayerSymbols(layer) {
                 var deferred = $q.defer();
+                var symbols = [];
 
                 Symbol.getLayerSymbolInfo({
                     docId: vm.overlay.doc.docId,
@@ -237,23 +249,21 @@
                     picWidth: 50
                 }).then(function (res) {
                     if (res.status === 200 && res.data.status === 'ok') {
-                        layer.symbols = [];
-                        layer.symbolType = res.data.result.Type;
-                        switch (layer.symbolType) {
+                        switch (res.data.result.Type) {
                             // 单一符号渲染
                             case 'Single symbol':
-                                layer.symbols.push(res.data.result.RenderSymbolInfo);
+                                symbols.push(res.data.result.RenderSymbolInfo);
                                 break;
 
                             // 唯一值符号渲染
                             case 'Unique values':
-                                layer.symbols = [res.data.result.DefaultRenderSymbol].concat(res.data.result.RenderSymbols);
+                                symbols = [res.data.result.DefaultRenderSymbol].concat(res.data.result.RenderSymbols);
                                 break;
 
                             default:
                                 break;
                         }
-                        deferred.resolve(layer.symbols);
+                        deferred.resolve(symbols);
                     }
                 }, function (err) {
                     deferred.reject(err);

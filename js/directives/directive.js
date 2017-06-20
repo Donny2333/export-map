@@ -149,15 +149,27 @@
                 controller: 'MaskController',
                 templateUrl: './tpls/mask/mask.html',
                 link: function (scope, element, attrs) {
+                    var mask;
+                    var childScope;
                     scope.$watch('vm', function (value) {
-                        if (value && value.template.length) {
-                            // append child dynamically.
-                            var mask = element.children('#mask');
-                            mask.html('');
-                            scope.vm.overlay = value.overlay;
-                            mask.append($compile(value.template)(scope))
+                        if (value) {
+                            if (value.showMask) {
+                                // append child dynamically.
+                                mask = element.children('#mask');
+                                mask.html('');
+                                childScope = scope.$new();
+                                scope.vm.overlay = value.overlay;
+                                mask.append($compile(value.template)(childScope));
+                            } else {
+                                // remove child.
+                                mask = element.children('#mask');
+                                mask.empty();
+                                if (childScope) {
+                                    childScope.$destroy();
+                                }
+                            }
                         }
-                    })
+                    });
                 }
             }
         }])

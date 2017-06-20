@@ -13,8 +13,11 @@
             };
 
             $scope.closeMask = function () {
-                $scope.vm.showMask = false;
-                $scope.vm.overlay = {};
+                $scope.vm = {
+                    showMask: false,
+                    overlay: {},
+                    template: ''
+                }
             };
 
             /**
