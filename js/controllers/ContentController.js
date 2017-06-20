@@ -52,12 +52,13 @@
                 } else {
                     getLayerSymbols(layer).then(function () {
                         setSymbol(layer);
+                    }, function (err) {
+                        console.log(err);
                     });
                 }
             };
 
             function setSymbol(layer) {
-                console.log(layer);
                 Symbol.getSymbolItemListFromDB({
                     styleId: 1,
                     pageNo: 0,
@@ -87,6 +88,8 @@
                             }
                         })
                     }
+                }, function (err) {
+                    console.log(err);
                 });
             }
 

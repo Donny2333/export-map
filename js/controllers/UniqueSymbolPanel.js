@@ -64,7 +64,7 @@
             });
 
             $scope.selectSymbol = function (symbol) {
-                vm.overlay.select = symbol;
+                angular.copy(symbol, vm.overlay.select);
             };
 
             $scope.change = function (value, name) {
@@ -80,6 +80,7 @@
 
             $scope.preview = function () {
                 var param = _.merge(_.pick(vm.overlay.select, [
+                    "StyleId",
                     'SymbolType',
                     'SymbolName',
                     'Color',
@@ -99,7 +100,7 @@
                 });
 
                 Symbol.getLayerSymbolInfo(param).then(function (res) {
-                    vm.overlay.select.SymbolPreview = res.data.result.RenderSymbolInfo.SymbolPreview;
+                    vm.overlay.select.SymbolPreview = res.data.result.RenderSymbolInfo.SymbolInfo.SymbolPreview;
                 });
             };
 

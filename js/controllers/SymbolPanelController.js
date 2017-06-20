@@ -15,7 +15,6 @@
             };
 
             $scope.selectSymbol = function (symbol) {
-                vm.overlay.select = {};
                 angular.copy(symbol, vm.overlay.select);
             };
 
@@ -41,11 +40,10 @@
                 ]), {
                     picHeight: 50,
                     picWidth: 50,
-                    styleid: vm.overlay.styleId
+                    styleId: vm.overlay.styleId
                 });
                 Symbol.getSymbolPreview(param).then(function (res) {
                     if (res.status === 200) {
-                        console.log(res.data);
                         vm.overlay.select.SymbolPreview = res.data.result;
                     }
                 })
