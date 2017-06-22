@@ -77,10 +77,6 @@
                     </div>
                     <div class="symbol-buttom-group symbol-commit">
                         <button class="btn btn-default" style="margin-right: 10px" ng-click="preview()">预览</button>
-                        <button ng-if="vm.overlay.layer" class="btn btn-default"
-                                ng-click="setSymbol(vm.overlay.select)">
-                            设置
-                        </button>
                     </div>
                 </div>
             </div>
@@ -89,15 +85,15 @@
             <div class="unique-body">
                 <div class="table-body">
                     <my-table menus="vm.overlay.menus" data="vm.overlay.uniqueList" columns="vm.overlay.columns"
-                              field = "vm.overlay.field" table="vm.overlay.table" ng-check-all="checkALl" ng-delete="delete"
-                              ng-delete-all="deleteAll"></my-table>
+                              field="vm.overlay.field" table="vm.overlay.table" ng-check-all="checkALl"
+                              ng-delete="delete" ng-delete-all="deleteAll"></my-table>
                 </div>
             </div>
         </div>
     </div>
     <div class="unique-bottom">
         <div class="btn-group">
-            <button class="btn btn-default" ng-click="commit()">确定</button>
+            <button class="btn btn-default" ng-click="commit()">设置</button>
             <button class="btn btn-default" ng-click="closeMask()">取消</button>
         </div>
     </div>

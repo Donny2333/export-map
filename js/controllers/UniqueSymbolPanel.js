@@ -18,14 +18,14 @@
                 align: 'center',
                 valign: 'middle'
             }, {
-                field: 'Symbol',
+                field: 'SymbolInfo',
                 title: 'Symbol',
                 align: 'center',
                 valign: 'middle',
                 width: '100px',
                 clickToSelect: false,
                 formatter: function (value) {
-                    return '<img src="' + value + '"style="display:inline-block;height: 20px;width: 20px">';
+                    return '<img src="' + value.SymbolPreview + '"style="display:inline-block;height: 20px;width: 20px">';
                 },
                 events: {
                     'click img': function (e, value, row, index) {
@@ -107,88 +107,6 @@
                 });
             };
 
-            $scope.setSymbol = function (select) {
-                var symbol;
-                var loading = layer.load(1, {
-                    shade: [0.1, '#000']
-                });
-                switch (select.SymbolType) {
-                    case 'Marker Symbols' :
-                        symbol = {
-                            RenderSymbolInfo: {
-                                Label: vm.overlay.symbol[0].Label,
-                                Value: vm.overlay.symbol[0].Value,
-                                SymbolInfo: {
-                                    SymbolType: "Marker Symbols",
-                                    Angle: select.Angle,
-                                    Color: select.Color,
-                                    Size: select.Size,
-                                    StyleId: select.StyleId,
-                                    SymbolName: select.SymbolName
-                                }
-                            },
-                            Type: "Single symbol"
-                        };
-                        break;
-
-                    case 'Line Symbols' :
-                        symbol = {
-                            RenderSymbolInfo: {
-                                Label: vm.overlay.symbol[0].Label,
-                                Value: vm.overlay.symbol[0].Value,
-                                SymbolInfo: {
-                                    SymbolType: "Line Symbols",
-                                    Width: select.Width,
-                                    Color: select.Color,
-                                    StyleId: select.StyleId,
-                                    SymbolName: select.SymbolName
-                                }
-                            },
-                            Type: "Single symbol"
-                        };
-                        break;
-
-                    case 'Fill Symbols' :
-                        symbol = {
-                            RenderSymbolInfo: {
-                                Label: vm.overlay.symbol[0].Label,
-                                Value: vm.overlay.symbol[0].Value,
-                                SymbolInfo: {
-                                    SymbolType: "Fill Symbols",
-                                    OutlineWidth: select.OutlineWidth,
-                                    OutlineColor: select.OutlineColor,
-                                    FillColor: select.FillColor,
-                                    StyleId: select.StyleId,
-                                    SymbolName: select.SymbolName
-                                }
-                            },
-                            Type: "Single symbol"
-                        };
-                        break;
-
-                    default:
-                        break;
-                }
-
-                Symbol.setLayerSymbolInfo({
-                    docId: vm.overlay.doc.docId,
-                    name: vm.overlay.doc.name,
-                    userId: vm.overlay.doc.userId,
-                    layerIndex: vm.overlay.layer.id,
-                    RenderInfo: symbol
-                }).then(function (res) {
-                    if (res.data.result) {
-                        $rootScope.$broadcast('layer:change');
-                        $scope.vm.showMask = false;
-                        $scope.vm.overlay = {};
-                        layer.msg('符号设置成功', {icon: 1});
-                    } else {
-                        layer.closeAll('loading');
-                        layer.msg('符号设置失败', {icon: 1});
-                    }
-                })
-            };
-
             $scope.checkALl = function () {
                 Doc.getLayerUniqueFieldVal({
                     docId: vm.overlay.doc.docId,
@@ -203,15 +121,15 @@
                     var defaultSymbol = res.data.result.DefaultRenderSymbol;
                     var symbols = res.data.result.RenderSymbols;
                     uniqueList.push({
-                        Symbol: defaultSymbol.SymbolInfo.SymbolPreview,
                         Value: defaultSymbol.Value,
-                        Label: defaultSymbol.Label
+                        Label: defaultSymbol.Label,
+                        SymbolInfo: defaultSymbol.SymbolInfo
                     });
                     symbols.map(function (symbol) {
                         uniqueList.push({
-                            Symbol: symbol.SymbolInfo.SymbolPreview,
                             Value: symbol.Value,
-                            Label: symbol.Label
+                            Label: symbol.Label,
+                            SymbolInfo: symbol.SymbolInfo
                         })
                     });
                     vm.overlay.uniqueList = uniqueList;
@@ -233,7 +151,82 @@
             };
 
             $scope.commit = function () {
+                var renderInfo;
+                var loading = layer.load(1, {
+                    shade: [0.1, '#000']
+                });
+                if (vm.overlay.tab === 0) {
+                    // 单一符号渲染
+                    renderInfo = {
+                        Type: "Single symbol",
+                        RenderSymbolInfo: {
+                            Label: vm.overlay.symbol[0].Label,
+                            Value: vm.overlay.symbol[0].Value,
+                            SymbolInfo: (function (select) {
+                                switch (select.SymbolType) {
+                                    case 'Marker Symbols' :
+                                        return {
+                                            SymbolType: "Marker Symbols",
+                                            Angle: select.Angle,
+                                            Color: select.Color,
+                                            Size: select.Size,
+                                            StyleId: select.StyleId,
+                                            SymbolName: select.SymbolName
+                                        };
 
+                                    case 'Line Symbols' :
+                                        return {
+                                            SymbolType: "Line Symbols",
+                                            Width: select.Width,
+                                            Color: select.Color,
+                                            StyleId: select.StyleId,
+                                            SymbolName: select.SymbolName
+                                        };
+
+                                    case 'Fill Symbols' :
+                                        return {
+                                            SymbolType: "Fill Symbols",
+                                            OutlineWidth: select.OutlineWidth,
+                                            OutlineColor: select.OutlineColor,
+                                            FillColor: select.FillColor,
+                                            StyleId: select.StyleId,
+                                            SymbolName: select.SymbolName
+                                        };
+                                }
+                            })(vm.overlay.select)
+                        }
+                    };
+                } else {
+                    // 唯一值符号渲染
+                    var defaultSymbol = vm.overlay.uniqueList.shift();
+                    var useDefault = defaultSymbol.Value === 'default';
+                    renderInfo = {
+                        Type: "Unique values",
+                        UseDefaultSymbol: useDefault,
+                        FieldList: [vm.overlay.field],
+                        DefaultRenderSymbol: useDefault && defaultSymbol,
+                        RenderSymbols: useDefault ? vm.overlay.uniqueList : _.concat(defaultSymbol, vm.overlay.uniqueList)
+                    };
+                }
+
+                Symbol.setLayerSymbolInfo({
+                    docId: vm.overlay.doc.docId,
+                    name: vm.overlay.doc.name,
+                    userId: vm.overlay.doc.userId,
+                    layerIndex: vm.overlay.layer.id,
+                    RenderInfo: renderInfo
+                }).then(function (res) {
+                    if (res.data.result) {
+                        $scope.closeMask();
+                        layer.msg('符号设置成功', {icon: 1});
+                        $rootScope.$broadcast('layer:change');
+                    } else {
+                        layer.closeAll('loading');
+                        layer.msg('符号设置失败', {icon: 1});
+                    }
+                }, function (err) {
+                    console.log(err);
+                });
             };
 
             function getLayerSymbols(layer) {

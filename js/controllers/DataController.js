@@ -53,7 +53,6 @@
             };
 
             $scope.preview = function (data) {
-                console.log(data);
                 $rootScope.$broadcast('mask:show', {
                     showMask: true,
                     template: '<map-panel></map-panel>',
@@ -70,7 +69,6 @@
                 if ($scope.$parent.vm.doc && $scope.$parent.vm.doc.docId) {
                     if (vm.typeRes.id) {
                         // 添加公共数据
-                        console.log(data);
                         var newLayer = {
                             userId: $scope.$parent.vm.doc.userId,
                             orgPath: data.GdbPath,
@@ -90,7 +88,6 @@
                         });
 
                         modalInstance.result.then(function (newLayer) {
-                            console.log(newLayer);
                             if (newLayer.id) {
                                 addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, newLayer.id);
                             }
@@ -120,7 +117,6 @@
                     pageNum: pageSize
                 }).then(function (res) {
                     if (res.status === 200) {
-                        console.log(res.data);
                         vm.data = res.data.result;
                         vm.pagination.totalItems = res.data.count;
                         vm.pagination.maxPage = Math.ceil(res.data.count / vm.pagination.pageSize);
@@ -140,7 +136,6 @@
                 }).then(function (res) {
                     if (res.status === 200 && res.data.status === 'ok') {
                         layer.closeAll('loading');
-                        console.log(res.data);
                         $scope.$emit('layer:change', res.data);
                         layer.msg('数据添加成功', {icon: 1});
                     } else {
@@ -161,8 +156,6 @@
                     error: false,
                     errorMsg: ''
                 };
-
-                console.log(newLayer);
 
                 $scope.ok = function () {
                     if (!vm.newLayer.orgNames.length) {
@@ -185,7 +178,6 @@
                                 vm.errorMsg = res.data.msg;
                             } else if (res.data.status === 'ok') {
                                 vm.newLayer.id = res.data.result[0].Id;
-                                console.log(res.data.result[0]);
                                 $uibModalInstance.close(vm.newLayer);
                                 vm.error = false;
                             }

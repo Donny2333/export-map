@@ -55,7 +55,6 @@
                     pageSize: pageSize
                 }).then(function (res) {
                     if (res.status === 200) {
-                        console.log(res.data.result[0]);
                         res.data.result.map(function (data) {
                             vm.symbols.push({
                                 styleId: data.Id,

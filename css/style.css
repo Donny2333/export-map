@@ -388,15 +388,15 @@ a {
     -ms-flex: auto;
     flex: auto;
     position: relative;
-    width: 100%;
-    height: 100%;
     display: block;
+    width: 100%;
+    height: 50%;
 }
 
 .map-content > .layer-table {
     position: relative;
-    height: 320px;
-    min-height: 320px;
+    height: 200px;
+    min-height: 200px;
     width: 100%;
     margin-top: -1px;
     padding: 10px;
@@ -493,6 +493,7 @@ a {
     line-height: 34px;
     vertical-align: middle;
     margin-bottom: 10px;
+    align-self: flex-start;
 }
 
 .data-page > .data-search {

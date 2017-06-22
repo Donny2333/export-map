@@ -46,6 +46,11 @@
                 }
             };
 
+            $scope.toggleTable = function (layer) {
+                $scope.$parent.vm.showTable = !$scope.$parent.vm.showTable;
+                $scope.$emit('map:updateSize');
+            };
+
             $scope.changePreview = function (layer) {
                 if (layer.symbols && layer.symbols.length) {
                     setSymbol(layer);

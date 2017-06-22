@@ -38,7 +38,7 @@
              */
             $rootScope.$on('mask:hide', function (event, value) {
                 if (!value.showMask) {
-                    $scope.vm.showMask = false;
+                    $scope.closeMask();
                 }
             });
         }])

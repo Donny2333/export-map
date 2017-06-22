@@ -8,7 +8,8 @@
         .controller('AppController', ['$scope', '$rootScope', '$state', '$timeout', 'Router', 'Doc', 'Data', 'URL_CFG', 'uuid',
             function ($scope, $rootScope, $state, $timeout, Router, Doc, Data, URL_CFG, uuid) {
                 var vm = $scope.vm = {
-                    menus: Router.list().slice(0, 2)
+                    menus: Router.list().slice(0, 2),
+                    showTable: true
                 };
 
                 var map = null;
@@ -197,6 +198,17 @@
                 });
 
                 /**
+                 * 监听"地图更新"事件
+                 */
+                $scope.$on('map:updateSize', function (event, value) {
+                    $timeout(function () {
+                        map && map.updateSize();
+                        console.log($('#map').height());
+                        console.log(map.getSize());
+                    }, 10);
+                });
+
+                /**
                  * 监听"符号改变"事件
                  */
                 $scope.$on('symbol:change', function (event, value) {
@@ -251,7 +263,6 @@
                                     gdbPath: gdb.GdbPath
                                 });
                             });
-                            // console.log(vm.gdbs[0]);
                         } else {
                             // Todo: 创建用户的gdb
                         }
@@ -274,6 +285,12 @@
                             }
                             judgeCheckBox(vm.layers);
                             layer.closeAll('loading');
+                        } else {
+                            layer.closeAll('loading');
+                            layer.open({
+                                title: '地图打开失败',
+                                content: res.data.msg
+                            });
                         }
                     });
                 }

@@ -6,6 +6,7 @@
 
     var prodURL = 'https://172.30.1.246:9527/',
         devURL = 'http://192.168.250.44:9527/',
+        testURL = 'http://192.168.100.105:9527/',
         Urls = {
             Prod_Cfg: {
                 api: prodURL,
@@ -14,6 +15,10 @@
             Dev_Cfg: {
                 api: devURL,
                 img: 'http://192.168.250.44:9528/'
+            },
+            Test_Cfg: {
+                api: testURL,
+                img: 'http://192.168.100.105:9528/'
             }
         };
 
