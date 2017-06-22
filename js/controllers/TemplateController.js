@@ -22,7 +22,6 @@
             };
 
             $scope.preview = function (data) {
-                console.log(data);
                 $rootScope.$broadcast('mask:show', {
                     showMask: true,
                     template: '<map-panel></map-panel>',
@@ -62,7 +61,6 @@
                                 detail: template.Detail2
                             })
                         });
-                        console.log(vm.templates);
                         vm.pagination.totalItems = res.data.count;
                         vm.pagination.maxPage = Math.ceil(res.data.count / vm.pagination.pageSize);
                     }

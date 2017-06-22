@@ -9,81 +9,8 @@
             function ($scope, $rootScope, $state, $timeout, Router, Doc, Data, URL_CFG, uuid) {
                 var vm = $scope.vm = {
                     menus: Router.list().slice(0, 2),
-                    showTable: true,
-                    tables: [
-                        {
-                            id: 0,
-                            name: 'Tom',
-                            sex: 'Female',
-                            birthday: '1990-10-12',
-                            tel: '123456'
-                        }, {
-                            id: 1,
-                            name: 'Marry',
-                            sex: 'Female',
-                            birthday: '1991-08-22',
-                            tel: '123456'
-                        }, {
-                            id: 2,
-                            name: 'Tom',
-                            sex: 'Male',
-                            birthday: '1992-01-05',
-                            tel: '123456'
-                        }, {
-                            id: 3,
-                            name: 'Jerry',
-                            sex: 'Male',
-                            birthday: '1989-07-01',
-                            tel: '123456'
-                        }, {
-                            id: 4,
-                            name: 'Rose',
-                            sex: 'Female',
-                            birthday: '1992-11-12',
-                            tel: '123456'
-                        }, {
-                            id: 5,
-                            name: 'Jack',
-                            sex: 'Female',
-                            birthday: '1995-10-07',
-                            tel: '123456'
-                        }, {
-                            id: 6,
-                            name: 'Tom',
-                            sex: 'Female',
-                            birthday: '1990-10-12',
-                            tel: '123456'
-                        }, {
-                            id: 7,
-                            name: 'Marry',
-                            sex: 'Female',
-                            birthday: '1991-08-22',
-                            tel: '123456'
-                        }, {
-                            id: 8,
-                            name: 'Tom',
-                            sex: 'Male',
-                            birthday: '1992-01-05',
-                            tel: '123456'
-                        }, {
-                            id: 9,
-                            name: 'Jerry',
-                            sex: 'Male',
-                            birthday: '1989-07-01',
-                            tel: '123456'
-                        }, {
-                            id: 10,
-                            name: 'Rose',
-                            sex: 'Female',
-                            birthday: '1992-11-12',
-                            tel: '123456'
-                        }, {
-                            id: 11,
-                            name: 'Jack',
-                            sex: 'Female',
-                            birthday: '1995-10-07',
-                            tel: '123456'
-                        }]
+                    showTable: false,
+                    table: {}
                 };
 
                 var map = null;
@@ -116,7 +43,7 @@
                     vm.showTable = false;
                     $timeout(function () {
                         map && map.updateSize();
-                    }, 10);
+                    }, 0);
                 };
 
                 $scope.createOrClose = function () {
@@ -279,12 +206,16 @@
                 });
 
                 /**
-                 * 监听"地图更新"事件
+                 * 监听"表格开关"事件
                  */
-                $scope.$on('map:updateSize', function (event, value) {
+                $scope.$on('map:toggleTable', function (event, value) {
+                    $scope.vm.showTable = !$scope.vm.showTable;
+                    if (value) {
+                        $scope.vm.table = value.table;
+                    }
                     $timeout(function () {
                         map && map.updateSize();
-                    }, 10);
+                    }, 0);
                 });
 
                 /**

@@ -1,8 +1,63 @@
-<div class="symbol-panel">
-    <div class="symbol-title">
+<div class="query-panel">
+    <div class="query-title">
         <span class="title">{{vm.overlay.title}}</span>
     </div>
-    <div class="symbol-body">
+    <div class="query-body">
+        <div>
+            <div>属性查询设置：</div>
+            <ul>
+                <li>
+                    <span>字段</span>
+                    <select>
+                        <option value="name">name</option>
+                        <option value="name">name</option>
+                        <option value="name">name</option>
+                        <option value="name">name</option>
+                    </select>
+                </li>
+                <li>
+                    <span>运算符</span>
+                    <select>
+                        <option value="let">大于</option>
+                        <option value="lgt">小于</option>
+                        <option value="eql">等于</option>
+                    </select>
+                </li>
+                <li>
+                    <span>属性值</span>
+                    <select>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                    </select>
+                </li>
+                <li>
+                    <button>＋</button>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div>
+                查询条件预览：
+            </div>
+            <ul>
+                <li>
+                    name > 10
+                </li>
+                <li>
+                    name < 30
+                </li>
+                <li>
+                    sex = male
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="query-bottom">
+        <div class="btn-group">
+            <button class="btn btn-default" ng-click="commit()">确定</button>
+            <button class="btn btn-default" ng-click="closeMask()">取消</button>
+        </div>
     </div>
     <i class="icon-close" ng-click="closeMask()"></i>
 </div>

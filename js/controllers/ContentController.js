@@ -44,8 +44,14 @@
             };
 
             $scope.toggleTable = function (layer) {
-                $scope.$parent.vm.showTable = !$scope.$parent.vm.showTable;
-                $scope.$emit('map:updateSize');
+                $rootScope.$broadcast('mask:show', {
+                    showMask: true,
+                    template: '<query-panel></query-panel>',
+                    overlay: {
+                        title: '图层过滤',
+                        layer: layer
+                    }
+                });
             };
 
             $scope.changePreview = function (layer) {

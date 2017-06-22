@@ -7,6 +7,7 @@
     angular.module('export-map.controllers')
         .controller('CreatePanelController', ['$scope', '$rootScope', 'Doc', 'URL_CFG', function ($scope, $rootScope, Doc, URL_CFG) {
             var vm = $scope.vm;
+            vm.overlay.tab = 0;
 
             $scope.pageChanged = function () {
                 getDocs(vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize, "模板", "Public", "Templete");
