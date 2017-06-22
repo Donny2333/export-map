@@ -1023,7 +1023,7 @@ a {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    padding-top: 5px;
+    padding-top: 60px;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
@@ -1051,6 +1051,7 @@ a {
 .symbol-select-input-list {
     margin-top: 20px;
     height: 150px;
+    width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1072,10 +1073,21 @@ a {
     justify-content: center;
 }
 
-.symbol-select-input > span {
+.symbol-select-input {
+    margin-top: 10px;
+}
+
+.symbol-select-input > span.key {
     display: inline-block;
     width: 60px;
     max-width: 60px;
+}
+
+.symbol-select-input > span.value {
+    display: inline-block;
+    width: 100px;
+    max-width: 100px;
+    border: 1px solid rgba(0, 0, 0, .2);
 }
 
 .symbol-select-input > input {

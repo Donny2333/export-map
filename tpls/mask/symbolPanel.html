@@ -25,48 +25,41 @@
             </div>
             <div class="symbol-select-input-list" ng-if="vm.overlay.select.SymbolType==='Marker Symbols'">
                 <div class="symbol-select-input">
-                    <span>size：</span>
-                    <input type="text" ng-model="vm.overlay.select.Size">
+                    <span class="key">size：</span>
+                    <span class="value">{{vm.overlay.select.Size}}</span>
                 </div>
                 <div class="symbol-select-input">
-                    <span>color：</span>
-                    <input colorpicker="rgb" type="text" ng-model="vm.overlay.select.Color"
-                           ng-change="change(vm.overlay.select.Color, 'Color')">
+                    <span class="key">color：</span>
+                    <span class="value">{{vm.overlay.select.Color}}</span>
                 </div>
                 <div class="symbol-select-input">
-                    <span>angle：</span>
-                    <input type="text" ng-model="vm.overlay.select.Angle">
+                    <span class="key">angle：</span>
+                    <span class="value">{{vm.overlay.select.Angle}}</span>
                 </div>
             </div>
             <div class="symbol-select-input-list" ng-if="vm.overlay.select.SymbolType==='Line Symbols'">
                 <div class="symbol-select-input">
-                    <span>width：</span>
-                    <input type="text" ng-model="vm.overlay.select.Width">
+                    <span class="key">width：</span>
+                    <span class="value">{{vm.overlay.select.Width}}</span>
                 </div>
                 <div class="symbol-select-input">
-                    <span>color：</span>
-                    <input colorpicker="rgb" type="text" ng-model="vm.overlay.select.Color"
-                           ng-change="change(vm.overlay.select.Color, 'Color')">
+                    <span class="key">color：</span>
+                    <span class="value">{{vm.overlay.select.Color}}</span>
                 </div>
             </div>
             <div class="symbol-select-input-list" ng-if="vm.overlay.select.SymbolType==='Fill Symbols'">
                 <div class="symbol-select-input">
-                    <span>fill：</span>
-                    <input colorpicker="rgb" type="text" ng-model="vm.overlay.select.FillColor"
-                           ng-change="change(vm.overlay.select.FillColor, 'FillColor')">
+                    <span class="key">fill：</span>
+                    <span class="value">{{vm.overlay.select.FillColor}}</span>
                 </div>
                 <div class="symbol-select-input">
-                    <span>width：</span>
-                    <input type="text" ng-model="vm.overlay.select.OutlineWidth">
+                    <span class="key">width：</span>
+                    <span class="value">{{vm.overlay.select.OutlineWidth}}</span>
                 </div>
                 <div class="symbol-select-input">
-                    <span>color：</span>
-                    <input colorpicker="rgb" type="text" ng-model="vm.overlay.select.OutlineColor"
-                           ng-change="change(vm.overlay.select.OutlineColor, 'OutlineColor')">
+                    <span class="key">color：</span>
+                    <span class="value">{{vm.overlay.select.OutlineColor}}</span>
                 </div>
-            </div>
-            <div class="symbol-buttom-group symbol-commit">
-                <button class="btn btn-default" style="margin-right: 10px" ng-click="preview()">预览</button>
             </div>
         </div>
     </div>

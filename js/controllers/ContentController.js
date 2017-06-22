@@ -100,22 +100,31 @@
                 });
             }
 
-            $scope.deleteLayer = function (layer) {
-                Symbol.RemoveLayerFromMap({
-                    docId: $scope.$parent.vm.doc.docId,
-                    userId: $scope.$parent.vm.doc.userId,
-                    name: $scope.$parent.vm.doc.name,
-                    layerIndex: layer.id
-                }).then(function (res) {
-                    if (res.data.status === "ok") {
-                        //刷新内容
-                        show_layers = [];
-                        chooseChecked($scope.$parent.vm.layers);
-                        $scope.$emit('layer:change', {
-                            layers: show_layers
-                        })
-                    }
-                })
+            $scope.deleteLayer = function (_layer) {
+                layer.confirm('您确定要删除该图层？', {
+                    btn: ['确定', '取消']
+                }, function () {
+                    Symbol.RemoveLayerFromMap({
+                        docId: $scope.$parent.vm.doc.docId,
+                        userId: $scope.$parent.vm.doc.userId,
+                        name: $scope.$parent.vm.doc.name,
+                        layerIndex: _layer.id
+                    }).then(function (res) {
+                        if (res.data.status === "ok") {
+                            //刷新内容
+                            show_layers = [];
+                            layer.msg('图层删除成功', {icon: 1});
+                            chooseChecked($scope.$parent.vm.layers);
+                            $scope.$emit('layer:change', {
+                                layers: show_layers
+                            })
+                        } else {
+                            layer.msg('图层删除失败', {icon: 1});
+                        }
+                    })
+                }, function () {
+                    layer.close()
+                });
             };
 
             var show_layers = [];
