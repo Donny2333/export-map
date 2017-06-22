@@ -222,7 +222,7 @@
                         $rootScope.$broadcast('layer:change');
                     } else {
                         layer.closeAll('loading');
-                        layer.msg('符号设置失败', {icon: 1});
+                        layer.msg('符号设置失败', {icon: 2});
                     }
                 }, function (err) {
                     console.log(err);

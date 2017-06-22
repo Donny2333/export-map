@@ -5,8 +5,8 @@
     'use strict';
 
     angular.module('export-map.controllers', [])
-        .controller('AppController', ['$scope', '$rootScope', '$state', '$timeout', 'Router', 'Doc', 'Data', 'URL_CFG', 'uuid',
-            function ($scope, $rootScope, $state, $timeout, Router, Doc, Data, URL_CFG, uuid) {
+        .controller('AppController', ['$scope', '$rootScope', '$state', '$timeout', '$q', 'Router', 'Doc', 'Data', 'URL_CFG', 'uuid',
+            function ($scope, $rootScope, $state, $timeout, $q, Router, Doc, Data, URL_CFG, uuid) {
                 var vm = $scope.vm = {
                     menus: Router.list().slice(0, 2),
                     showTable: false,
@@ -33,6 +33,8 @@
                 if (!vm.doc || !vm.doc.docId) {
                     $state.go("app.explorer.files");
                 }
+
+                getUserGdb();
 
                 $scope.go = function ($event, menu) {
                     $event.preventDefault();
@@ -124,16 +126,6 @@
                  * 监听"文档打开"事件
                  */
                 $scope.$on('doc:open', function (event, value) {
-                    // vm.doc = {
-                    //     docId: value.docId,
-                    //     userId: value.userId,
-                    //     name: value.name,
-                    //     name2: value.name2,
-                    //     author: value.author,
-                    //     detail: value.detail,
-                    //     detail2: value.detail2,
-                    //     tagName: value.tagName
-                    // };
                     vm.menus = Router.list();
                     vm.doc = value;
                     var extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
@@ -151,29 +143,31 @@
                                 random: uuid.create()
                             }
                         }));
+                        getMapInfo();
                     } else {
-                        initMap(URL_CFG.api + 'MapService.svc/Export', extent);
+                        getMapInfo().then(function (res) {
+                            initMap(URL_CFG.api + 'MapService.svc/Export', extent);
+                        });
                     }
-                    getUserGdb();
-                    getMapInfo();
                 });
 
                 /**
                  * 监听"图层更新"事件，如有图层更新，则重新获取图层列表信息
                  */
                 $scope.$on('layer:change', function (event, value) {
-                    getMapInfo();
-                    map.getLayers().item(0).setSource(new ol.source.ImageWMS({
-                        url: URL_CFG.api + 'MapService.svc/Export',
-                        attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
-                        imageExtent: map.getView().calculateExtent(),
-                        params: {
-                            docId: vm.doc.docId,
-                            userId: vm.doc.userId,
-                            name: vm.doc.name,
-                            random: uuid.create()
-                        }
-                    }));
+                    getMapInfo().then(function (res) {
+                        map.getLayers().item(0).setSource(new ol.source.ImageWMS({
+                            url: URL_CFG.api + 'MapService.svc/Export',
+                            attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
+                            imageExtent: map.getView().calculateExtent(),
+                            params: {
+                                docId: vm.doc.docId,
+                                userId: vm.doc.userId,
+                                name: vm.doc.name,
+                                random: uuid.create()
+                            }
+                        }));
+                    });
                 });
 
                 /**
@@ -263,7 +257,7 @@
 
                 function getUserGdb() {
                     Data.getUserGdbInfo({
-                        userId: vm.doc.userId
+                        userId: 1
                     }).then(function (res) {
                         if (res.status === 200) {
                             vm.gdbs = [];
@@ -280,6 +274,7 @@
                 }
 
                 function getMapInfo() {
+                    var deferred = $q.defer();
                     var loading = layer.load(1, {
                         shade: [0.1, '#000']
                     });
@@ -289,6 +284,7 @@
                         name: vm.doc.name
                     }).then(function (res) {
                         if (res.data.status === "ok" && res.data.result) {
+                            deferred.resolve(res);
                             vm.layers = res.data.result.layers;
                             for (var i = 0; i < vm.layers.length; i++) {
                                 addShowAttribute(vm.layers[i]);
@@ -296,13 +292,17 @@
                             judgeCheckBox(vm.layers);
                             layer.closeAll('loading');
                         } else {
+                            deferred.reject(res);
                             layer.closeAll('loading');
                             layer.open({
                                 title: '地图打开失败',
                                 content: res.data.msg
                             });
                         }
+                    }, function (err) {
+                        deferred.reject(err);
                     });
+                    return deferred.promise;
                 }
 
                 function addShowAttribute(layer) {
@@ -342,38 +342,6 @@
                             ischeck(layers[i].subLayerIds);
                         }
                     }
-                }
-
-                function finishCreateMap() {
-                    vm.mask = false;
-                    vm.doc = {
-                        docId: 44,
-                        userId: 1,
-                        name: '老河口测试地图',
-                        name2: '来自前端的老河口测试地图',
-                        author: '姚志武',
-                        detail: '老河口测试地图，老河口测试地图',
-                        detail2: '老河口测试地图，老河口测试地图，老河口测试地图',
-                        tagName: '城管'
-                    };
-                    Data.getUserGdbInfo({
-                        userId: vm.doc.userId
-                    }).then(function (res) {
-                        if (res.status === 200) {
-                            vm.gdbs = [];
-                            res.data.result.map(function (gdb) {
-                                vm.gdbs.push({
-                                    name: gdb.Name,
-                                    gdbPath: gdb.GdbPath
-                                });
-                            });
-                            console.log(vm.gdbs[0]);
-                        } else {
-                            // Todo: 创建用户的gdb
-                        }
-                    });
-                    initMap(URL_CFG.api + 'MapService.svc/Export');
-                    getMapInfo();
                 }
             }])
 })(angular);

@@ -17,7 +17,6 @@
                 vm.overlay.choose = false;
                 vm.overlay.create = true;
                 vm.overlay.doc.docId = id;
-                console.log(id);
             };
 
             $scope.goBack = function () {
@@ -30,23 +29,32 @@
                     shade: [0.1, '#000']
                 });
                 Doc.create(vm.overlay.doc).then(function (res) {
-                    console.log(res.data);
-                    var value = res.data.result;
-                    vm.overlay.create = false;
-                    vm.showMask = false;
-                    $rootScope.$broadcast('doc:change');
-                    $rootScope.$broadcast('doc:open', {
-                        docId: value.Id,
-                        userId: value.UserId,
-                        name: value.Name,
-                        name2: value.Name2,
-                        author: value.Author,
-                        detail: value.Detail,
-                        detail2: value.Detail2,
-                        tagName: value.TagName
-                    });
-                    layer.closeAll('loading');
-                    layer.msg('地图创建成功', {icon: 1});
+                    if (res.data.status === "ok" && res.data.result) {
+                        var doc = res.data.result;
+                        vm.overlay.create = false;
+                        vm.showMask = false;
+                        $rootScope.$broadcast('doc:change');
+                        $rootScope.$broadcast('doc:open', {
+                            docId: doc.Id,
+                            userId: doc.UserId,
+                            name: doc.Name,
+                            name2: doc.Name2,
+                            author: doc.Author,
+                            detail: doc.Detail,
+                            detail2: doc.Detail2,
+                            tagName: doc.TagName,
+                            xmin: doc.Xmin,
+                            ymin: doc.Ymin,
+                            xmax: doc.Xmax,
+                            ymax: doc.Ymax,
+                            srcID: doc.SrcID
+                        });
+                        layer.closeAll('loading');
+                        layer.msg('地图创建成功', {icon: 1});
+                    } else {
+                        layer.closeAll('loading');
+                        layer.msg('地图创建失败', {icon: 2});
+                    }
                 });
             };
 
@@ -73,7 +81,6 @@
                                 detail: template.Detail2
                             })
                         });
-                        // console.log(vm.overlay.templates);
                         vm.overlay.pagination.totalItems = res.data.count;
                         vm.overlay.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.pagination.pageSize);
                     }

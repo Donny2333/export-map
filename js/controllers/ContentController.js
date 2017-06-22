@@ -119,7 +119,7 @@
                                 layers: show_layers
                             })
                         } else {
-                            layer.msg('图层删除失败', {icon: 1});
+                            layer.msg('图层删除失败', {icon: 2});
                         }
                     })
                 }, function () {

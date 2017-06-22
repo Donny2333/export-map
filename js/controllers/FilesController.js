@@ -72,7 +72,7 @@
                             getMapList(vm.pagination.pageNo - 1, vm.pagination.pageSize, "", "Users", "");
                         }
                         else {
-                            layer.msg('地图删除失败', {icon: 1});
+                            layer.msg('地图删除失败', {icon: 2});
                         }
                     })
                 }, function () {

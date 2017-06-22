@@ -1023,7 +1023,7 @@ a {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    padding-top: 60px;
+    padding-top: 40px;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
@@ -1049,7 +1049,6 @@ a {
 }
 
 .symbol-select-input-list {
-    margin-top: 20px;
     height: 150px;
     width: 100%;
     display: -webkit-box;
@@ -1097,7 +1096,7 @@ a {
 
 .symbol-commit {
     position: absolute;
-    bottom: 120px;
+    bottom: 100px;
 }
 
 /******************* unique-panel **********************/
@@ -1442,10 +1441,13 @@ a {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
     -webkit-box-flex: 1;
     -ms-flex: auto;
     flex: auto;
+}
+
+.query-param {
+    width: 30%;
 }
 
 .query-bottom {
