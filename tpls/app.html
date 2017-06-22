@@ -27,13 +27,16 @@
                 <div id="map" class="map"></div>
                 <div class="layer-table" ng-if="vm.showTable">
                     <div class="table-container">
-                        <div class="table-head">table head</div>
+                        <div class="table-head">
+                            <span>table head</span>
+                            <i class="icon-close table-close" ng-click="closeTable()"></i>
+                        </div>
                         <div class="table-body">
                             <table border="1">
-                                <tr>
+                                <tr class="table-key">
                                     <th ng-repeat="(key, value) in vm.tables[0]">{{key}}</th>
                                 </tr>
-                                <tr ng-repeat="table in vm.tables">
+                                <tr class="table-value" ng-repeat="table in vm.tables">
                                     <td ng-repeat="(key, value) in table">{{value}}</td>
                                 </tr>
                             </table>

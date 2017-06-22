@@ -373,6 +373,16 @@ a {
     color: white;
 }
 
+.icon-close.table-close {
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+}
+
+.icon-close.table-close:hover:after {
+    color: #f87574;
+}
+
 /******************* map-container **********************/
 
 .map-container > .map-content {
@@ -395,13 +405,66 @@ a {
 
 .map-content > .layer-table {
     position: relative;
-    height: 200px;
-    min-height: 200px;
+    height: 320px;
+    min-height: 320px;
     width: 100%;
     margin-top: -1px;
     padding: 10px;
     background-color: #ededef;
     border-top: 1px solid #cccccc;
+}
+
+/******************* table-container **********************/
+
+.layer-table > .table-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f4f8;
+    border: 1px solid #e0e2e5;
+    height: 100%;
+}
+
+.table-head {
+    margin: -1px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid #e0e2e5;
+}
+
+.table-body {
+    flex: auto;
+    margin: -1px;
+    height: 120px;
+    overflow-y: auto;
+}
+
+.table-body > table {
+    width: 100%;
+}
+
+.table-body > table tr th,
+.table-body > table tr td {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 6px 20px;
+    border: 1px solid #dedede;
+}
+
+.table-body > table tr td {
+    background-color: white;
+    border: none;
+    border-left: 1px solid #dedede;
+    border-right: 1px solid #dedede;
+}
+
+.table-body > table tr:nth-child(odd) td {
+    background-color: #ebf4fc;
+}
+
+.table-body > table tr:hover td {
+    background-color: #fcebee;
 }
 
 /******************* left-menu **********************/

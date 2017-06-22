@@ -23,8 +23,6 @@
 
             //check状态
             $scope.hideLayer = function (layers, layer) {
-                // console.log(layer);
-                // console.log("hidelayer");
                 if (layer.ischeck === 2 || layer.ischeck === 3) {
                     choiceCheck(layer);
                 } else {
@@ -33,7 +31,6 @@
                 findChindById(layers, layer.pid);
                 show_layers = [];
                 chooseChecked($scope.$parent.vm.layers);
-                // console.log(show_layers);
                 $scope.$emit('map:change', {
                     layers: show_layers
                 })
@@ -167,7 +164,6 @@
 
             //父节点随子节点状态改变而变化
             function findChindById(layers, pid) {
-                // console.log("通过id获得节点" + layers);
                 if (pid > 0) {
                     //判断是否找到父节点
                     var i;
@@ -197,12 +193,9 @@
                     var a = 0;
                     var b = 0;
                     for (var i = 0; i < layer.subLayerIds.length; i++) {
-                        // console.log(layer.id + "的长度：" + layer.subLayerIds.length);
                         if (layer.subLayerIds[i].ischeck === 1) {
                             a++;
-                            // console.log("a+1");
                         } else if (layer.subLayerIds[i].ischeck === 2) {
-                            // console.log("b+1");
                             b++;
                         }
                     }
@@ -214,7 +207,6 @@
                         layer.ischeck = 3;
                     }
                 }
-                // console.log(layer.id + "check状态为" + layer.ischeck);
             }
 
 
@@ -225,7 +217,6 @@
                         choiceCheck(layer.subLayerIds[i])
                     }
                 }
-                // console.log(layer.id + "check状态为" + layer.ischeck);
             }
 
 
@@ -236,7 +227,6 @@
                         cancelCheck(layer.subLayerIds[i])
                     }
                 }
-                // console.log(layer.id + "check状态为" + layer.ischeck);
             }
 
 

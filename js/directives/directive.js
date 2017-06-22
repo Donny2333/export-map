@@ -224,4 +224,14 @@
             }
         })
 
+        .directive('queryPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/queryPanel.html',
+                controller: 'QueryPanelController'
+            }
+        })
+
 })(angular);
