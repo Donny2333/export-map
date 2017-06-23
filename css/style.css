@@ -1428,7 +1428,7 @@ a {
 .theme-data {
     height: 100%;
     width: 100%;
-    padding: 30px;
+    padding: 30px 30px 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1437,7 +1437,7 @@ a {
 
 .theme-item {
     display: block;
-    height: 300px;
+    height: 320px;
     width: 520px;
     border: 1px solid #d4d4d4;
 }
@@ -1446,12 +1446,20 @@ a {
     align-self: flex-end;
 }
 
+.theme-btns > button {
+    width: 60px;
+}
+
+.theme-btns > button:nth-child(1) {
+    margin-right: 16px;
+}
+
 /******************* query-panel **********************/
 
 .query-panel {
     position: relative;
-    height: 430px;
-    width: 730px;
+    height: 420px;
+    width: 680px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1493,7 +1501,7 @@ a {
     display: flex;
     flex-direction: column;
     width: 330px;
-    padding: 20px 30px 30px;
+    padding: 20px;
     border-right: 1px solid #dddddd;
     justify-content: space-around;
 }
@@ -1501,7 +1509,7 @@ a {
 .query-result {
     display: flex;
     flex-direction: column;
-    padding: 20px 30px 30px;
+    padding: 20px;
     justify-content: space-around;
 }
 
@@ -1519,13 +1527,18 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    /*align-self: center;*/
     height: 200px;
+    padding-left: 20px;
 }
 
 .query-item {
     display: flex;
     align-items: center;
+}
+
+.query-item > .dropdown > button {
+    margin-left: 10px;
+    min-width: 60px;
 }
 
 .query-item .query-key {

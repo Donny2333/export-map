@@ -48,34 +48,39 @@
                 var loading = layer.load(1, {
                     shade: [0.1, '#000']
                 });
-                Doc.create(vm.overlay.doc).then(function (res) {
-                    if (res.data.status === "ok" && res.data.result) {
-                        var doc = res.data.result;
-                        vm.overlay.create = false;
-                        vm.showMask = false;
-                        $rootScope.$broadcast('doc:change');
-                        $rootScope.$broadcast('doc:open', {
-                            docId: doc.Id,
-                            userId: doc.UserId,
-                            name: doc.Name,
-                            name2: doc.Name2,
-                            author: doc.Author,
-                            detail: doc.Detail,
-                            detail2: doc.Detail2,
-                            tagName: doc.TagName,
-                            xmin: doc.Xmin,
-                            ymin: doc.Ymin,
-                            xmax: doc.Xmax,
-                            ymax: doc.Ymax,
-                            srcID: doc.SrcID
-                        });
-                        layer.closeAll('loading');
-                        layer.msg('地图创建成功', {icon: 1});
-                    } else {
-                        layer.closeAll('loading');
-                        layer.msg('地图创建失败', {icon: 2});
-                    }
-                });
+                if (vm.overlay.tab === 0) {
+                    // 模版创建
+                    Doc.create(vm.overlay.doc).then(function (res) {
+                        if (res.data.status === "ok" && res.data.result) {
+                            var doc = res.data.result;
+                            vm.overlay.create = false;
+                            vm.showMask = false;
+                            $rootScope.$broadcast('doc:change');
+                            $rootScope.$broadcast('doc:open', {
+                                docId: doc.Id,
+                                userId: doc.UserId,
+                                name: doc.Name,
+                                name2: doc.Name2,
+                                author: doc.Author,
+                                detail: doc.Detail,
+                                detail2: doc.Detail2,
+                                tagName: doc.TagName,
+                                xmin: doc.Xmin,
+                                ymin: doc.Ymin,
+                                xmax: doc.Xmax,
+                                ymax: doc.Ymax,
+                                srcID: doc.SrcID
+                            });
+                            layer.closeAll('loading');
+                            layer.msg('地图创建成功', {icon: 1});
+                        } else {
+                            layer.closeAll('loading');
+                            layer.msg('地图创建失败', {icon: 2});
+                        }
+                    });
+                } else {
+                    // 专题创建
+                }
             };
 
             function getDocs(pageNo, pageSize, tagName, typeRes, mapType) {
