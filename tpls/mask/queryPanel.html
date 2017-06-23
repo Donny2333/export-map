@@ -4,59 +4,67 @@
     </div>
     <div class="query-body">
         <div class="query-param">
-            <div>属性查询设置：</div>
-            <ul>
-                <li>
-                    <span>字段</span>
-                    <select>
-                        <option value="name">name</option>
-                        <option value="name">name</option>
-                        <option value="name">name</option>
-                        <option value="name">name</option>
-                    </select>
+            <div class="title">属性查询设置：</div>
+            <ul class="query-list">
+                <li class="query-item">
+                    <span class="query-key">字段：</span>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="true">
+                            {{vm.overlay.field.data[vm.overlay.field.select].value}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="d in vm.overlay.field.data"><a ng-click="vm.overlay.field.select=d.id">{{d.value}}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    <span>运算符</span>
-                    <select>
-                        <option value="let">大于</option>
-                        <option value="lgt">小于</option>
-                        <option value="eql">等于</option>
-                    </select>
+                <li class="query-item">
+                    <span class="query-key">运算符：</span>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="true">
+                            {{vm.overlay.operator.data[vm.overlay.operator.select].value}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="d in vm.overlay.operator.data" ng-click="vm.overlay.operator.select=d.id"><a>{{d.value}}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    <span>属性值</span>
-                    <select>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                    </select>
-                </li>
-                <li>
-                    <button>＋</button>
+                <li class="query-item">
+                    <span class="query-key">属性值：</span>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="true">
+                            {{vm.overlay.param.data[vm.overlay.param.select].value}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="d in vm.overlay.param.data" ng-click="vm.overlay.param.select=d.id"><a>{{d.value}}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
+            <div class="query-btn">
+                <button class="btn btn-success" style="display: flex;align-items: center" ng-click="add()">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="margin-right: 5px"></span>
+                    <span>添加至列表</span>
+                </button>
+            </div>
         </div>
         <div class="query-result">
-            <div>
-                查询条件预览：
-            </div>
-            <ul>
-                <li>
-                    name > 10
-                </li>
-                <li>
-                    name < 30
-                </li>
-                <li>
-                    sex = male
-                </li>
+            <div class="title">属性查询条件预览：</div>
+            <ul style="height: 180px;width: 360px;border: 1px solid #d4d4d4;padding: 10px">
+                <li ng-repeat="d in vm.overlay.query">{{d}}</li>
             </ul>
-        </div>
-    </div>
-    <div class="query-bottom">
-        <div class="btn-group">
-            <button class="btn btn-default" ng-click="commit()">确定</button>
-            <button class="btn btn-default" ng-click="closeMask()">取消</button>
+            <div class="query-btn">
+                <button type="button" class="btn btn-default" ng-click="closeMask()">取消</button>
+                <button type="button" class="btn btn-primary" ng-click="commit()">确定</button>
+            </div>
         </div>
     </div>
     <i class="icon-close" ng-click="closeMask()"></i>

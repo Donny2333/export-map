@@ -53,6 +53,12 @@ a {
     content: '\f40a';
 }
 
+.ztree li span.button.node_ico_open,
+.ztree li span.button.node_ico_close {
+    display: none;
+    background-image: url("../images/tree-open.png");
+}
+
 /******************* head **********************/
 
 .head {
@@ -1264,7 +1270,7 @@ a {
     align-items: center;
 }
 
-.create-panel > .top {
+.top {
     margin: 0;
     padding: 0;
     height: 60px;
@@ -1407,12 +1413,45 @@ a {
     margin-right: 30px;
 }
 
+.theme {
+    display: flex;
+    height: 430px;
+    width: 100%;
+}
+
+.theme > .theme-list {
+    width: 300px;
+    border-right: 1px solid #dddddd;
+    padding-left: 10px;
+}
+
+.theme-data {
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.theme-item {
+    display: block;
+    height: 300px;
+    width: 520px;
+    border: 1px solid #d4d4d4;
+}
+
+.theme-btns {
+    align-self: flex-end;
+}
+
 /******************* query-panel **********************/
 
 .query-panel {
     position: relative;
-    height: 480px;
-    width: 600px;
+    height: 430px;
+    width: 730px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1436,6 +1475,10 @@ a {
     vertical-align: middle;
 }
 
+.query-title > .title {
+    font-size: 22px;
+}
+
 .query-body {
     position: relative;
     display: -webkit-box;
@@ -1447,7 +1490,51 @@ a {
 }
 
 .query-param {
-    width: 30%;
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    padding: 20px 30px 30px;
+    border-right: 1px solid #dddddd;
+    justify-content: space-around;
+}
+
+.query-result {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px 30px;
+    justify-content: space-around;
+}
+
+.query-result > .title {
+    color: #414141;
+    font-size: 16px;
+}
+
+.query-param .title {
+    color: #414141;
+    font-size: 16px;
+}
+
+.query-param .query-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /*align-self: center;*/
+    height: 200px;
+}
+
+.query-item {
+    display: flex;
+    align-items: center;
+}
+
+.query-item .query-key {
+    text-align: right;
+    width: 60px;
+}
+
+.query-btn {
+    align-self: flex-end;
 }
 
 .query-bottom {

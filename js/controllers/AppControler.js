@@ -29,6 +29,14 @@
                 //     })
                 // });
 
+                $rootScope.$broadcast('mask:show', {
+                    showMask: true,
+                    template: '<create-panel></create-panel>',
+                    overlay: {
+                        tab: 1
+                    }
+                });
+
                 // 刷新浏览器回到图库页面
                 if (!vm.doc || !vm.doc.docId) {
                     $state.go("app.explorer.files");

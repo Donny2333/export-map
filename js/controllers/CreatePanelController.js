@@ -7,7 +7,27 @@
     angular.module('export-map.controllers')
         .controller('CreatePanelController', ['$scope', '$rootScope', 'Doc', 'URL_CFG', function ($scope, $rootScope, Doc, URL_CFG) {
             var vm = $scope.vm;
-            vm.overlay.tab = 0;
+            vm.overlay.tab = vm.overlay.tab || 0;
+            vm.overlay.setting = {};
+            vm.overlay.nodes = [{
+                name: "test1",
+                open: true,
+                iconSkin: 'node',
+                children: [{
+                    name: "test1_1"
+                }, {
+                    name: "test1_2"
+                }]
+            }, {
+                name: "test2",
+                open: true,
+                iconSkin: 'node',
+                children: [{
+                    name: "test2_1"
+                }, {
+                    name: "test2_2"
+                }]
+            }];
 
             $scope.pageChanged = function () {
                 getDocs(vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize, "模板", "Public", "Templete");

@@ -7,6 +7,58 @@
     angular.module('export-map.controllers')
         .controller('QueryPanelController', ['$scope', '$rootScope', function ($scope, $rootScope) {
             var vm = $scope.vm;
+            vm.overlay.field = {
+                select: 0,
+                data: [{
+                    id: 0,
+                    value: 'name'
+                }, {
+                    id: 1,
+                    value: 'sex'
+                }, {
+                    id: 2,
+                    value: 'tel'
+                }]
+            };
+            vm.overlay.operator = {
+                select: 0,
+                data: [{
+                    id: 0,
+                    value: '+'
+                }, {
+                    id: 1,
+                    value: '-'
+                }, {
+                    id: 2,
+                    value: '*'
+                }, {
+                    id: 3,
+                    value: '/'
+                }]
+            };
+            vm.overlay.param = {
+                select: 0,
+                data: [{
+                    id: 0,
+                    value: 1
+                }, {
+                    id: 1,
+                    value: 2
+                }, {
+                    id: 2,
+                    value: 3
+                }]
+            };
+            vm.overlay.query = [];
+
+            $scope.add = function () {
+                vm.overlay.query.push([
+                    vm.overlay.field.data[vm.overlay.field.select].value,
+                    vm.overlay.operator.data[vm.overlay.operator.select].value,
+                    vm.overlay.param.data[vm.overlay.param.select].value
+                ].join(' '));
+                console.log(vm.overlay.query);
+            };
 
             $scope.commit = function () {
                 $scope.closeMask();

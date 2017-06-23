@@ -41,7 +41,7 @@
 
         .directive('zTree', ['$parse', function ($parse) {
             return {
-                restrict: 'A',
+                restrict: 'AE',
                 link: function (scope, element, attrs) {
                     var treeObj = undefined;
                     var setting = $parse(attrs.setting)(scope);
