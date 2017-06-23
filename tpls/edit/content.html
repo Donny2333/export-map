@@ -34,7 +34,7 @@
             <li class="layer-symbol-item" ng-if="!layer.subLayerIds&&layer.showPreview"
                 ng-repeat="symbol in layer.symbols">
                 <img class="layer-symbol" width="20" height="20" ng-src={{symbol.SymbolInfo.SymbolPreview}}>
-                <span>{{symbol.value}}</span>
+                <span>{{symbol.Value}}</span>
             </li>
         </ul>
         <div class="layer-children" ng-if="layer.subLayerIds" ng-include="'layer-tree.html'"></div>

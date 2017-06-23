@@ -118,13 +118,16 @@
                     picWidth: 20
                 }).then(function (res) {
                     var uniqueList = [];
-                    var defaultSymbol = res.data.result.DefaultRenderSymbol;
                     var symbols = res.data.result.RenderSymbols;
-                    uniqueList.push({
-                        Value: defaultSymbol.Value,
-                        Label: defaultSymbol.Label,
-                        SymbolInfo: defaultSymbol.SymbolInfo
-                    });
+                    var defaultSymbol = res.data.result.DefaultRenderSymbol;
+
+                    if (defaultSymbol) {
+                        uniqueList.push({
+                            Value: defaultSymbol.Value,
+                            Label: defaultSymbol.Label,
+                            SymbolInfo: defaultSymbol.SymbolInfo
+                        });
+                    }
                     symbols.map(function (symbol) {
                         uniqueList.push({
                             Value: symbol.Value,
@@ -204,7 +207,11 @@
                         Type: "Unique values",
                         UseDefaultSymbol: useDefault,
                         FieldList: [vm.overlay.field],
-                        DefaultRenderSymbol: useDefault && defaultSymbol,
+                        DefaultRenderSymbol: useDefault ? defaultSymbol : {
+                            Label: '',
+                            Value: '',
+                            SymbolInfo: {}
+                        },
                         RenderSymbols: useDefault ? vm.overlay.uniqueList : _.concat(defaultSymbol, vm.overlay.uniqueList)
                     };
                 }
@@ -250,7 +257,8 @@
 
                             // 唯一值符号渲染
                             case 'Unique values':
-                                symbols = [res.data.result.DefaultRenderSymbol].concat(res.data.result.RenderSymbols);
+                                symbols = (res.data.result.UseDefaultSymbol ? [res.data.result.DefaultRenderSymbol] : [])
+                                    .concat(res.data.result.RenderSymbols);
                                 break;
 
                             default:

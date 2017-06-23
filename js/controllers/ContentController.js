@@ -163,7 +163,8 @@
 
                             // 唯一值符号渲染
                             case 'Unique values':
-                                layer.symbols = [res.data.result.DefaultRenderSymbol].concat(res.data.result.RenderSymbols);
+                                layer.symbols = (res.data.result.UseDefaultSymbol ? [res.data.result.DefaultRenderSymbol] : [])
+                                    .concat(res.data.result.RenderSymbols);
                                 break;
 
                             default:
