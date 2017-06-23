@@ -103,7 +103,20 @@
                 });
 
                 Symbol.getLayerSymbolInfo(param).then(function (res) {
-                    vm.overlay.select.SymbolPreview = res.data.result.RenderSymbolInfo.SymbolInfo.SymbolPreview;
+                    switch (res.data.result.Type) {
+                        // 单一符号渲染
+                        case 'Single symbol':
+                            vm.overlay.select.SymbolPreview = res.data.result.RenderSymbolInfo.SymbolInfo.SymbolPreview;
+                            break;
+
+                        // 唯一值符号渲染
+                        case 'Unique values':
+                            vm.overlay.select.SymbolPreview = res.data.result.RenderSymbols[0].SymbolInfo.SymbolPreview;
+                            break;
+
+                        default:
+                            break;
+                    }
                 });
             };
 
