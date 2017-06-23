@@ -49,7 +49,8 @@
                     template: '<query-panel></query-panel>',
                     overlay: {
                         title: '图层过滤',
-                        layer: layer
+                        layer: layer,
+                        doc: $scope.$parent.vm.doc
                     }
                 });
             };
@@ -104,6 +105,7 @@
                 layer.confirm('您确定要删除该图层？', {
                     btn: ['确定', '取消']
                 }, function () {
+                    layer.closeAll();
                     Symbol.RemoveLayerFromMap({
                         docId: $scope.$parent.vm.doc.docId,
                         userId: $scope.$parent.vm.doc.userId,
@@ -123,7 +125,7 @@
                         }
                     })
                 }, function () {
-                    layer.close()
+                    layer.close();
                 });
             };
 

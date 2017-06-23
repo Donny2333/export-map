@@ -58,9 +58,13 @@
         </div>
         <div class="query-result">
             <div class="title">属性查询条件预览：</div>
-            <ul style="height: 200px;width: 360px;border: 1px solid #d4d4d4;padding: 10px">
-                <li ng-repeat="d in vm.overlay.query">{{d}}</li>
-            </ul>
+            <div class="list-group"
+                 style="height: 200px;width: 360px;border: 1px solid #d4d4d4;overflow-y: auto;border-radius: 4px">
+                <button type="button" class="list-group-item" ng-repeat="d in vm.overlay.query"
+                        ng-click="delete($index)">
+                    <span>{{d}}</span>
+                </button>
+            </div>
             <div class="query-btn">
                 <button type="button" class="btn btn-default" ng-click="closeMask()">取消</button>
                 <button type="button" class="btn btn-primary" ng-click="commit()">确定</button>

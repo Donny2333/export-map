@@ -164,6 +164,10 @@
                 getLayerUniqueFieldVal: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/GetLayerUniqueFieldVal';
                     return Http.post(url, param);
+                },
+                queryDataOnLayer: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/QueryDataOnLayer';
+                    return Http.post(url, param);
                 }
             }
         }])

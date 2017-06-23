@@ -62,6 +62,7 @@
                 layer.confirm('您确定要删除该地图文档？', {
                     btn: ['确定', '取消']
                 }, function () {
+                    layer.closeAll();
                     Doc.remove({
                         docId: mapdoc.id,
                         userId: mapdoc.userId,
