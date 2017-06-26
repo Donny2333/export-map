@@ -129,43 +129,76 @@
                     var center = [];
                     var zoom = 14;
                     var geoStr = JSON.parse(item.geoStr);
-                    console.log(item);
+
                     switch (item.geoType) {
                         case 'esriGeometryPoint':
                             center = [geoStr.x, geoStr.y];
+                            center = ol.proj.transform(center, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID);
                             zoom = 16;
+                            drawPoints([center], new ol.style.Style({
+                                image: new ol.style.Circle({
+                                    radius: 7,
+                                    snapToPixel: false,
+                                    fill: new ol.style.Fill({
+                                        color: 'red'
+                                    }),
+                                    stroke: new ol.style.Stroke({
+                                        color: 'black',
+                                        width: 2
+                                    })
+                                })
+                            }));
                             break;
 
                         case 'esriGeometryPolyline':
                             var paths = geoStr.paths[0];
                             var pathX = [];
                             var pathY = [];
+                            var lines = [];
                             _.map(paths, function (path) {
                                 pathX.push(path[0]);
                                 pathY.push(path[1]);
-
+                                lines.push(ol.proj.transform(path, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID));
                             });
                             center = [(_.max(pathX) + _.min(pathX)) / 2, (_.max(pathY) + _.min(pathY)) / 2];
+                            center = ol.proj.transform(center, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID);
+                            drawPolyline(lines, new ol.style.Style({
+                                stroke: new ol.style.Stroke({
+                                    width: 6,
+                                    color: [237, 212, 0, 0.8]
+                                })
+                            }));
                             break;
 
                         case 'esriGeometryPolygon':
                             var rings = geoStr.rings[0];
                             var centerX = [];
                             var centerY = [];
+                            var polygon = [];
                             _.map(rings, function (ring) {
                                 centerX.push(ring[0]);
                                 centerY.push(ring[1]);
-
+                                polygon.push(ol.proj.transform(ring, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID));
                             });
                             center = [(_.max(centerX) + _.min(centerX)) / 2, (_.max(centerY) + _.min(centerY)) / 2];
+                            center = ol.proj.transform(center, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID);
+                            zoom = 18;
+                            drawPolygon([polygon], new ol.style.Style({
+                                stroke: new ol.style.Stroke({
+                                    width: 3,
+                                    color: [255, 0, 0, 1]
+                                }),
+                                fill: new ol.style.Fill({
+                                    color: [0, 0, 255, 0.6]
+                                })
+                            }));
                             break;
 
                         default:
                             break;
                     }
-                    console.log(center);
                     map && center.length === 2 && map.getView().animate({
-                        center: ol.proj.transform(center, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID),
+                        center: center,
                         zoom: zoom,
                         duration: 600
                     });
@@ -181,6 +214,7 @@
 
                     $scope.closeTable();
                     if (map) {
+                        map.removeLayer(map.getLayers().item(0));
                         map.addLayer(new ol.layer.Image());
                         map.getLayers().item(0).setSource(new ol.source.ImageWMS({
                             url: URL_CFG.api + 'MapService.svc/Export',
@@ -356,6 +390,45 @@
                         deferred.reject(err);
                     });
                     return deferred.promise;
+                }
+
+                function drawPoints(pts, style) {
+                    if (highLightLayer) {
+                        map && map.removeLayer(highLightLayer);
+                    }
+                    highLightLayer = new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            features: [new ol.Feature(new ol.geom.MultiPoint(pts))]
+                        }),
+                        style: style
+                    });
+                    map.addLayer(highLightLayer);
+                }
+
+                function drawPolyline(pts, style) {
+                    if (highLightLayer) {
+                        map && map.removeLayer(highLightLayer);
+                    }
+                    highLightLayer = new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            features: [new ol.Feature(new ol.geom.LineString(pts))]
+                        }),
+                        style: style
+                    });
+                    map.addLayer(highLightLayer);
+                }
+
+                function drawPolygon(pts, style) {
+                    if (highLightLayer) {
+                        map && map.removeLayer(highLightLayer);
+                    }
+                    highLightLayer = new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            features: [new ol.Feature(new ol.geom.Polygon(pts))]
+                        }),
+                        style: style
+                    });
+                    map.addLayer(highLightLayer);
                 }
 
                 function addShowAttribute(layer) {
