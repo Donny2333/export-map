@@ -90,6 +90,7 @@
                         modalInstance.result.then(function (newLayer) {
                             if (newLayer.id) {
                                 addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, newLayer.id);
+                                console.log('Modal Confirmed at: ' + new Date());
                             }
                         }, function () {
                             console.info('Modal dismissed at: ' + new Date());

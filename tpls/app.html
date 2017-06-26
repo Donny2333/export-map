@@ -24,22 +24,26 @@
         </div>
         <div class="map-container">
             <div class="map-content">
-                <div id="map" class="map"></div>
+                <div class="map-divide">
+                    <div id="map" class="map"></div>
+                </div>
                 <div class="layer-table" ng-if="vm.showTable">
                     <div class="table-container">
-                        <div class="table-head">
-                            <span>{{vm.table.head}}</span>
-                            <i class="icon-close table-close" ng-click="closeTable()"></i>
-                        </div>
-                        <div class="table-body">
-                            <table border="1">
-                                <tr class="table-key">
-                                    <th ng-repeat="(key, value) in vm.table.data[0]">{{key}}</th>
-                                </tr>
-                                <tr class="table-value" ng-repeat="table in vm.table.data">
-                                    <td ng-repeat="(key, value) in table">{{value}}</td>
-                                </tr>
-                            </table>
+                        <div class="table-content">
+                            <div class="table-head">
+                                <span>{{vm.table.head}}</span>
+                                <i class="icon-close table-close" ng-click="closeTable()"></i>
+                            </div>
+                            <div class="table-body">
+                                <table border="1">
+                                    <tr class="table-key">
+                                        <th ng-repeat="(key, value) in vm.table.data[0].att">{{key}}</th>
+                                    </tr>
+                                    <tr class="table-value" ng-repeat="item in vm.table.data" ng-click="select(item)">
+                                        <td ng-repeat="(key, value) in item.att">{{value}}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -14,7 +14,7 @@
                             {{vm.overlay.field.data[vm.overlay.field.select].value}}
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="overflow-y: auto;height: 300px">
                             <li ng-repeat="d in vm.overlay.field.data"><a ng-click="vm.overlay.field.select=d.id">{{d.value}}</a>
                             </li>
                         </ul>

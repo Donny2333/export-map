@@ -14,6 +14,7 @@
                 };
 
                 var map = null;
+                var highLightLayer = null;
                 // var map = new ol.Map({
                 //     controls: ol.control.defaults().extend([
                 //         new ol.control.ScaleLine()
@@ -56,6 +57,7 @@
                         vm.layers = [];
                         vm.menus = Router.list().slice(0, 2);
                         map.removeLayer(map.getLayers().item(0));
+                        $scope.closeTable();
                         $state.go('app.explorer.files');
                     } else {
                         // 新建文档
@@ -123,6 +125,52 @@
                     })
                 };
 
+                $scope.select = function (item) {
+                    var center = [];
+                    var zoom = 14;
+                    var geoStr = JSON.parse(item.geoStr);
+                    console.log(item);
+                    switch (item.geoType) {
+                        case 'esriGeometryPoint':
+                            center = [geoStr.x, geoStr.y];
+                            zoom = 16;
+                            break;
+
+                        case 'esriGeometryPolyline':
+                            var paths = geoStr.paths[0];
+                            var pathX = [];
+                            var pathY = [];
+                            _.map(paths, function (path) {
+                                pathX.push(path[0]);
+                                pathY.push(path[1]);
+
+                            });
+                            center = [(_.max(pathX) + _.min(pathX)) / 2, (_.max(pathY) + _.min(pathY)) / 2];
+                            break;
+
+                        case 'esriGeometryPolygon':
+                            var rings = geoStr.rings[0];
+                            var centerX = [];
+                            var centerY = [];
+                            _.map(rings, function (ring) {
+                                centerX.push(ring[0]);
+                                centerY.push(ring[1]);
+
+                            });
+                            center = [(_.max(centerX) + _.min(centerX)) / 2, (_.max(centerY) + _.min(centerY)) / 2];
+                            break;
+
+                        default:
+                            break;
+                    }
+                    console.log(center);
+                    map && center.length === 2 && map.getView().animate({
+                        center: ol.proj.transform(center, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID),
+                        zoom: zoom,
+                        duration: 600
+                    });
+                };
+
                 /**
                  * 监听"文档打开"事件
                  */
@@ -131,6 +179,7 @@
                     vm.doc = value;
                     var extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
 
+                    $scope.closeTable();
                     if (map) {
                         map.addLayer(new ol.layer.Image());
                         map.getLayers().item(0).setSource(new ol.source.ImageWMS({
@@ -145,6 +194,7 @@
                             }
                         }));
                         getMapInfo();
+                        map.getView().setCenter([(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2]);
                     } else {
                         getMapInfo().then(function (res) {
                             initMap(URL_CFG.api + 'MapService.svc/Export', extent);
@@ -204,9 +254,11 @@
                  * 监听"表格开关"事件
                  */
                 $scope.$on('map:toggleTable', function (event, value) {
-                    $scope.vm.showTable = !$scope.vm.showTable;
                     if (value) {
+                        $scope.vm.showTable = true;
                         $scope.vm.table = value.table;
+                    } else {
+                        $scope.vm.showTable = false;
                     }
                     $timeout(function () {
                         map && map.updateSize();
@@ -240,7 +292,7 @@
 
                     // set map's resolution
                     var size = map.getSize();
-                    var resolution = (extent[2] - extent[0]) / size[0];
+                    var resolution = (extent[3] - extent[1]) / size[1];
                     map.getView().setResolution(resolution);
 
                     map.getLayers().item(0).setSource(new ol.source.ImageWMS({

@@ -380,8 +380,8 @@ a {
 }
 
 .icon-close.table-close {
-    top: 10px;
-    right: 10px;
+    top: 0;
+    right: 0;
     background-color: transparent;
 }
 
@@ -399,21 +399,26 @@ a {
     flex-direction: column;
 }
 
-.map-content > #map {
+.map-content > .map-divide {
     -webkit-box-flex: 1;
     -ms-flex: auto;
     flex: auto;
     position: relative;
-    display: block;
+    display: flex;
     width: 100%;
-    height: 50%;
+    min-height: 70%;
+}
+
+#map {
+    position: absolute;
+    flex: auto;
 }
 
 .map-content > .layer-table {
     position: relative;
-    height: 320px;
-    min-height: 320px;
+    height: 30%;
     width: 100%;
+    display: flex;
     margin-top: -1px;
     padding: 10px;
     background-color: #ededef;
@@ -423,11 +428,19 @@ a {
 /******************* table-container **********************/
 
 .layer-table > .table-container {
+    position: relative;
+    flex: auto;
+    display: flex;
+}
+
+.table-container > .table-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     background-color: #f3f4f8;
     border: 1px solid #e0e2e5;
-    height: 100%;
 }
 
 .table-head {
@@ -448,13 +461,17 @@ a {
 
 .table-body > table {
     width: 100%;
+    border: none;
 }
 
 .table-body > table tr th,
 .table-body > table tr td {
-    font-size: 14px;
+    font-size: 12px;
+    color: #595959;
     font-weight: normal;
-    padding: 6px 20px;
+    padding: 10px 20px;
+    white-space: nowrap;
+    min-width: 50px;
     border: 1px solid #dedede;
 }
 
@@ -713,6 +730,10 @@ a {
     background-color: #e6ecff;
 }
 
+.layer-ionic:hover > .layer-name > .layer-buttons {
+    opacity: 1;
+}
+
 .layer-symbol-list {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -742,49 +763,10 @@ a {
     margin-bottom: 0;
 }
 
-/*.layer-expand {*/
-
-/*position: relative;*/
-
-/*!*display: inline-block;*!*/
-
-/*!*height: 20px;*!*/
-
-/*!*width: 20px;*!*/
-
-/*}*/
-
-/*.layer-expand:after {*/
-
-/*content: '';*/
-
-/*position: absolute;*/
-
-/*display: inline-block;*/
-
-/*top: 5px;*/
-
-/*left: -18px;*/
-
-/*height: 0;*/
-
-/*width: 0;*/
-
-/*padding: 0;*/
-
-/*border-left: 5px solid transparent;*/
-
-/*border-right: 5px solid transparent;*/
-
-/*border-top: 10px solid #666666;*/
-
-/*cursor: pointer;*/
-
-/*}*/
-
 .layer-buttons {
     position: relative;
     cursor: default;
+    opacity: 0;
 }
 
 .layer-buttons > a {
