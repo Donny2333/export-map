@@ -15,21 +15,6 @@
 
                 var map = null;
                 var highLightLayer = null;
-                // var map = new ol.Map({
-                //     controls: ol.control.defaults().extend([
-                //         new ol.control.ScaleLine()
-                //     ]),
-                //     layers: [new ol.layer.Image()],
-                //     target: 'map',
-                //     view: new ol.View({
-                //         center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
-                //         // zoom: 15,
-                //         extent: extent,
-                //         resolution: 96,
-                //         projection: 'EPSG:3857'
-                //     })
-                // });
-
 
                 // 刷新浏览器回到图库页面
                 if (!vm.doc || !vm.doc.docId) {
@@ -45,6 +30,7 @@
 
                 $scope.closeTable = function () {
                     vm.showTable = false;
+                    map && map.removeLayer(highLightLayer);
                     $timeout(function () {
                         map && map.updateSize();
                     }, 0);
@@ -229,6 +215,7 @@
                         }));
                         getMapInfo();
                         map.getView().setCenter([(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2]);
+                        map.getView().setZoom(10.3);
                     } else {
                         getMapInfo().then(function (res) {
                             initMap(URL_CFG.api + 'MapService.svc/Export', extent);
