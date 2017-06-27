@@ -8,7 +8,6 @@
         .controller('ContentController', ['$scope', '$rootScope', '$q', 'Symbol', function ($scope, $rootScope, $q, Symbol) {
             $scope.expandLayer = function (layer) {
                 var i;
-                // console.log(layer);
                 if (layer.showChild) {
                     for (i = 0; i < layer.subLayerIds.length; i++) {
                         hide(layer.subLayerIds[i])
@@ -227,7 +226,6 @@
                 }
             }
 
-
             function choiceCheck(layer) {
                 layer.ischeck = 1;
                 if (layer.subLayerIds !== null && layer.subLayerIds.length !== 0) {
@@ -237,7 +235,6 @@
                 }
             }
 
-
             function cancelCheck(layer) {
                 layer.ischeck = 2;
                 if (layer.subLayerIds !== null && layer.subLayerIds.length !== 0) {
@@ -246,7 +243,6 @@
                     }
                 }
             }
-
 
             function expand(layer) {
                 layer.showSelf = true;

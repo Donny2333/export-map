@@ -7,8 +7,39 @@
     angular.module('export-map.controllers')
         .controller('SymbolPanelController', ['$scope', '$rootScope', '$http', 'Symbol', function ($scope, $rootScope, $http, Symbol) {
             var vm = $scope.vm;
+
+            vm.overlay.types = {
+                select: {
+                    id: 0,
+                    name: '全选',
+                    value: ''
+                },
+                data: [{
+                    id: 0,
+                    name: '全选',
+                    value: ''
+                }, {
+                    id: 1,
+                    name: '点',
+                    value: 'esriGeometryPoint'
+                }, {
+                    id: 2,
+                    name: '线',
+                    value: 'esriGeometryPolyline'
+                }, {
+                    id: 3,
+                    name: '面',
+                    value: 'esriGeometryPolygon'
+                }]
+            };
             vm.overlay.select = {};
             angular.copy(vm.overlay.data[0], vm.overlay.select);
+
+            $scope.typeChanged = function (type) {
+                vm.overlay.types.select = type;
+                vm.overlay.pagination.pageNo = 1;
+                getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
+            };
 
             $scope.pageChanged = function () {
                 getSymbolItemListFromDB(vm.overlay.styleId, vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize)
@@ -55,7 +86,7 @@
                     styleId: styleId,
                     pageNo: pageNo,
                     pageSize: pageSize,
-                    geometryType: vm.overlay.layer && vm.overlay.layer.geometryType
+                    geometryType: vm.overlay.types.select && vm.overlay.types.select.value
                 }).then(function (res) {
                     if (res.status === 200) {
                         vm.overlay.data = res.data.result;

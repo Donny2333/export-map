@@ -4,6 +4,21 @@
     </div>
     <div class="symbol-body">
         <div class="symbol-main">
+            <div class="symbol-type">
+                <span>符号类型：</span>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">
+                        {{vm.overlay.types.select.name}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="min-width: 100px;">
+                        <li ng-repeat="type in vm.overlay.types.data" ng-click="typeChanged(type)">
+                            <a>{{type.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <ul class="symbol-list">
                 <li class="symbol-item" ng-repeat="symbol in vm.overlay.data" ng-click="selectSymbol(symbol)"
                     ng-class="{active: vm.overlay.select.Id===symbol.Id}">

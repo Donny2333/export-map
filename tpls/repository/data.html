@@ -5,7 +5,7 @@
             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                 {{vm.typeRes.data[vm.typeRes.id].text}} <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
+            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button" style="min-width: 80px;">
                 <li ng-repeat="type in vm.typeRes.data">
                     <a ng-click="change($index)">{{type.text}}</a>
                 </li>
@@ -35,7 +35,7 @@
     <!--</div>-->
     <ul class="data-list">
         <li class="data-item" ng-repeat="d in vm.data">
-            <div class="data-info">
+            <div class="data-info" style="">
                 <div class="data-name">{{d.Name}}</div>
                 <div class="data-src">{{d.SrcName}}</div>
             </div>
