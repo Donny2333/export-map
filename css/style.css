@@ -444,17 +444,37 @@ a {
 }
 
 .table-head {
-    margin: -1px;
     height: 40px;
+    width: 100%;
     font-size: 14px;
     font-weight: bold;
     padding: 10px 20px;
-    border: 1px solid #e0e2e5;
+    display: flex;
+    border-bottom: 1px solid #e0e2e5;
+}
+
+.table-pagination {
+    flex: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 40px;
+}
+
+.table-pagination .pagination {
+    margin-top: -6px;
+}
+
+.table-pagination .pagination > li > a,
+.table-pagination .pagination > .disabled > a {
+    background-color: #f3f4f8;
+}
+
+.table-pagination .pagination > .active > a {
+    background-color: #337ab7;
 }
 
 .table-body {
     flex: auto;
-    margin: -1px;
     height: 120px;
     overflow-y: auto;
 }
@@ -1083,8 +1103,7 @@ a {
 }
 
 .symbol-commit {
-    position: absolute;
-    bottom: 100px;
+    margin-top: 50px;
 }
 
 /******************* unique-panel **********************/

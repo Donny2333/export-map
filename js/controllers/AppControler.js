@@ -10,7 +10,14 @@
                 var vm = $scope.vm = {
                     menus: Router.list().slice(0, 2),
                     showTable: false,
-                    table: {}
+                    table: {},
+                    pagination: {
+                        totalItems: 0,
+                        maxSize: 5,
+                        pageNo: 1,
+                        pageSize: 10,
+                        maxPage: 1
+                    }
                 };
 
                 var map = null;
@@ -151,7 +158,7 @@
                             drawPolyline(lines, new ol.style.Style({
                                 stroke: new ol.style.Stroke({
                                     width: 6,
-                                    color: [237, 212, 0, 0.8]
+                                    color: 'red'
                                 })
                             }));
                             break;
@@ -189,6 +196,25 @@
                         duration: 600
                     });
                 };
+
+                $scope.pageChanged = function () {
+                    Doc.queryDataOnLayer({
+                        docId: vm.doc.docId,
+                        name: vm.doc.name,
+                        userId: vm.doc.userId,
+                        layerIndex: vm.table.layerIndex,
+                        where: vm.table.queryString,
+                        returnGeo: true,
+                        pageNo: vm.pagination.pageNo,
+                        pageNum: vm.pagination.pageSize
+                    }).then(function (res) {
+                        var data = [];
+                        res.data.result.map(function (o) {
+                            data.push(o);
+                        });
+                        vm.table.data = data;
+                    });
+                }
 
                 /**
                  * 监听"文档打开"事件
@@ -276,8 +302,9 @@
                  */
                 $scope.$on('map:toggleTable', function (event, value) {
                     if (value) {
-                        $scope.vm.showTable = true;
-                        $scope.vm.table = value.table;
+                        vm.showTable = true;
+                        vm.table = value.table;
+                        vm.pagination = value.pagination;
                     } else {
                         $scope.vm.showTable = false;
                     }
@@ -419,15 +446,17 @@
                 }
 
                 function addShowAttribute(layer) {
-                    layer.showChild = true;     //是否显示子节点
-                    layer.showSelf = true;      //是否显示自己
-                    layer.ischeck = 2;          //1.选中, 2.未选中, 3.子节点未全部选中
+                    layer.showChild = true; //是否显示子节点
+                    layer.showSelf = true; //是否显示自己
+                    layer.ischeck = 2; //1.选中, 2.未选中, 3.子节点未全部选中
                     if (layer.subLayerIds !== null && layer.subLayerIds.length !== 0) {
                         for (var i = 0; i < layer.subLayerIds.length; i++) {
                             addShowAttribute(layer.subLayerIds[i]);
                         }
                     }
                 }
+
+                var check = 1;
 
                 function judgeCheckBox(layers) {
                     for (var i = 0; i < layers.length; i++) {
@@ -443,8 +472,6 @@
                     }
                 }
 
-                var check = 1;
-
                 function ischeck(layers) {
                     for (var i = 0; i < layers.length; i++) {
                         if (layers[i].defaultVisibility === false) {
@@ -456,5 +483,6 @@
                         }
                     }
                 }
-            }])
+            }
+        ])
 })(angular);

@@ -1,11 +1,11 @@
 /**
  * Created by Donny on 17/6/22.
  */
-(function (angular) {
+(function(angular) {
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('QueryPanelController', ['$scope', '$rootScope', 'Doc', function ($scope, $rootScope, Doc) {
+        .controller('QueryPanelController', ['$scope', '$rootScope', 'Doc', function($scope, $rootScope, Doc) {
             var vm = $scope.vm;
             vm.overlay.field = {
                 select: 0,
@@ -44,7 +44,7 @@
 
             getLayerField();
 
-            $scope.add = function () {
+            $scope.add = function() {
                 var value = [
                     vm.overlay.field.data[vm.overlay.field.select].value,
                     vm.overlay.operator.data[vm.overlay.operator.select].value,
@@ -54,20 +54,20 @@
                 !_.includes(vm.overlay.query, value) && vm.overlay.query.push(value);
             };
 
-            $scope.delete = function (index) {
+            $scope.delete = function(index) {
                 layer.confirm('确定删除？', {
                     btn: ['确定', '取消']
-                }, function () {
+                }, function() {
                     layer.closeAll();
-                    $scope.$apply(function () {
+                    $scope.$apply(function() {
                         vm.overlay.query.splice(index, 1);
                     });
-                }, function () {
+                }, function() {
                     layer.close();
                 });
             };
 
-            $scope.commit = function () {
+            $scope.commit = function() {
                 $scope.closeMask();
                 Doc.queryDataOnLayer({
                     docId: vm.overlay.doc.docId,
@@ -78,18 +78,26 @@
                     returnGeo: true,
                     pageNo: 1,
                     pageNum: 10
-                }).then(function (res) {
+                }).then(function(res) {
                     var data = [];
-                    res.data.result.map(function (o) {
+                    res.data.result.map(function(o) {
                         data.push(o);
                     });
                     $rootScope.$broadcast('map:toggleTable', {
                         table: {
                             layerIndex: vm.overlay.layer.id,
+                            queryString: '1=1',
                             pageNo: 1,
                             pageSize: 10,
                             head: '查询列表',
                             data: data
+                        },
+                        pagination: {
+                            totalItems: res.data.count,
+                            maxSize: 5,
+                            pageNo: 1,
+                            pageSize: 10,
+                            maxPage: Math.ceil(res.data.count / 10)
                         }
                     });
                 });
@@ -101,15 +109,15 @@
                     userId: vm.overlay.doc.userId,
                     name: vm.overlay.doc.name,
                     layerIndex: vm.overlay.layer.id
-                }).then(function (res) {
+                }).then(function(res) {
                     vm.overlay.field.data = [];
-                    res.data.result.map(function (v, i) {
+                    res.data.result.map(function(v, i) {
                         vm.overlay.field.data.push({
                             id: i,
                             value: v
                         })
                     });
-                }, function (err) {
+                }, function(err) {
                     console.log(err);
                 });
             }
