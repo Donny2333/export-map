@@ -182,7 +182,7 @@
                                     color: [255, 0, 0, 1]
                                 }),
                                 fill: new ol.style.Fill({
-                                    color: [0, 0, 255, 0.6]
+                                    color: [255, 0, 0, 0.4]
                                 })
                             }));
                             break;
@@ -214,7 +214,7 @@
                         });
                         vm.table.data = data;
                     });
-                }
+                };
 
                 /**
                  * 监听"文档打开"事件

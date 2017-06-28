@@ -1,92 +1,121 @@
 /**
  * Created by Donny on 17/6/22.
  */
-(function(angular) {
+(function (angular) {
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('QueryPanelController', ['$scope', '$rootScope', 'Doc', function($scope, $rootScope, Doc) {
+        .controller('QueryPanelController', ['$scope', '$rootScope', 'Doc', function ($scope, $rootScope, Doc) {
             var vm = $scope.vm;
-            vm.overlay.field = {
-                select: 0,
-                data: []
-            };
-            vm.overlay.operator = {
-                select: 0,
-                data: [{
+            vm.overlay.field = [];
+            vm.overlay.operator = [
+                {
                     id: 0,
-                    value: '>'
-                }, {
-                    id: 1,
                     value: '='
                 }, {
+                    id: 1,
+                    value: '<>'
+                }, {
                     id: 2,
-                    value: '<'
+                    value: 'Like'
                 }, {
                     id: 3,
-                    value: 'LIKE'
-                }]
-            };
-            vm.overlay.param = {
-                select: 0,
-                data: [{
-                    id: 0,
-                    value: 1
+                    value: '>'
                 }, {
-                    id: 1,
-                    value: 2
+                    id: 4,
+                    value: '>='
                 }, {
-                    id: 2,
-                    value: 3
-                }]
-            };
-            vm.overlay.query = [];
+                    id: 5,
+                    value: 'And'
+                }, {
+                    id: 6,
+                    value: '<'
+                }, {
+                    id: 7,
+                    value: '<='
+                }, {
+                    id: 8,
+                    value: 'Not'
+                }, {
+                    id: 9,
+                    value: '_'
+                }, {
+                    id: 10,
+                    value: '%'
+                }, {
+                    id: 11,
+                    value: 'Is'
+                }, {
+                    id: 12,
+                    value: 'Or'
+                }];
+            vm.overlay.param = [];
+            vm.overlay.query = "";
 
             getLayerField();
 
-            $scope.add = function() {
-                var value = [
-                    vm.overlay.field.data[vm.overlay.field.select].value,
-                    vm.overlay.operator.data[vm.overlay.operator.select].value,
-                    vm.overlay.param.data[vm.overlay.param.select].value
-                ].join(' ');
-
-                !_.includes(vm.overlay.query, value) && vm.overlay.query.push(value);
+            $scope.add = function (value) {
+                vm.overlay.query += value + ' ';
             };
 
-            $scope.delete = function(index) {
+            $scope.getValues = function () {
+                // Todo: Query values form back end.
+                vm.overlay.param = [
+                    {
+                        id: 0,
+                        value: 1
+                    }, {
+                        id: 1,
+                        value: 2
+                    }, {
+                        id: 2,
+                        value: 3
+                    }, {
+                        id: 3,
+                        value: 4
+                    }, {
+                        id: 4,
+                        value: 5
+                    }];
+            };
+
+            $scope.clear = function () {
+                vm.overlay.query = "";
+            };
+
+            $scope.delete = function (index) {
                 layer.confirm('确定删除？', {
                     btn: ['确定', '取消']
-                }, function() {
+                }, function () {
                     layer.closeAll();
-                    $scope.$apply(function() {
+                    $scope.$apply(function () {
                         vm.overlay.query.splice(index, 1);
                     });
-                }, function() {
+                }, function () {
                     layer.close();
                 });
             };
 
-            $scope.commit = function() {
+            $scope.commit = function () {
                 $scope.closeMask();
                 Doc.queryDataOnLayer({
                     docId: vm.overlay.doc.docId,
                     name: vm.overlay.doc.name,
                     userId: vm.overlay.doc.userId,
                     layerIndex: vm.overlay.layer.id,
-                    where: '1=1',
+                    where: vm.overlay.query,
                     returnGeo: true,
                     pageNo: 1,
                     pageNum: 10
-                }).then(function(res) {
+                }).then(function (res) {
                     var data = [];
-                    res.data.result.map(function(o) {
+                    res.data.result.map(function (o) {
                         data.push(o);
                     });
                     $rootScope.$broadcast('map:toggleTable', {
                         table: {
                             layerIndex: vm.overlay.layer.id,
-                            queryString: '1=1',
+                            queryString: vm.overlay.query,
                             pageNo: 1,
                             pageSize: 10,
                             head: '查询列表',
@@ -109,15 +138,15 @@
                     userId: vm.overlay.doc.userId,
                     name: vm.overlay.doc.name,
                     layerIndex: vm.overlay.layer.id
-                }).then(function(res) {
-                    vm.overlay.field.data = [];
-                    res.data.result.map(function(v, i) {
-                        vm.overlay.field.data.push({
+                }).then(function (res) {
+                    vm.overlay.field = [];
+                    res.data.result.map(function (v, i) {
+                        vm.overlay.field.push({
                             id: i,
                             value: v
                         })
                     });
-                }, function(err) {
+                }, function (err) {
                     console.log(err);
                 });
             }

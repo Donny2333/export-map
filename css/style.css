@@ -1473,7 +1473,7 @@ a {
 .query-panel {
     position: relative;
     height: 420px;
-    width: 680px;
+    width: 720px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1497,8 +1497,11 @@ a {
     vertical-align: middle;
 }
 
-.query-title > .title {
-    font-size: 22px;
+.query-title > .title,
+.query-string > .title {
+    color: #414141;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .query-body {
@@ -1514,22 +1517,75 @@ a {
 .query-param {
     display: flex;
     flex-direction: column;
-    width: 330px;
+    width: 320px;
     padding: 20px;
     border-right: 1px solid #dddddd;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+
+.query-key > .list-group {
+    height: 130px;
+    max-height: 130px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.query-value > .list-group > button,
+.query-key > .list-group > button {
+    border: none;
+}
+
+.query-value > .list-group {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 80px;
+    max-height: 80px;
+    width: 100%;
+    overflow-y: auto;
+    margin-bottom: 0;
 }
 
 .query-result {
     display: flex;
+    flex: auto;
     flex-direction: column;
     padding: 20px;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-.query-result > .title {
-    color: #414141;
-    font-size: 16px;
+.query-string > .list-group {
+    height: 200px;
+    border: 1px solid #d4d4d4;
+    overflow-y: auto;
+    border-radius: 4px;
+}
+
+.query-operator {
+    display: flex;
+    flex-wrap: wrap;
+    width: 120px;
+    justify-content: space-between;
+    align-content: space-between;
+    margin-right: 10px;
+}
+
+.query-operator > button {
+    padding: 3px 8px;
+}
+
+.query-operator > button:nth-last-child(3),
+.query-operator > button:nth-last-child(4) {
+    padding: 3px;
+}
+
+.query-value {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: auto;
 }
 
 .query-param .title {
@@ -1560,6 +1616,18 @@ a {
     width: 60px;
 }
 
+.query-edit {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 180px;
+    width: 100%;
+    resize: none;
+    color: #333;
+    padding: 5px;
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
 .query-btn {
     align-self: flex-end;
 }
@@ -1576,4 +1644,8 @@ a {
     -ms-flex-pack: end;
     justify-content: flex-end;
     border-top: 1px solid rgba(0, 0, 0, .2);
+}
+
+.query-panel .list-group-item {
+    padding: 3px 10px;
 }
