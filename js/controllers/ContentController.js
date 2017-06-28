@@ -47,7 +47,7 @@
                     showMask: true,
                     template: '<query-panel></query-panel>',
                     overlay: {
-                        title: '图层过滤',
+                        title: layer.name,
                         layer: layer,
                         doc: $scope.$parent.vm.doc
                     }

@@ -83,21 +83,7 @@
                 vm.overlay.query = "";
             };
 
-            $scope.delete = function (index) {
-                layer.confirm('确定删除？', {
-                    btn: ['确定', '取消']
-                }, function () {
-                    layer.closeAll();
-                    $scope.$apply(function () {
-                        vm.overlay.query.splice(index, 1);
-                    });
-                }, function () {
-                    layer.close();
-                });
-            };
-
             $scope.commit = function () {
-                $scope.closeMask();
                 Doc.queryDataOnLayer({
                     docId: vm.overlay.doc.docId,
                     name: vm.overlay.doc.name,
@@ -108,27 +94,35 @@
                     pageNo: 1,
                     pageNum: 10
                 }).then(function (res) {
-                    var data = [];
-                    res.data.result.map(function (o) {
-                        data.push(o);
-                    });
-                    $rootScope.$broadcast('map:toggleTable', {
-                        table: {
-                            layerIndex: vm.overlay.layer.id,
-                            queryString: vm.overlay.query,
-                            pageNo: 1,
-                            pageSize: 10,
-                            head: '查询列表',
-                            data: data
-                        },
-                        pagination: {
-                            totalItems: res.data.count,
-                            maxSize: 5,
-                            pageNo: 1,
-                            pageSize: 10,
-                            maxPage: Math.ceil(res.data.count / 10)
-                        }
-                    });
+                    if (res.data.status === 'ok') {
+                        var data = [];
+                        res.data.result && res.data.result.map(function (o) {
+                            data.push(o);
+                        });
+                        $scope.closeMask();
+                        $rootScope.$broadcast('map:toggleTable', {
+                            table: {
+                                layerIndex: vm.overlay.layer.id,
+                                queryString: vm.overlay.query,
+                                pageNo: 1,
+                                pageSize: 10,
+                                head: vm.overlay.layer.name,
+                                data: data
+                            },
+                            pagination: {
+                                totalItems: res.data.count,
+                                maxSize: 5,
+                                pageNo: 1,
+                                pageSize: 10,
+                                maxPage: Math.ceil(res.data.count / 10)
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            title: '查询失败',
+                            content: res.data.msg
+                        });
+                    }
                 });
             };
 
