@@ -150,45 +150,44 @@
             }
         }])
 
-        .controller('ModalInstanceCtrl', ['$uibModalInstance', '$scope', 'newLayer', 'Data',
-            function ($uibModalInstance, $scope, newLayer, Data) {
-                var vm = $scope.vm = {
-                    newLayer: newLayer,
-                    error: false,
-                    errorMsg: ''
-                };
+        .controller('ModalInstanceCtrl', ['$uibModalInstance', '$scope', 'newLayer', 'Data', function ($uibModalInstance, $scope, newLayer, Data) {
+            var vm = $scope.vm = {
+                newLayer: newLayer,
+                error: false,
+                errorMsg: ''
+            };
 
-                $scope.ok = function () {
-                    if (!vm.newLayer.orgNames.length) {
-                        vm.error = true;
-                        vm.errorMsg = '名称不能为空！';
-                    } else {
-                        var loading = layer.load(1, {
-                            shade: [0.1, '#000']
-                        });
-                        return Data.importDataFromPublic({
-                            userId: vm.newLayer.userId,
-                            orgPath: vm.newLayer.orgPath,
-                            orgNames: vm.newLayer.orgNames,
-                            userPath: vm.newLayer.userPath,
-                            desNames: vm.newLayer.desNames
-                        }).then(function (res) {
-                            layer.closeAll('loading');
-                            if (res.data.status === 'error') {
-                                vm.error = true;
-                                vm.errorMsg = res.data.msg;
-                            } else if (res.data.status === 'ok') {
-                                vm.newLayer.id = res.data.result[0].Id;
-                                $uibModalInstance.close(vm.newLayer);
-                                vm.error = false;
-                            }
-                        });
-                    }
-                };
+            $scope.ok = function () {
+                if (!vm.newLayer.orgNames.length) {
+                    vm.error = true;
+                    vm.errorMsg = '名称不能为空！';
+                } else {
+                    var loading = layer.load(1, {
+                        shade: [0.1, '#000']
+                    });
+                    return Data.importDataFromPublic({
+                        userId: vm.newLayer.userId,
+                        orgPath: vm.newLayer.orgPath,
+                        orgNames: vm.newLayer.orgNames,
+                        userPath: vm.newLayer.userPath,
+                        desNames: vm.newLayer.desNames
+                    }).then(function (res) {
+                        layer.closeAll('loading');
+                        if (res.data.status === 'error') {
+                            vm.error = true;
+                            vm.errorMsg = res.data.msg;
+                        } else if (res.data.status === 'ok') {
+                            vm.newLayer.id = res.data.result[0].Id;
+                            $uibModalInstance.close(vm.newLayer);
+                            vm.error = false;
+                        }
+                    });
+                }
+            };
 
-                $scope.cancel = function () {
-                    $uibModalInstance.dismiss('cancel');
-                    vm.error = false;
-                };
-            }]);
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+                vm.error = false;
+            };
+        }]);
 })(angular);

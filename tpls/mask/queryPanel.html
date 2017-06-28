@@ -13,21 +13,24 @@
                     </button>
                 </div>
             </div>
-            <div class="query-operator-value">
-                <div class="query-operator">
-                    <button class="btn btn-default" ng-repeat="d in vm.overlay.operator" ng-click="add(d.value)">
-                        {{d.value}}
-                    </button>
-                </div>
-                <div class="query-value">
-                    <div class="list-group">
-                        <button type="button" class="list-group-item" ng-repeat="d in vm.overlay.param"
-                                ng-click="add(d.value)">
+            <div>
+                <span class="title">符号与数值：</span>
+                <div class="query-operator-value">
+                    <div class="query-operator">
+                        <button class="btn btn-default" ng-repeat="d in vm.overlay.operator" ng-click="add(d.value)">
                             {{d.value}}
                         </button>
                     </div>
-                    <div class="query-btn" style="display: flex;align-items: center">
-                        <button class="btn btn-success" ng-click="getValues()">取值</button>
+                    <div class="query-value">
+                        <div class="list-group">
+                            <button type="button" class="list-group-item" ng-repeat="d in vm.overlay.param"
+                                    ng-click="add(d.value)">
+                                {{d.value}}
+                            </button>
+                        </div>
+                        <div class="query-btn" style="display: flex;align-items: center">
+                            <button class="btn btn-success" ng-click="getValues()">取值</button>
+                        </div>
                     </div>
                 </div>
             </div>

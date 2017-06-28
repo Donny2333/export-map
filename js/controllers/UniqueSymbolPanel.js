@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('UniquePanelController', ['$scope', '$rootScope', '$q', 'Doc', 'Symbol', function ($scope, $rootScope, $q, Doc, Symbol) {
+        .controller('UniquePanelController', ['$scope', '$rootScope', '$timeout', '$q', 'Doc', 'Symbol', function ($scope, $rootScope, $timeout, $q, Doc, Symbol) {
             var vm = $scope.vm;
 
             vm.overlay.select = null;
@@ -13,56 +13,67 @@
             vm.overlay.field = null;
             vm.overlay.menus = [];
             vm.overlay.uniqueList = [];
-            vm.overlay.columns = [{
-                checkbox: true,
-                align: 'center',
-                valign: 'middle'
-            }, {
-                field: 'SymbolInfo',
-                title: 'Symbol',
-                align: 'center',
-                valign: 'middle',
-                width: '100px',
-                clickToSelect: false,
-                formatter: function (value) {
-                    return '<img src="' + value.SymbolPreview + '"style="display:inline-block;height: 20px;width: 20px">';
-                },
-                events: {
-                    'click img': function (e, value, row, index) {
-                        // Todo: open symbol panel
-                        console.log('open symbol panel');
+            vm.overlay.uniqueSelect = null;
+            vm.overlay.swipe = false;
+            vm.overlay.columns = [
+                {
+                    checkbox: true,
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'SymbolInfo',
+                    title: 'Symbol',
+                    align: 'center',
+                    valign: 'middle',
+                    width: '100px',
+                    clickToSelect: false,
+                    formatter: function (value) {
+                        return '<img src="' + value.SymbolPreview + '"style="display:inline-block;height: 20px;width: 20px;cursor:pointer">';
+                    },
+                    events: {
+                        'click img': function (e, value, row, index) {
+                            // Todo: open symbol panel
+                            $scope.$apply(function () {
+                                vm.overlay.swipe = !vm.overlay.swipe;
+                            });
+                        }
                     }
-                }
-            }, {
-                field: 'Value',
-                title: 'Value',
-                align: 'center',
-                valign: 'middle'
-            }, {
-                field: 'Label',
-                title: 'Label',
-                align: 'center',
-                valign: 'middle'
-            }];
+                }, {
+                    field: 'Value',
+                    title: 'Value',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'Label',
+                    title: 'Label',
+                    align: 'center',
+                    valign: 'middle'
+                }];
+
+            getLayerSymbols(vm.overlay.layer).then(function (symbols) {
+                // 渲染单一符号面板
+                vm.overlay.select = symbols[0].SymbolInfo;
+                // 渲染唯一值符号面板
+                vm.overlay.uniqueList = symbols;
+            });
+
+            Doc.getLayerField({
+                docId: vm.overlay.doc.docId,
+                userId: vm.overlay.doc.userId,
+                name: vm.overlay.doc.name,
+                layerIndex: vm.overlay.layer.id
+            }).then(function (res) {
+                vm.overlay.menus = res.data.result;
+            }, function (err) {
+                console.log(err);
+            });
 
             $scope.$watch('vm.overlay.tab', function (value) {
-                if (value === 0 && !vm.overlay.select) {
-                    // 展示单一符号渲染面板
-                    getLayerSymbols(vm.overlay.layer).then(function (symbols) {
-                        vm.overlay.select = symbols[0].SymbolInfo;
-                    });
-                } else if (value === 1 && !vm.overlay.menus.length) {
-                    // 展示唯一值符号渲染面板
-                    Doc.getLayerField({
-                        docId: vm.overlay.doc.docId,
-                        userId: vm.overlay.doc.userId,
-                        name: vm.overlay.doc.name,
-                        layerIndex: vm.overlay.layer.id
-                    }).then(function (res) {
-                        vm.overlay.menus = res.data.result;
-                    }, function (err) {
-                        console.log(err);
-                    });
+                if (value === 0 && vm.overlay.swipe) {
+                    $timeout(function () {
+                        vm.overlay.swipe = false;
+                        console.log(vm.overlay.swipe);
+                    }, 0);
                 }
             });
 
@@ -247,6 +258,10 @@
                 }, function (err) {
                     console.log(err);
                 });
+            };
+
+            $scope.save = function () {
+
             };
 
             function getLayerSymbols(layer) {
