@@ -7,13 +7,13 @@
     angular.module('export-map.controllers')
         .controller('UniquePanelController', ['$scope', '$rootScope', '$timeout', '$q', 'Doc', 'Symbol', function ($scope, $rootScope, $timeout, $q, Doc, Symbol) {
             var vm = $scope.vm;
+            var _index = -1;
 
             vm.overlay.select = null;
             vm.overlay.table = {};
             vm.overlay.field = null;
             vm.overlay.menus = [];
             vm.overlay.uniqueList = [];
-            vm.overlay.uniqueSelect = null;
             vm.overlay.swipe = false;
             vm.overlay.columns = [
                 {
@@ -28,13 +28,15 @@
                     width: '100px',
                     clickToSelect: false,
                     formatter: function (value) {
-                        return '<img src="' + value.SymbolPreview + '"style="display:inline-block;height: 20px;width: 20px;cursor:pointer">';
+                        return value && '<img src="' + value.SymbolPreview + '"style="display:inline-block;height: 20px;width: 20px;cursor:pointer">';
                     },
                     events: {
                         'click img': function (e, value, row, index) {
                             // Todo: open symbol panel
                             $scope.$apply(function () {
                                 vm.overlay.swipe = !vm.overlay.swipe;
+                                vm.overlay.select = value;
+                                _index = index;
                             });
                         }
                     }
@@ -70,9 +72,9 @@
 
             $scope.$watch('vm.overlay.tab', function (value) {
                 if (value === 0 && vm.overlay.swipe) {
+                    vm.overlay.select = vm.overlay.uniqueList[0].SymbolInfo;
                     $timeout(function () {
                         vm.overlay.swipe = false;
-                        console.log(vm.overlay.swipe);
                     }, 0);
                 }
             });
@@ -261,7 +263,17 @@
             };
 
             $scope.save = function () {
+                var list = [];
+                angular.copy(vm.overlay.uniqueList, list);
+                $timeout(function () {
+                    vm.overlay.swipe = false;
+                    list[_index].SymbolInfo = vm.overlay.select;
+                    vm.overlay.uniqueList = list;
+                }, 0);
 
+                $timeout(function () {
+                    vm.overlay.select = vm.overlay.uniqueList[0].SymbolInfo;
+                }, 600);
             };
 
             function getLayerSymbols(layer) {

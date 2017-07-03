@@ -30,7 +30,8 @@
                 </div>
                 <div class="symbol-edit">
                     <div class="preview" ng-style="{'margin-bottom':vm.overlay.select.SymbolName?'-15px':'-20px'}">
-                        <img height="50" width="50" ng-src="{{vm.overlay.select.SymbolPreview}}">
+                        <img height="50" width="50"
+                             ng-src="{{vm.overlay.select.SymbolPreview}}">
                         <span class="symbol-name">{{vm.overlay.select.SymbolName}}</span>
                     </div>
                     <div class="symbol-select-input-list" ng-if="vm.overlay.select.SymbolType==='Marker Symbols'">
@@ -166,7 +167,7 @@
             <button class="btn btn-default" ng-click="closeMask()">取消</button>
         </div>
     </div>
-    <div class="unique-bottom" ng-if="vm.overlay.swipe">
+    <div class="unique-bottom2" ng-class="{swipe: vm.overlay.swipe}">
         <div class="btn-group">
             <button class="btn btn-default" ng-click="save()">保存</button>
             <button class="btn btn-default" ng-click="vm.overlay.swipe=false">返回</button>
