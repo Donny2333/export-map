@@ -5,150 +5,151 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('DataController', ['$scope', '$rootScope', '$uibModal', 'Data', 'Doc', function ($scope, $rootScope, $uibModal, Data, Doc) {
-            var vm = $scope.vm = {
-                data: [],
-                typeRes: {
-                    id: 1,
-                    data: [{
-                        id: 0,
-                        name: 'Users',
-                        text: '用户数据'
-                    }, {
+        .controller('DataController', ['$scope', '$rootScope', '$uibModal', 'Data', 'Doc', 'Auth',
+            function ($scope, $rootScope, $uibModal, Data, Doc, Auth) {
+                var vm = $scope.vm = {
+                    data: [],
+                    typeRes: {
                         id: 1,
-                        name: 'Public',
-                        text: '公共数据'
-                    }]
-                },
-                keywords: {
-                    id: 0,
-                    data: [{
+                        data: [{
+                            id: 0,
+                            name: 'Users',
+                            text: '用户数据'
+                        }, {
+                            id: 1,
+                            name: 'Public',
+                            text: '公共数据'
+                        }]
+                    },
+                    keywords: {
                         id: 0,
-                        name: '',
-                        text: '按名称'
-                    }, {
-                        id: 1,
-                        name: '',
-                        text: '按坐标系'
-                    }]
-                },
-                pagination: {
-                    totalItems: 0,
-                    maxSize: 5,
-                    pageNo: 1,
-                    pageSize: 10,
-                    maxPage: 1
-                }
-            };
-
-            $scope.change = function (index) {
-                if (vm.typeRes.id !== index) {
-                    vm.typeRes.id = index;
-                    getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name, 1);
-                }
-            };
-
-            $scope.pageChanged = function () {
-                getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name);
-            };
-
-            $scope.preview = function (data) {
-                $rootScope.$broadcast('mask:show', {
-                    showMask: true,
-                    template: '<map-panel></map-panel>',
-                    overlay: {
-                        title: data.Name,
-                        docId: data.Id,
-                        userId: data.UserId,
-                        name: data.Name
+                        data: [{
+                            id: 0,
+                            name: '',
+                            text: '按名称'
+                        }, {
+                            id: 1,
+                            name: '',
+                            text: '按坐标系'
+                        }]
+                    },
+                    pagination: {
+                        totalItems: 0,
+                        maxSize: 5,
+                        pageNo: 1,
+                        pageSize: 10,
+                        maxPage: 1
                     }
-                })
-            };
+                };
 
-            $scope.add = function (data) {
-                if ($scope.$parent.vm.doc && $scope.$parent.vm.doc.docId) {
-                    if (vm.typeRes.id) {
-                        // 添加公共数据
-                        var newLayer = {
-                            userId: $scope.$parent.vm.doc.userId,
-                            orgPath: data.GdbPath,
-                            orgNames: data.Name,
-                            userPath: $scope.$parent.vm.gdbs[0].gdbPath,
-                            desNames: data.Name
-                        };
+                $scope.change = function (index) {
+                    if (vm.typeRes.id !== index) {
+                        vm.typeRes.id = index;
+                        getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name, Auth.getUserInfo().userId);
+                    }
+                };
 
-                        var modalInstance = $uibModal.open({
-                            ariaLabelledBy: 'modal-title',
-                            ariaDescribedBy: 'modal-body',
-                            templateUrl: 'myModalContent.html',
-                            controller: 'ModalInstanceCtrl',
-                            resolve: {
-                                newLayer: newLayer
-                            }
-                        });
+                $scope.pageChanged = function () {
+                    getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name);
+                };
 
-                        modalInstance.result.then(function (newLayer) {
-                            if (newLayer.id) {
-                                addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, newLayer.id);
-                                console.log('Modal Confirmed at: ' + new Date());
-                            }
-                        }, function () {
-                            console.info('Modal dismissed at: ' + new Date());
-                        });
+                $scope.preview = function (data) {
+                    $rootScope.$broadcast('mask:show', {
+                        showMask: true,
+                        template: '<map-panel></map-panel>',
+                        overlay: {
+                            title: data.Name,
+                            docId: data.Id,
+                            userId: data.UserId,
+                            name: data.Name
+                        }
+                    })
+                };
+
+                $scope.add = function (data) {
+                    if ($scope.$parent.vm.doc && $scope.$parent.vm.doc.docId) {
+                        if (vm.typeRes.id) {
+                            // 添加公共数据
+                            var newLayer = {
+                                userId: $scope.$parent.vm.doc.userId,
+                                orgPath: data.GdbPath,
+                                orgNames: data.Name,
+                                userPath: $scope.$parent.vm.gdbs[0].gdbPath,
+                                desNames: data.Name
+                            };
+
+                            var modalInstance = $uibModal.open({
+                                ariaLabelledBy: 'modal-title',
+                                ariaDescribedBy: 'modal-body',
+                                templateUrl: 'myModalContent.html',
+                                controller: 'ModalInstanceCtrl',
+                                resolve: {
+                                    newLayer: newLayer
+                                }
+                            });
+
+                            modalInstance.result.then(function (newLayer) {
+                                if (newLayer.id) {
+                                    addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, newLayer.id);
+                                    console.log('Modal Confirmed at: ' + new Date());
+                                }
+                            }, function () {
+                                console.info('Modal dismissed at: ' + new Date());
+                            });
+                        } else {
+                            // 添加用户数据
+                            addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, data.Id);
+                        }
                     } else {
-                        // 添加用户数据
-                        addLayer($scope.$parent.vm.doc.docId, $scope.$parent.vm.doc.userId, $scope.$parent.vm.doc.name, data.Id);
+                        layer.alert('无打开文档，数据添加失败');
                     }
-                } else {
-                    layer.alert('无打开文档，数据添加失败');
+                };
+
+                getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name, 1);
+
+                function getMapDataList(pageNo, pageSize, typeRes, userId, dataId, name, gdbPath, srcID) {
+                    Data.getMapDataList({
+                        dataId: dataId,
+                        name: name,
+                        userId: vm.typeRes.id ? '' : userId,
+                        gdbPath: gdbPath,
+                        typeRes: typeRes || 'public',
+                        srcID: srcID,
+                        pageNo: pageNo,
+                        pageNum: pageSize
+                    }).then(function (res) {
+                        if (res.status === 200) {
+                            vm.data = res.data.result;
+                            vm.pagination.totalItems = res.data.count;
+                            vm.pagination.maxPage = Math.ceil(res.data.count / vm.pagination.pageSize);
+                        }
+                    });
                 }
-            };
 
-            getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name, 1);
-
-            function getMapDataList(pageNo, pageSize, typeRes, userId, dataId, name, gdbPath, srcID) {
-                Data.getMapDataList({
-                    dataId: dataId,
-                    name: name,
-                    userId: vm.typeRes.id ? '' : userId,
-                    gdbPath: gdbPath,
-                    typeRes: typeRes || 'public',
-                    srcID: srcID,
-                    pageNo: pageNo,
-                    pageNum: pageSize
-                }).then(function (res) {
-                    if (res.status === 200) {
-                        vm.data = res.data.result;
-                        vm.pagination.totalItems = res.data.count;
-                        vm.pagination.maxPage = Math.ceil(res.data.count / vm.pagination.pageSize);
-                    }
-                });
-            }
-
-            function addLayer(docId, userId, name, dataId) {
-                var loading = layer.load(1, {
-                    shade: [0.1, '#000']
-                });
-                Doc.addLayerToMap({
-                    docId: docId,
-                    userId: userId,
-                    name: name,
-                    dataId: dataId
-                }).then(function (res) {
-                    if (res.status === 200 && res.data.status === 'ok') {
-                        layer.closeAll('loading');
-                        $scope.$emit('layer:change', res.data);
-                        layer.msg('数据添加成功', {icon: 1});
-                    } else {
-                        layer.closeAll('loading');
-                        layer.open({
-                            title: '数据添加失败',
-                            content: res.data.msg
-                        });
-                    }
-                })
-            }
-        }])
+                function addLayer(docId, userId, name, dataId) {
+                    var loading = layer.load(1, {
+                        shade: [0.1, '#000']
+                    });
+                    Doc.addLayerToMap({
+                        docId: docId,
+                        userId: userId,
+                        name: name,
+                        dataId: dataId
+                    }).then(function (res) {
+                        if (res.status === 200 && res.data.status === 'ok') {
+                            layer.closeAll('loading');
+                            $scope.$emit('layer:change', res.data);
+                            layer.msg('数据添加成功', {icon: 1});
+                        } else {
+                            layer.closeAll('loading');
+                            layer.open({
+                                title: '数据添加失败',
+                                content: res.data.msg
+                            });
+                        }
+                    })
+                }
+            }])
 
         .controller('ModalInstanceCtrl', ['$uibModalInstance', '$scope', 'newLayer', 'Data', function ($uibModalInstance, $scope, newLayer, Data) {
             var vm = $scope.vm = {

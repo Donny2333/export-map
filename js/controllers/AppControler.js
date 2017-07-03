@@ -5,8 +5,8 @@
     'use strict';
 
     angular.module('export-map.controllers', [])
-        .controller('AppController', ['$scope', '$rootScope', '$state', '$timeout', '$q', 'Router', 'Doc', 'Data', 'URL_CFG', 'uuid',
-            function ($scope, $rootScope, $state, $timeout, $q, Router, Doc, Data, URL_CFG, uuid) {
+        .controller('AppController', ['$scope', '$rootScope', '$state', '$timeout', '$q', 'Router', 'Auth', 'Doc', 'Data', 'URL_CFG', 'uuid',
+            function ($scope, $rootScope, $state, $timeout, $q, Router, Auth, Doc, Data, URL_CFG, uuid) {
                 var vm = $scope.vm = {
                     menus: Router.list().slice(0, 2),
                     showTable: false,
@@ -55,7 +55,6 @@
                     } else {
                         // 新建文档
                         Doc.list({
-                            // userId: 1,
                             pageNo: 0,
                             pageNum: 8,
                             tagName: "模板",
@@ -90,8 +89,8 @@
                                             maxPage: Math.ceil(res.data.count / 12)
                                         },
                                         doc: {
-                                            userId: 1,
-                                            autor: '姚志武'
+                                            userId: Auth.getUserInfo().userId,
+                                            autor: Auth.getUserInfo().name
                                         },
                                         choose: true,
                                         create: false

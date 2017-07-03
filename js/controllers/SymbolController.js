@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('SymbolController', ['$scope', '$rootScope', 'Symbol', function ($scope, $rootScope, Symbol) {
+        .controller('SymbolController', ['$scope', '$rootScope', 'Auth', 'Symbol', function ($scope, $rootScope, Auth, Symbol) {
             var vm = $scope.vm = {
                 symbols: [],
                 pagination: {
@@ -50,7 +50,7 @@
 
             function getStyleList(userId, pageNo, pageSize) {
                 Symbol.getStyleList({
-                    userId: userId,
+                    userId: Auth.getUserInfo().userId,
                     pageNo: pageNo,
                     pageSize: pageSize
                 }).then(function (res) {

@@ -6,7 +6,7 @@
 
     angular.module('export-map.controllers')
 
-        .controller('FilesController', ['$scope', '$rootScope', 'Doc', 'URL_CFG', function ($scope, $rootScope, Doc, URL_CFG) {
+        .controller('FilesController', ['$scope', '$rootScope', 'Doc', 'Auth', 'URL_CFG', function ($scope, $rootScope, Doc, Auth, URL_CFG) {
             var vm = $scope.vm = {
                 mapDoc: [],
                 typeRes: {
@@ -99,7 +99,7 @@
 
             function getMapList(pageNo, pageSize, tagName, typeRes, mapType) {
                 Doc.list({
-                    userId: 1,
+                    userId: Auth.getUserInfo().userId,
                     pageNo: pageNo,
                     pageNum: pageSize,
                     tagName: tagName || "",

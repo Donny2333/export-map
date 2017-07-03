@@ -40,7 +40,6 @@
 
             function getTemplates(pageNo, pageSize, tagName, typeRes, mapType) {
                 Doc.list({
-                    // userId: 1,
                     pageNo: pageNo,
                     pageNum: pageSize,
                     tagName: tagName || "",
