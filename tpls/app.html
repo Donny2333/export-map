@@ -5,13 +5,14 @@
 </div>
 <div class="navi">
     <ul class="menu">
-        <li class="menu-item" ng-repeat="menu in vm.menus as menus" ui-sref="{{menu.sref}}" ui-sref-active="active" ng-click="go($event, menu)">
+        <li class="menu-item" ng-repeat="menu in vm.menus as menus" ui-sref="{{menu.sref}}" ui-sref-active="active"
+            ng-click="go($event, menu)">
             <img ng-src="{{menu.img}}">
             <span>{{menu.name}}</span>
         </li>
     </ul>
     <div class="method">
-        <a ng-click="createOrClose()" class="btn-blue">{{vm.doc.docId ? '关闭文档' : '新建地图'}}</a>
+        <a id="createOrClose" ng-click="createOrClose()" class="btn-blue">{{vm.doc.docId ? '关闭文档' : '新建地图'}}</a>
         <!--<a ng-click="save()" ng-if="vm.doc.docId" class="btn-blue">保存</a>-->
         <a ng-click="publish()" ng-if="vm.doc.docId" class="btn-blue">发布</a>
     </div>
@@ -32,7 +33,10 @@
                             <div class="table-head">
                                 <span>{{vm.table.head}}</span>
                                 <div class="table-pagination">
-                                    <ul uib-pagination class="pagination-sm data-pagination" total-items="vm.pagination.totalItems" items-per-page="vm.pagination.pageSize" ng-model="vm.pagination.pageNo" max-size="vm.pagination.maxSize" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"></ul>
+                                    <ul uib-pagination class="pagination-sm data-pagination"
+                                        total-items="vm.pagination.totalItems" items-per-page="vm.pagination.pageSize"
+                                        ng-model="vm.pagination.pageNo" max-size="vm.pagination.maxSize"
+                                        ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"></ul>
                                 </div>
                                 <i class="icon-close table-close" ng-click="closeTable()"></i>
                             </div>

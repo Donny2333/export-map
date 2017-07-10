@@ -57,7 +57,8 @@
                         Doc.list({
                             pageNo: 0,
                             pageNum: 8,
-                            tagName: "模板",
+                            tagName: "",
+                            parentName: "模板",
                             typeRes: "Public",
                             mapType: "Templete"
                         }).then(function (res) {
@@ -93,7 +94,9 @@
                                             autor: Auth.getUserInfo().name
                                         },
                                         choose: true,
-                                        create: false
+                                        themeChoose1: true,
+                                        themeChoose2: false,
+                                        themeChoose3: false
                                     }
                                 })
                             }
@@ -128,16 +131,9 @@
                             center = ol.proj.transform(center, 'EPSG:' + geoStr.spatialReference.wkid, 'EPSG:' + vm.doc.srcID);
                             zoom = 16;
                             drawPoints([center], new ol.style.Style({
-                                image: new ol.style.Circle({
-                                    radius: 7,
-                                    snapToPixel: false,
-                                    fill: new ol.style.Fill({
-                                        color: 'red'
-                                    }),
-                                    stroke: new ol.style.Stroke({
-                                        color: 'black',
-                                        width: 2
-                                    })
+                                image: new ol.style.Icon({
+                                    src: '/images/location.png',
+                                    anchor: [.5, .85]
                                 })
                             }));
                             break;
@@ -221,6 +217,7 @@
                 $scope.$on('doc:open', function (event, value) {
                     vm.menus = Router.list();
                     vm.doc = value;
+                    console.log(vm.doc);
                     var extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
 
                     $scope.closeTable();
@@ -350,7 +347,8 @@
                         params: {
                             docId: vm.doc.docId,
                             userId: vm.doc.userId,
-                            name: vm.doc.name
+                            name: vm.doc.name,
+                            random: uuid.create()
                         }
                     }));
                 }

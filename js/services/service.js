@@ -168,6 +168,14 @@
                 queryDataOnLayer: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/QueryDataOnLayer';
                     return Http.post(url, param);
+                },
+                getThemeLayers: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/GetThemeLayers';
+                    return Http.post(url, param);
+                },
+                setLayerData: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/SetLayerData';
+                    return Http.post(url, param);
                 }
             }
         }])

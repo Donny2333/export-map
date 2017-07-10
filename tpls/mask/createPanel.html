@@ -26,9 +26,9 @@
                         next-text="&rsaquo;"></ul>
                 </div>
             </div>
-            <div class="create" ng-if="vm.overlay.create">
-                <div class="content" style="padding: 10px 0 0;height: auto;">
-                    <div id=myDivTable>
+            <div class="create" ng-if="!vm.overlay.choose">
+                <div class="content">
+                    <div class="myDivTable">
                         <div>
                             <div>名称</div>
                             <div>
@@ -44,8 +44,8 @@
                         <div>
                             <div>关键字</div>
                             <div class="btn-group" uib-dropdown>
-                                <div class="btn btn-default">{{vm.overlay.doc.tagName = vm.overlay.doc.tagName ||
-                                    vm.overlay.dropdown[0]}}
+                                <div class="btn btn-default">
+                                    {{vm.overlay.doc.tagName = vm.overlay.doc.tagName || vm.overlay.dropdown[0]}}
                                 </div>
                                 <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                     <span class="caret"></span>
@@ -76,20 +76,108 @@
                 </div>
                 <div class="bottom">
                     <button class="btn btn-primary" ng-click="create()">确定</button>
-                    <button class="btn btn-default" ng-click="goBack()">返回</button>
+                    <button class="btn btn-default" ng-click="vm.overlay.choose=true">返回</button>
                 </div>
             </div>
         </div>
         <div class="tab-pane" ng-class="{active:vm.overlay.tab===1}">
             <div class="theme">
-                <div class="theme-list">
-                    <z-tree class="ztree" id="tree" setting="vm.overlay.setting" z-nodes="vm.overlay.nodes"></z-tree>
+                <div class="theme-choose" ng-if="vm.overlay.themeChoose1">
+                    <div class="content">
+                        <div class="item" ng-repeat="themes in vm.overlay.themes">
+                            <img ng-src="{{themes.img}}" ng-click="select(themes.id)">
+                            <h2>{{themes.title}}</h2>
+                        </div>
+                    </div>
+                    <div class="pagination">
+                        <ul uib-pagination class="pagination-sm" total-items="vm.overlay.pagination.totalItems"
+                            items-per-page="vm.overlay.pagination.pageSize" ng-model="vm.overlay.pagination.pageNo"
+                            max-size="vm.overlay.pagination.maxSize" ng-change="pageChanged()" previous-text="&lsaquo;"
+                            next-text="&rsaquo;"></ul>
+                    </div>
                 </div>
-                <div class="theme-data">
-                    <div class="theme-item"></div>
-                    <div class="theme-btns">
-                        <button class="btn btn-default" ng-click="closeMask()">取消</button>
-                        <button class="btn btn-primary" ng-click="create()">确定</button>
+                <div class="theme-create" ng-if="vm.overlay.themeChoose2">
+                    <div class="content">
+                        <div class="myDivTable">
+                            <div>
+                                <div>名称</div>
+                                <div>
+                                    <input ng-model="vm.overlay.doc.name" type="text" placeholder="文档名称">
+                                </div>
+                            </div>
+                            <div>
+                                <div>昵称</div>
+                                <div>
+                                    <input ng-model="vm.overlay.doc.name2" type="text" placeholder="文档昵称">
+                                </div>
+                            </div>
+                            <div>
+                                <div>关键字</div>
+                                <div class="btn-group" uib-dropdown>
+                                    <div class="btn btn-default">
+                                        {{vm.overlay.doc.tagName = vm.overlay.doc.tagName ||
+                                        vm.overlay.dropdown[0]}}
+                                    </div>
+                                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Split button!</span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                        aria-labelledby="split-button">
+                                        <li role="menuitem" ng-repeat="item in vm.overlay.dropdown"
+                                            ng-click="vm.overlay.doc.tagName=vm.overlay.dropdown[$index]">
+                                            <a>{{item}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div>简述</div>
+                                <div>
+                                    <input ng-model="vm.overlay.doc.detail" type="text" placeholder="这里是简述">
+                                </div>
+                            </div>
+                            <div>
+                                <div>详情</div>
+                                <div>
+                                <textarea ng-model="vm.overlay.doc.detail2" rows="3"
+                                          placeholder="请输入有关文档的详情"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <button class="btn btn-primary" ng-click="create()">下一步</button>
+                        <button class="btn btn-default" style="margin-right: 20px"
+                                ng-click="vm.overlay.themeChoose1=true;vm.overlay.themeChoose2=false">返回
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-content" ng-if="vm.overlay.themeChoose3">
+                    <div class="theme-tree">
+                        <z-tree class="ztree" id="tree" setting="vm.overlay.setting"
+                                z-nodes="vm.overlay.nodes"></z-tree>
+                    </div>
+                    <div class="theme-data">
+                        <table class="theme-list">
+                            <tr class="theme-item" ng-repeat="item in vm.overlay.items">
+                                <td>
+                                    {{item.data ? '√' : ' '}}
+                                </td>
+                                <td>{{item.Name}}</td>
+                                <td>{{item.SrcName}}</td>
+                                <td>{{item.UpdateTime.split(' ')[0]}}</td>
+                                <td>
+                                    <button ng-click="add(item)">+</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="theme-btns">
+                            <button class="btn btn-default"
+                                    ng-click="vm.overlay.themeChoose2=true;vm.overlay.themeChoose3=false">返回
+                            </button>
+                            <button class="btn btn-primary" ng-click="confirm()">确定</button>
+                        </div>
                     </div>
                 </div>
             </div>

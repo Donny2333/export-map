@@ -34,7 +34,7 @@
                         layer.msg('地图发布成功', {icon: 1});
                     } else {
                         layer.closeAll('loading');
-                        layer.msg('地图发布失败', {icon: 1});
+                        layer.msg('地图发布失败', {icon: 2});
                     }
                 })
             };

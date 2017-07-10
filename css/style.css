@@ -1302,7 +1302,8 @@ a {
     box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
 
-.tpls-choose {
+.tpls-choose,
+.theme-choose {
     -webkit-box-flex: 1;
     -ms-flex: auto;
     flex: auto;
@@ -1346,7 +1347,8 @@ a {
     color: #4d4d4d;
 }
 
-.tpls-choose > .content {
+.tpls-choose > .content,
+.theme-choose > .content {
     height: 360px;
     width: 100%;
     display: -webkit-box;
@@ -1357,17 +1359,20 @@ a {
     flex-wrap: wrap;
 }
 
-.tpls-choose > .content > .item {
+.tpls-choose > .content > .item,
+.theme-choose > .content > .item {
     margin: 0 30px 20px 0;
     height: 150px;
     width: 150px;
 }
 
-.tpls-choose > .content > .item:nth-of-type(4n) {
+.tpls-choose > .content > .item:nth-of-type(4n),
+.theme-choose > .content > .item:nth-of-type(4n) {
     margin-right: 0;
 }
 
-.tpls-choose > .content > .item > img {
+.tpls-choose > .content > .item > img,
+.theme-choose > .content > .item > img {
     height: 100px;
     width: 150px;
     outline: 1px solid #d9d9d9;
@@ -1377,7 +1382,8 @@ a {
     transition: transform .2s, -webkit-transform .2s;
 }
 
-.tpls-choose > .content > .item > img:hover {
+.tpls-choose > .content > .item > img:hover,
+.theme-choose > .content > .item > img:hover {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
     outline: 1px solid rgb(29, 144, 227);
@@ -1385,23 +1391,26 @@ a {
     box-shadow: 4px 6.928px 14px 0 rgba(0, 0, 0, 0.16);
 }
 
-.tpls-choose > .content > .item > h2 {
+.tpls-choose > .content > .item > h2,
+.theme-choose > .content > .item > h2 {
     height: 50px;
     padding-top: 10px;
     font-size: 14px;
 }
 
-.tpls-choose > .pagination {
+.tpls-choose > .pagination,
+.theme-choose > .pagination {
     display: inline-block;
     margin: 10px auto;
     height: 30px;
 }
 
-.tpls-choose > .pagination > ul {
+.tpls-choose > .pagination > ul,
+.theme-choose > .pagination > ul {
     margin: 0;
 }
 
-#myDivTable {
+.myDivTable {
     width: 100%;
     display: table;
     border-spacing: 20px;
@@ -1409,22 +1418,22 @@ a {
     padding-right: 10px;
 }
 
-#myDivTable > div {
+.myDivTable > div {
     display: table-row;
 }
 
-#myDivTable > div > div {
+.myDivTable > div > div {
     display: table-cell;
     vertical-align: middle;
 }
 
-#myDivTable > div > div:first-child {
+.myDivTable > div > div:first-child {
     text-align: right;
     width: 50px;
 }
 
-#myDivTable > div > div > input,
-#myDivTable > div > div > textarea {
+.myDivTable > div > div > input,
+.myDivTable > div > div > textarea {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -1440,6 +1449,11 @@ a {
     padding-bottom: 20px;
 }
 
+.create > .content {
+    padding: 10px 0 0;
+    height: auto;
+}
+
 .create > .bottom {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1449,7 +1463,6 @@ a {
     -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
     width: 100%;
-    /*background-color: rebeccapurple;*/
 }
 
 .create > .bottom > button {
@@ -1461,16 +1474,31 @@ a {
     margin-right: 30px;
 }
 
-.theme {
+.theme,
+.theme > .theme-content {
     display: flex;
     height: 430px;
     width: 100%;
+    overflow: auto;
 }
 
-.theme > .theme-list {
+.theme > .theme-create {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.theme-create > .bottom {
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.theme-content > .theme-tree {
     width: 300px;
     border-right: 1px solid #dddddd;
-    padding-left: 10px;
+    padding: 10px;
 }
 
 .theme-data {
@@ -1483,11 +1511,34 @@ a {
     justify-content: space-between;
 }
 
-.theme-item {
+.theme-list {
     display: block;
     height: 320px;
     width: 520px;
     border: 1px solid #d4d4d4;
+    overflow: auto;
+}
+
+.theme-list tr td {
+    padding: 5px 12px;
+}
+
+.theme-list tr td:first-child {
+    padding-left: 40px;
+    padding-right: 30px;
+}
+
+.theme-list tr td:last-child {
+    padding-left: 30px;
+    padding-right: 40px;
+}
+
+.theme-list tr:nth-child(odd) td {
+    background-color: #ebf4fc;
+}
+
+.theme-list tr:hover td {
+    background-color: #fcebee;
 }
 
 .theme-btns {

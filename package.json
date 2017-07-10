@@ -4,12 +4,17 @@
   "author": "Donny",
   "license": "ISC",
   "devDependencies": {
+    "angular": "^1.6.4",
+    "angular-mocks": "^1.6.4",
+    "angular-ui-router": "^1.0.3",
     "browser-sync": "^2.18.8",
+    "chai-as-promised": "^7.1.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "gulp-uglify": "^2.1.2"
-  },
-  "dependencies": {
-    "angular-bootstrap-colorpicker": "^3.0.31"
+    "gulp-uglify": "^2.1.2",
+    "jasmine-core": "^2.6.4",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0"
   }
 }
