@@ -167,7 +167,7 @@
             <button class="btn btn-default" ng-click="closeMask()">取消</button>
         </div>
     </div>
-    <div class="unique-bottom2" ng-class="{swipe: vm.overlay.swipe}">
+    <div class="unique-bottom2" ng-if="vm.overlay.swipe">
         <div class="btn-group">
             <button class="btn btn-default" ng-click="save()">保存</button>
             <button class="btn btn-default" ng-click="vm.overlay.swipe=false">返回</button>

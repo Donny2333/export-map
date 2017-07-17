@@ -73,7 +73,7 @@
                                     author: doc.Author,
                                     detail: doc.Detail,
                                     detail2: doc.Detail2,
-                                    tagName: doc.TagName,
+                                    tagId: doc.TagId,
                                     xmin: doc.Xmin,
                                     ymin: doc.Ymin,
                                     xmax: doc.Xmax,
@@ -268,10 +268,8 @@
                     return deferred.promise;
                 }
 
-                Doc.getTypes({
-                    typeRes: "Public",
-                    fieldName: "TagName",
-                    mapType: "mapserver"
+                Doc.getMapMenu({
+                    parentId: -1
                 }).then(function (res) {
                     if (res.data.status === "ok") {
                         vm.overlay.dropdown = res.data.result;

@@ -50,13 +50,17 @@
                     title: 'Label',
                     align: 'center',
                     valign: 'middle'
-                }];
+                }
+            ];
 
             getLayerSymbols(vm.overlay.layer).then(function (symbols) {
-                // 渲染单一符号面板
-                vm.overlay.select = symbols[0].SymbolInfo;
-                // 渲染唯一值符号面板
-                vm.overlay.uniqueList = symbols;
+                if (vm.overlay.tab === 0) {
+                    // 渲染单一符号面板
+                    vm.overlay.select = symbols[0].SymbolInfo;
+                } else {
+                    // 渲染唯一值符号面板
+                    vm.overlay.uniqueList = symbols;
+                }
             });
 
             Doc.getLayerField({

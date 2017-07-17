@@ -45,7 +45,7 @@
                             <div>关键字</div>
                             <div class="btn-group" uib-dropdown>
                                 <div class="btn btn-default">
-                                    {{vm.overlay.doc.tagName = vm.overlay.doc.tagName || vm.overlay.dropdown[0]}}
+                                    {{vm.overlay.doc.tagName = vm.overlay.doc.tagName || vm.overlay.dropdown[0].name}}
                                 </div>
                                 <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                     <span class="caret"></span>
@@ -53,8 +53,8 @@
                                 </button>
                                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                                     <li role="menuitem" ng-repeat="item in vm.overlay.dropdown"
-                                        ng-click="vm.overlay.doc.tagName=vm.overlay.dropdown[$index]">
-                                        <a>{{item}}</a>
+                                        ng-click="vm.overlay.doc.tagId=vm.overlay.dropdown[$index].id;vm.overlay.doc.tagName=vm.overlay.dropdown[$index].name">
+                                        <a>{{item.name}}</a>
                                     </li>
                                 </ul>
                             </div>

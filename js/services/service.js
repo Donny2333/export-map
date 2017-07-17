@@ -113,6 +113,10 @@
                     var url = URL_CFG.api + "MapService.svc/GetDocNames";
                     return Http.post(url, param);
                 },
+                getMapMenu: function (param) {
+                    var url = URL_CFG.api + "MapService.svc/GetMapMenu";
+                    return Http.post(url, param);
+                },
                 create: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/NewMapDoc';
                     return Http.post(url, param);
