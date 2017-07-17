@@ -34,6 +34,7 @@
                         'click img': function (e, value, row, index) {
                             // Todo: open symbol panel
                             $scope.$apply(function () {
+                                console.log(vm.overlay.field);
                                 vm.overlay.swipe = !vm.overlay.swipe;
                                 vm.overlay.select = value;
                                 _index = index;
@@ -54,11 +55,11 @@
             ];
 
             getLayerSymbols(vm.overlay.layer).then(function (symbols) {
-                if (vm.overlay.tab === 0) {
-                    // 渲染单一符号面板
-                    vm.overlay.select = symbols[0].SymbolInfo;
-                } else {
-                    // 渲染唯一值符号面板
+                // 渲染单一符号面板
+                vm.overlay.select = symbols[0].SymbolInfo;
+
+                // 渲染唯一值符号面板
+                if (vm.overlay.tab === 1) {
                     vm.overlay.uniqueList = symbols;
                 }
             });
@@ -267,6 +268,8 @@
             };
 
             $scope.save = function () {
+                console.log(vm.overlay.field);
+
                 var list = [];
                 angular.copy(vm.overlay.uniqueList, list);
                 $timeout(function () {
@@ -303,6 +306,7 @@
                             case 'Unique values':
                                 symbols = (res.data.result.UseDefaultSymbol ? [res.data.result.DefaultRenderSymbol] : [])
                                     .concat(res.data.result.RenderSymbols);
+                                vm.overlay.field = res.data.result.FieldList[0];
                                 break;
 
                             default:
