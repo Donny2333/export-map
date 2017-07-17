@@ -34,7 +34,6 @@
                         'click img': function (e, value, row, index) {
                             // Todo: open symbol panel
                             $scope.$apply(function () {
-                                console.log(vm.overlay.field);
                                 vm.overlay.swipe = !vm.overlay.swipe;
                                 vm.overlay.select = value;
                                 _index = index;

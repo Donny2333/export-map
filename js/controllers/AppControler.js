@@ -108,6 +108,34 @@
 
                 };
 
+                $scope.plot = function () {
+                    var layers = [];
+                    vm.layers.map(function (layer) {
+                        layers.push({
+                            id: layer.id,
+                            name: layer.name,
+                            checked: layer.defaultVisibility
+                        })
+                    });
+                    console.log(layers);
+
+                    $rootScope.$broadcast('mask:show', {
+                        showMask: true,
+                        template: '<plot-panel></plot-panel>',
+                        overlay: {
+                            title: '一键出图',
+                            doc: vm.doc,
+                            plot: {
+                                title: '标题',
+                                org: '地信科技',
+                                author: Auth.getUserInfo().name,
+                                layers: layers,
+                                isVertical: false
+                            }
+                        }
+                    })
+                };
+
                 $scope.publish = function () {
                     vm.doc.extent = map.getView().calculateExtent();
                     $rootScope.$broadcast('mask:show', {

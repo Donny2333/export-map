@@ -26,6 +26,10 @@ a {
     text-decoration: none;
 }
 
+label {
+    font-weight: normal;
+}
+
 @font-face {
     font-family: 'iconfont';
     src: url('../fonts/FontAwesome.eot');
@@ -386,6 +390,18 @@ a {
 }
 
 .icon-close.table-close:hover:after {
+    color: #f87574;
+}
+
+.icon-close.plot-close {
+    background-color: transparent;
+}
+
+.icon-close.plot-close:after {
+    color: white;
+}
+
+.icon-close.plot-close:hover:after {
     color: #f87574;
 }
 
@@ -1715,4 +1731,133 @@ a {
 
 .query-panel .list-group-item {
     padding: 3px 10px;
+}
+
+/******************* plot-panel **********************/
+
+.plot-panel {
+    position: relative;
+    height: 500px;
+    width: 700px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+
+.plot-title {
+    height: 60px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ddd;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+.plot-title > .title {
+    color: #414141;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.plot-body {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: auto;
+    flex: auto;
+    padding: 30px 0;
+}
+
+.plot-body > .plot-left {
+    width: 50%;
+    padding: 0 10px 0 30px;
+}
+
+.plot-body > .plot-right {
+    width: 50%;
+    padding: 0 30px 0 10px;
+}
+
+.plot-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.plot-list > .plot-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.plot-list > .plot-item > .key {
+    width: 100px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+.plot-list > .plot-item > .value,
+.plot-list > .plot-item > .value-img,
+.plot-list > .plot-item > .value-list {
+    width: 220px;
+}
+
+.plot-list > .plot-item > .value-img {
+    width: 200px;
+    height: 160px;
+}
+
+.plot-list > .plot-item > .value-img.isVertical {
+    width: 200px;
+    height: 250px;
+}
+
+.plot-list > .plot-item .radio-list {
+    display: flex;
+    justify-content: space-around;
+    width: 200px;
+}
+
+.plot-list > .plot-item .radio-list input {
+    margin-right: 5px;
+}
+
+.plot-list > .plot-item.btns {
+    flex-direction: row-reverse;
+}
+
+.value-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 200px;
+    border: 1px solid #cccccc;
+    padding: 20px 20px 5px;
+    overflow: auto;
+}
+
+.value-list > label {
+    width: 100%;
+    margin-bottom: 15px;
+    height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.value-list > label > input {
+    margin-right: 5px;
 }

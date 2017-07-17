@@ -234,4 +234,14 @@
             }
         })
 
+        .directive('plotPanel', function () {
+            return {
+                restrict: 'E',
+                require: '^mask',
+                replace: true,
+                templateUrl: './tpls/mask/plotPanel.html',
+                controller: 'PlotPanelController'
+            }
+        })
+
 })(angular);
