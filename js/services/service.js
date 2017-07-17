@@ -181,6 +181,10 @@
                     var url = URL_CFG.api + 'MapService.svc/SetLayerData';
                     return Http.post(url, param);
                 },
+                getLayerFieldDistinctVal: function (param) {
+                    var url = URL_CFG.api + 'MapService.svc/GetLayerFieldDistinctVal';
+                    return Http.post(url, param);
+                },
                 getMapLayerExport: function (param) {
                     var url = URL_CFG.api + 'MapService.svc/GetMapLayoutExport';
                     return Http.post(url, param);

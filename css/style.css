@@ -1627,6 +1627,15 @@ label {
 .query-value > .list-group > button,
 .query-key > .list-group > button {
     border: none;
+    outline: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.query-key > .list-group > button.active {
+    background-color: #e0e0e0;
 }
 
 .query-value > .list-group {
@@ -1683,7 +1692,7 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex: auto;
+    width: 150px;
 }
 
 .query-param .title {

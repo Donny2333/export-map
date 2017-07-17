@@ -7,6 +7,7 @@
     angular.module('export-map.controllers')
         .controller('QueryPanelController', ['$scope', '$rootScope', 'Doc', function ($scope, $rootScope, Doc) {
             var vm = $scope.vm;
+            vm.overlay.select = null;
             vm.overlay.field = [];
             vm.overlay.operator = [
                 {
@@ -54,29 +55,34 @@
 
             getLayerField();
 
+            $scope.select = function (d) {
+                vm.overlay.select = d;
+                vm.overlay.query += d.value + ' ';
+            };
+
             $scope.add = function (value) {
                 vm.overlay.query += value + ' ';
             };
 
             $scope.getValues = function () {
-                // Todo: Query values form back end.
-                vm.overlay.param = [
-                    {
-                        id: 0,
-                        value: 1
-                    }, {
-                        id: 1,
-                        value: 2
-                    }, {
-                        id: 2,
-                        value: 3
-                    }, {
-                        id: 3,
-                        value: 4
-                    }, {
-                        id: 4,
-                        value: 5
-                    }];
+                if (vm.overlay.select) {
+                    vm.overlay.param = [];
+
+                    Doc.getLayerFieldDistinctVal({
+                        docId: vm.overlay.doc.docId,
+                        name: vm.overlay.doc.name,
+                        userId: vm.overlay.doc.userId,
+                        layerIndex: vm.overlay.layer.id,
+                        fldName: vm.overlay.select.value
+                    }).then(function (res) {
+                        res.data.result.map(function (value, index) {
+                            vm.overlay.param.push({
+                                id: index,
+                                value: value
+                            })
+                        });
+                    })
+                }
             };
 
             $scope.clear = function () {

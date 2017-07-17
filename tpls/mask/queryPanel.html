@@ -7,8 +7,8 @@
             <div class="query-key">
                 <span class="title">字段名：</span>
                 <div class="list-group">
-                    <button type="button" class="list-group-item" ng-repeat="d in vm.overlay.field"
-                            ng-click="add(d.value)">
+                    <button type="button" class="list-group-item" ng-class="{active: d === vm.overlay.select}"
+                            ng-repeat="d in vm.overlay.field" ng-click="select(d)">
                         {{d.value}}
                     </button>
                 </div>

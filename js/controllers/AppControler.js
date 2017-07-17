@@ -60,7 +60,7 @@
                             tagName: "",
                             parentName: "模板",
                             typeRes: "Public",
-                            mapType: "Templete"
+                            mapType: "Template"
                         }).then(function (res) {
                             if (res.data.status === "ok" && res.data.result) {
                                 var templates = [];
