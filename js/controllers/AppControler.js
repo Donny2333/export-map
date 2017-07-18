@@ -46,6 +46,7 @@
                 $scope.createOrClose = function () {
                     if (vm.doc && vm.doc.docId) {
                         // 关闭文档
+                        document.getElementById('map').innerHTML = '';
                         vm.doc = {};
                         vm.layers = [];
                         vm.menus = Router.list().slice(0, 2);
@@ -245,32 +246,12 @@
                 $scope.$on('doc:open', function (event, value) {
                     vm.menus = Router.list();
                     vm.doc = value;
-                    console.log(vm.doc);
                     var extent = [parseFloat(vm.doc.xmin), parseFloat(vm.doc.ymin), parseFloat(vm.doc.xmax), parseFloat(vm.doc.ymax)];
 
                     $scope.closeTable();
-                    if (map) {
-                        map.removeLayer(map.getLayers().item(0));
-                        map.addLayer(new ol.layer.Image());
-                        map.getLayers().item(0).setSource(new ol.source.ImageWMS({
-                            url: URL_CFG.api + 'MapService.svc/Export',
-                            attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
-                            imageExtent: map.getView().calculateExtent(),
-                            params: {
-                                docId: vm.doc.docId,
-                                userId: vm.doc.userId,
-                                name: vm.doc.name,
-                                random: uuid.create()
-                            }
-                        }));
-                        getMapInfo();
-                        map.getView().setCenter([(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2]);
-                        map.getView().setZoom(10.3);
-                    } else {
-                        getMapInfo().then(function (res) {
-                            initMap(URL_CFG.api + 'MapService.svc/Export', extent);
-                        });
-                    }
+                    getMapInfo().then(function (res) {
+                        initMap(URL_CFG.api + 'MapService.svc/Export', extent);
+                    });
                 });
 
                 /**
@@ -345,6 +326,7 @@
                 });
 
                 function initMap(url, extent) {
+                    document.getElementById('map').innerHTML = '';
                     map = new ol.Map({
                         target: 'map',
                         layers: [new ol.layer.Image()],
@@ -356,8 +338,7 @@
                             random: uuid.create(),
                             center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
                             projection: new ol.proj.Projection({
-                                code: 'EPSG:' + vm.doc.srcID,
-                                units: 'm'
+                                code: 'EPSG:' + vm.doc.srcID
                             })
                         })
                     });
