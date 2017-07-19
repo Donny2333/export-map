@@ -126,6 +126,7 @@
                         overlay: {
                             title: '一键出图',
                             doc: vm.doc,
+                            bbox: map.getView().calculateExtent(),
                             plot: {
                                 title: '标题',
                                 org: '地信科技',
@@ -161,7 +162,7 @@
                             zoom = 16;
                             drawPoints([center], new ol.style.Style({
                                 image: new ol.style.Icon({
-                                    src: '/images/location.png',
+                                    src: 'images/location.png',
                                     anchor: [.5, .85]
                                 })
                             }));

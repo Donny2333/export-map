@@ -19,6 +19,7 @@
                     docId: vm.overlay.doc.docId,
                     userId: vm.overlay.doc.userId,
                     name: vm.overlay.doc.name,
+                    extent: vm.overlay.bbox.join(','),
                     layerIds: layerIds(vm.overlay.plot.layers),
                     mapName: vm.overlay.plot.title,
                     mapOrg: vm.overlay.plot.org,

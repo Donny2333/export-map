@@ -39,10 +39,8 @@
                 })
             };
 
-            Doc.getTypes({
-                typeRes: "Public",
-                fieldName: "TagName",
-                mapType: "mapserver"
+            Doc.getMapMenu({
+                parentId: -1
             }).then(function (res) {
                 if (res.data.status === "ok") {
                     vm.overlay.dropdown = res.data.result;

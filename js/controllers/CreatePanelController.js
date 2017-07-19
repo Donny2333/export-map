@@ -40,7 +40,7 @@
                 }
 
                 $scope.pageChanged = function () {
-                    getDocs(vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize, "模板", "Public", "Templete");
+                    getDocs(vm.overlay.pagination.pageNo - 1, vm.overlay.pagination.pageSize, "模板", "Public", "Template");
                 };
 
                 $scope.select = function (id) {
