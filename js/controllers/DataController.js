@@ -45,12 +45,21 @@
                 $scope.change = function (index) {
                     if (vm.typeRes.id !== index) {
                         vm.typeRes.id = index;
-                        getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name, Auth.getUserInfo().userId);
+                        getMapDataList({
+                            userId: Auth.getUserInfo().userId,
+                            typeRes: vm.typeRes.data[vm.typeRes.id].name,
+                            pageNo: vm.pagination.pageNo - 1,
+                            pageNum: vm.pagination.pageSize
+                        });
                     }
                 };
 
                 $scope.pageChanged = function () {
-                    getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name);
+                    getMapDataList({
+                        typeRes: vm.typeRes.data[vm.typeRes.id].name,
+                        pageNo: vm.pagination.pageNo - 1,
+                        pageNum: vm.pagination.pageSize
+                    });
                 };
 
                 $scope.preview = function (data) {
@@ -105,18 +114,26 @@
                     }
                 };
 
-                getMapDataList(vm.pagination.pageNo - 1, vm.pagination.pageSize, vm.typeRes.data[vm.typeRes.id].name, 1);
+                getMapDataList({
+                    userId: Auth.getUserInfo().userId,
+                    typeRes: vm.typeRes.data[vm.typeRes.id].name,
+                    pageNo: vm.pagination.pageNo - 1,
+                    pageNum: vm.pagination.pageSize
+                });
 
-                function getMapDataList(pageNo, pageSize, typeRes, userId, dataId, name, gdbPath, srcID) {
+                // function getMapDataList(pageNo, pageSize, typeRes, userId, dataId, name, gdbPath, srcID) {
+                function getMapDataList(param) {
+                    vm.doc = $scope.$parent.vm.doc || {};
+                    console.log(vm.doc);
                     Data.getMapDataList({
-                        dataId: dataId,
-                        name: name,
-                        userId: vm.typeRes.id ? '' : userId,
-                        gdbPath: gdbPath,
-                        typeRes: typeRes || 'public',
-                        srcID: srcID,
-                        pageNo: pageNo,
-                        pageNum: pageSize
+                        dataId: param.dataId,
+                        name: param.name,
+                        userId: vm.typeRes.id ? '' : param.userId,
+                        gdbPath: param.gdbPath,
+                        typeRes: param.typeRes || 'public',
+                        srcId: vm.doc.srcID,
+                        pageNo: param.pageNo,
+                        pageNum: param.pageSize
                     }).then(function (res) {
                         if (res.status === 200) {
                             vm.data = res.data.result;

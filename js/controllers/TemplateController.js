@@ -18,7 +18,7 @@
             };
 
             $scope.pageChanged = function () {
-                getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Templete");
+                getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Template");
             };
 
             $scope.preview = function (data) {
@@ -30,13 +30,13 @@
                         docId: data.id,
                         userId: 0,
                         name: data.title,
-                        typeMapDoc: 'Templete',
+                        typeMapDoc: 'Template',
                         typeResouce: 'Public'
                     }
                 })
             };
 
-            getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Templete");
+            getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Template");
 
             function getTemplates(pageNo, pageSize, tagName, typeRes, mapType) {
                 Doc.list({

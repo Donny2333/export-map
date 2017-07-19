@@ -338,7 +338,9 @@
                             random: uuid.create(),
                             center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
                             projection: new ol.proj.Projection({
-                                code: 'EPSG:' + vm.doc.srcID
+                                code: 'EPSG:' + vm.doc.srcID,
+                                // 简单区分坐标系
+                                units: extent[0] < 150 && extent[0] > 50 ? 'degrees' : 'm'
                             })
                         })
                     });

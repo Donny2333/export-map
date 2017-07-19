@@ -360,6 +360,7 @@ label {
     margin: 5px;
     background-color: white;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .icon-close:after {
@@ -516,6 +517,7 @@ label {
     border: none;
     border-left: 1px solid #dedede;
     border-right: 1px solid #dedede;
+    cursor: pointer;
 }
 
 .table-body > table tr:nth-child(odd) td {
@@ -727,6 +729,13 @@ label {
 .info-page h2,
 .info-page p {
     margin-bottom: 18px;
+}
+
+.info-page p {
+    width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .info-page h2 {
