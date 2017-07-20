@@ -656,6 +656,13 @@ label {
     padding-left: 10px;
 }
 
+.data-list > .data-item > .data-info > .data-src {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .data-list > .data-item .data-src {
     font-size: 10px;
 }
@@ -1536,17 +1543,8 @@ label {
 }
 
 .theme-list tr td {
-    padding: 5px 12px;
-}
-
-.theme-list tr td:first-child {
-    padding-left: 40px;
-    padding-right: 30px;
-}
-
-.theme-list tr td:last-child {
-    padding-left: 30px;
-    padding-right: 40px;
+    padding: 10px 15px;
+    white-space: nowrap;
 }
 
 .theme-list tr:nth-child(odd) td {

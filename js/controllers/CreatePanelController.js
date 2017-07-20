@@ -19,7 +19,13 @@
                     callback: {
                         onClick: function (event, treeId, treeNode) {
                             if (!treeNode.items) {
-                                getMapDataList().then(function (items) {
+                                getMapDataList({
+                                    userId: Auth.getUserInfo().userId,
+                                    typeRes: 'Users',
+                                    srcID: vm.overlay.doc.srcID,
+                                    pageNo: 0,
+                                    pageNum: 10000
+                                }).then(function (items) {
                                     treeNode.items = items;
                                     vm.overlay.items = items;
                                 })
@@ -214,8 +220,7 @@
                             });
                             vm.overlay.pagination.totalItems = res.data.count;
                             vm.overlay.pagination.maxPage = Math.ceil(res.data.count / vm.overlay.pagination.pageSize);
-                        }
-                        else {
+                        } else {
                             console.log(res.data);
                         }
                     });
@@ -241,18 +246,9 @@
                     })
                 }
 
-                function getMapDataList(pageNo, pageSize, typeRes, userId, dataId, name, gdbPath, srcID) {
+                function getMapDataList(param) {
                     var deferred = $q.defer();
-                    Data.getMapDataList({
-                        dataId: dataId,
-                        name: name,
-                        userId: userId || Auth.getUserInfo().userId,
-                        gdbPath: gdbPath,
-                        typeRes: typeRes || 'Users',
-                        srcID: srcID,
-                        pageNo: pageNo || 0,
-                        pageNum: pageSize || 1000
-                    }).then(function (res) {
+                    Data.getMapDataList(param).then(function (res) {
                         if (res.status === 200) {
                             var items = [];
                             res.data.result.map(function (d) {

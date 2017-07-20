@@ -115,13 +115,15 @@
                                 <div>关键字</div>
                                 <div class="btn-group" uib-dropdown>
                                     <div class="btn btn-default">
-                                        {{vm.overlay.doc.tagName = vm.overlay.doc.tagName || vm.overlay.dropdown[0].name}}
+                                        {{vm.overlay.doc.tagName = vm.overlay.doc.tagName ||
+                                        vm.overlay.dropdown[0].name}}
                                     </div>
                                     <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                         <span class="caret"></span>
                                         <span class="sr-only">Split button!</span>
                                     </button>
-                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                        aria-labelledby="split-button">
                                         <li role="menuitem" ng-repeat="item in vm.overlay.dropdown"
                                             ng-click="vm.overlay.doc.tagId=vm.overlay.dropdown[$index].id;vm.overlay.doc.tagName=vm.overlay.dropdown[$index].name">
                                             <a>{{item.name}}</a>
@@ -138,8 +140,8 @@
                             <div>
                                 <div>详情</div>
                                 <div>
-                                <textarea ng-model="vm.overlay.doc.detail2" rows="3"
-                                          placeholder="请输入有关文档的详情"></textarea>
+                                    <textarea ng-model="vm.overlay.doc.detail2" rows="3"
+                                              placeholder="请输入有关文档的详情"></textarea>
                                 </div>
                             </div>
                         </div>
