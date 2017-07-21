@@ -23,6 +23,7 @@
                                     userId: Auth.getUserInfo().userId,
                                     typeRes: 'Users',
                                     srcID: vm.overlay.doc.srcID,
+                                    geoType: treeNode.geometryType,
                                     pageNo: 0,
                                     pageNum: 10000
                                 }).then(function (items) {
