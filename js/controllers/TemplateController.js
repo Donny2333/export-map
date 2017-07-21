@@ -22,7 +22,6 @@
             };
 
             $scope.preview = function (doc) {
-                console.log(doc);
                 $rootScope.$broadcast('mask:show', {
                     showMask: true,
                     template: '<map-panel></map-panel>',

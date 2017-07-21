@@ -169,11 +169,11 @@
                             shade: [0.1, '#000']
                         });
                         Doc.setLayerData({
-                            docId: parseInt(vm.overlay.doc.id),
-                            userId: parseInt(vm.overlay.doc.userId),
+                            docId: vm.overlay.doc.id,
+                            userId: vm.overlay.doc.userId,
                             name: vm.overlay.doc.name,
-                            layerIndex: parseInt(node.layerIndex),
-                            dataId: parseInt(item.Id)
+                            layerIndex: node.layerIndex,
+                            dataId: item.Id
                         }).then(function (res) {
                             layer.closeAll('loading');
                             if (res.data.status === "ok" && res.data.result) {

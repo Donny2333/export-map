@@ -21,8 +21,7 @@
                     projection: new ol.proj.Projection({
                         code: 'EPSG:' + vm.overlay.doc.srcID,
                         // set projection's units
-                        units:
-                            extent[0] < 150 && extent[0] > 50 ? 'degrees' : 'm'
+                        units: extent[0] < 150 && extent[0] > 50 ? 'degrees' : 'm'
                     })
                 })
             });
@@ -34,7 +33,6 @@
 
 
             initMap(URL_CFG.api + 'MapService.svc/Export');
-
 
             function initMap(url) {
                 map.getLayers().item(0).setSource(new ol.source.ImageWMS({
