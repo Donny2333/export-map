@@ -5,9 +5,9 @@
     'use strict';
 
     angular.module('export-map.controllers')
-        .controller('MapPanelController', ['$scope', 'URL_CFG', function ($scope, URL_CFG) {
+        .controller('MapPanelController', ['$scope', 'Auth', 'URL_CFG', function ($scope, Auth, URL_CFG) {
             var vm = $scope.vm;
-            var extent = [12349186.0111133, 3765310.49379061, 12541939.221565, 3874205.11961953];
+            var extent = [vm.overlay.doc.xmin, vm.overlay.doc.ymin, vm.overlay.doc.xmax, vm.overlay.doc.ymax];
             var map = new ol.Map({
                 controls: ol.control.defaults().extend([
                     new ol.control.ScaleLine()
@@ -18,10 +18,19 @@
                     center: [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2],
                     // zoom: 15,
                     extent: extent,
-                    resolution: 96,
-                    projection: 'EPSG:3857'
+                    projection: new ol.proj.Projection({
+                        code: 'EPSG:' + vm.overlay.doc.srcID,
+                        // set projection's units
+                        units:
+                            extent[0] < 150 && extent[0] > 50 ? 'degrees' : 'm'
+                    })
                 })
             });
+
+            // set map's resolution
+            var size = map.getSize();
+            var resolution = (extent[3] - extent[1]) / size[1];
+            map.getView().setResolution(resolution);
 
 
             initMap(URL_CFG.api + 'MapService.svc/Export');
@@ -33,9 +42,9 @@
                     attributions: '© <a href="http://www.dx-tech.com/">HGT</a>',
                     imageExtent: map.getView().calculateExtent(),
                     params: {
-                        docId: vm.overlay.docId,
-                        userId: vm.overlay.userId,
-                        name: vm.overlay.name,
+                        docId: vm.overlay.doc.id,
+                        userId: 0,
+                        name: vm.overlay.doc.title,
                         typeMapDoc: vm.overlay.typeMapDoc,
                         typeResouce: vm.overlay.typeResouce
                     }

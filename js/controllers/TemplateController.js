@@ -21,15 +21,14 @@
                 getTemplates(vm.pagination.pageNo - 1, vm.pagination.pageSize, "模板", "Public", "Template");
             };
 
-            $scope.preview = function (data) {
+            $scope.preview = function (doc) {
+                console.log(doc);
                 $rootScope.$broadcast('mask:show', {
                     showMask: true,
                     template: '<map-panel></map-panel>',
                     overlay: {
-                        title: data.title,
-                        docId: data.id,
-                        userId: 0,
-                        name: data.title,
+                        title: doc.title,
+                        doc: doc,
                         typeMapDoc: 'Template',
                         typeResouce: 'Public'
                     }
@@ -57,7 +56,12 @@
                                 version: "1.0.0",
                                 img: URL_CFG.img + _.replace(template.PicPath, '{$}', 'big'),
                                 brief: template.Detail,
-                                detail: template.Detail2
+                                detail: template.Detail2,
+                                xmin: parseFloat(template.Xmin),
+                                ymin: parseFloat(template.Ymin),
+                                xmax: parseFloat(template.Xmax),
+                                ymax: parseFloat(template.Ymax),
+                                srcID: template.SrcID
                             })
                         });
                         vm.pagination.totalItems = res.data.count;

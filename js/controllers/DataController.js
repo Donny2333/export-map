@@ -121,10 +121,8 @@
                     pageNum: vm.pagination.pageSize
                 });
 
-                // function getMapDataList(pageNo, pageSize, typeRes, userId, dataId, name, gdbPath, srcID) {
                 function getMapDataList(param) {
                     vm.doc = $scope.$parent.vm.doc || {};
-                    console.log(vm.doc);
                     Data.getMapDataList({
                         dataId: param.dataId,
                         name: param.name,
