@@ -42,6 +42,28 @@
                     }
                 };
 
+
+                $scope.$watch('vm.upload', function (value) {
+                    if (value) {
+                        console.log(value);
+                        Data.uploadData({
+                            userId: Auth.getUserInfo().userId,
+                            fileName: value.fileName,
+                            exeName: value.exeName,
+                            fileContent: value.fileContent
+                        }).then(function (res) {
+                            if (res.data.status === 'ok') {
+                                layer.msg('数据上传成功', {icon: 1});
+                                $scope.change(0);
+                            } else {
+                                layer.msg('数据上传失败', {icon: 2});
+                            }
+                        }, function (err) {
+                            layer.msg('数据上传失败', {icon: 2});
+                        })
+                    }
+                });
+
                 $scope.change = function (index) {
                     if (vm.typeRes.id !== index) {
                         vm.typeRes.id = index;
@@ -49,7 +71,7 @@
                             userId: Auth.getUserInfo().userId,
                             typeRes: vm.typeRes.data[vm.typeRes.id].name,
                             pageNo: vm.pagination.pageNo - 1,
-                            pageNum: vm.pagination.pageSize
+                            pageSize: vm.pagination.pageSize
                         });
                     }
                 };
@@ -58,7 +80,7 @@
                     getMapDataList({
                         typeRes: vm.typeRes.data[vm.typeRes.id].name,
                         pageNo: vm.pagination.pageNo - 1,
-                        pageNum: vm.pagination.pageSize
+                        pageSize: vm.pagination.pageSize
                     });
                 };
 
@@ -118,7 +140,7 @@
                     userId: Auth.getUserInfo().userId,
                     typeRes: vm.typeRes.data[vm.typeRes.id].name,
                     pageNo: vm.pagination.pageNo - 1,
-                    pageNum: vm.pagination.pageSize
+                    pageSize: vm.pagination.pageSize
                 });
 
                 function getMapDataList(param) {
@@ -164,7 +186,9 @@
                         }
                     })
                 }
-            }])
+            }
+
+        ])
 
         .controller('ModalInstanceCtrl', ['$uibModalInstance', '$scope', 'newLayer', 'Data', function ($uibModalInstance, $scope, newLayer, Data) {
             var vm = $scope.vm = {

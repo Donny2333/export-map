@@ -614,10 +614,33 @@ label {
 }
 
 .data-page > .data-type {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     line-height: 34px;
     vertical-align: middle;
     margin-bottom: 10px;
     align-self: flex-start;
+}
+
+.file {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.file:hover {
+    text-decoration: none;
 }
 
 .data-page > .data-search {

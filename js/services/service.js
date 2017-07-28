@@ -205,6 +205,10 @@
                 importDataFromPublic: function (param) {
                     var url = URL_CFG.api + 'DataService.svc/ImportDataFromPublic';
                     return Http.post(url, param);
+                },
+                uploadData: function (param) {
+                    var url = URL_CFG.api + 'DataService.svc/UploadData';
+                    return Http.post(url, param);
                 }
             }
         }])

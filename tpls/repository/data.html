@@ -1,7 +1,7 @@
 <div class="data-page">
     <div class="row data-type">
-        <div class="col-md-6" style="padding-left: 20px;padding-right: 0">数据类型：</div>
-        <div class="col-md-6 btn-group" style="padding: 0" uib-dropdown is-open="status.isopen">
+        <div>数据类型：</div>
+        <div class="btn-group" uib-dropdown is-open="status.isopen">
             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                 {{vm.typeRes.data[vm.typeRes.id].text}} <span class="caret"></span>
             </button>
@@ -11,6 +11,10 @@
                 </li>
             </ul>
         </div>
+        <a href="javascript:;" class="file btn btn-default">上传
+            <input type="file" fileread="vm.upload"/>
+            <!--<input id="File" type="file">-->
+        </a>
     </div>
     <!--<div class="row data-search">-->
     <!--<div class="col-md-12">-->

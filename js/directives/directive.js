@@ -39,6 +39,36 @@
             };
         })
 
+        .directive("fileread", [function () {
+            return {
+                scope: {
+                    fileread: "="
+                },
+                link: function (scope, element, attributes) {
+                    element.bind("change", function (changeEvent) {
+                        var reader = new FileReader();
+                        reader.onload = function (loadEvent) {
+                            scope.$apply(function () {
+                                var name = changeEvent.target.files[0].name;
+                                var size = changeEvent.target.files[0].size;
+
+                                if (size >= 10485760) {
+                                    layer.alert('请选择小于10M的文件!');
+                                } else {
+                                    scope.fileread = {
+                                        fileName: name.split('.')[0],
+                                        exeName: name.split('.')[1],
+                                        fileContent: loadEvent.target.result
+                                    };
+                                }
+                            });
+                        };
+                        reader.readAsDataURL(changeEvent.target.files[0]);
+                    });
+                }
+            }
+        }])
+
         .directive('zTree', ['$parse', function ($parse) {
             return {
                 restrict: 'AE',
